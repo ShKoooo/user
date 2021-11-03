@@ -13,10 +13,10 @@
 		<div class="header-right">
 			<div style="text-align: right;">
 				<a href="#">Home</a>
-				<c:if test="">
+
 					<a href="#">회원가입</a>
 					<a href="#">로그인</a>
-				</c:if>
+
 				<c:if test="">
 					<a href="#">로그아웃</a>
 					<a href="#">정보수정</a>
