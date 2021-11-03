@@ -8,10 +8,10 @@
 	
 		<div class="header-left">
 			<img class="logoicon" src="/campingutte/resource/images/tent_icon_color.png">
-			<h1 class="logo"><a href="#">캠핑어때</a></h1>
+			<h1 class="logo font-jalnan"><a href="#">캠핑어때</a></h1>
 		</div>
 		
-		<div class="header-right">
+		<div class="header-right font-jalnan">
 			<div style="text-align: right;">
 				<c:if test="${not empty sessionScope.member}">
 					<span style="color:cyan;">${sessionScope.member.memberName} &nbsp;님</span>
@@ -34,7 +34,7 @@
 		</div>
 	</div>
 	
-	<div class="menu">
+	<div class="menu font-jalnan">
 		<ul class="nav">
 			<li>
 				<a href="#">메인화면</a>
