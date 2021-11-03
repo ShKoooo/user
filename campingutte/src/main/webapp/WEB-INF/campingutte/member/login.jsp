@@ -48,21 +48,14 @@ main .container {
 	width: 368px;
 	padding: 10px;
 	padding-right: 17px;
+	margin-bottom: 10px;
+
 }
 .msg-box {
 	text-align: center; color: blue;
 }
 </style>
-
 <script type="text/javascript">
-function bgLabel(obj, id) {
-	if( ! obj.value ) {
-		document.getElementById(id).style.display="";
-	} else {
-		document.getElementById(id).style.display="none";
-	}
-}
-
 function inputsFocus( id ) {
 	// 객체를 보이지 않게 숨긴다.
 	document.getElementById(id).style.display="none"; 
@@ -127,9 +120,9 @@ function sendLogin() {
 					</tr>
 					<tr align="center">
 					    <td style="padding-right: 17px;">
-							<a href="#">아이디 찾기</a>&nbsp;|&nbsp; 
-							<a href="#">비밀번호 찾기</a>&nbsp;|&nbsp;
-							<a href="${pageContext.request.contextPath}/member/member.do">회원가입</a>
+							<span onclick="location.href='#'" style="color: white">아이디 찾기</span>&nbsp;|&nbsp; 
+							<span onclick="location.href='#'" style="color: white">비밀번호 찾기</span>&nbsp;|&nbsp;
+							<span onclick="location.href='${pageContext.request.contextPath}/member/member.do'" style="color: white">회원가입</span>
 					    </td>
 					</tr>
 				</table>
