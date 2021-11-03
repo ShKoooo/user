@@ -152,13 +152,63 @@ ul.nav li:hover > ul li a:hover {
 	font-size: 20px;
 }
 
+.body-container {
+	display: grid;
+	justify-content: center;
+    grid-template: repeat(2, auto) / repeat(2, auto);
+    gap: 15px;
+	margin: 20px auto;
+   
+}
+
 .theme {
 	border: 1px solid black;
 	
 }
 
-.theme-img {
-	padding: 50px 50px;
-	margin: 10px auto;
-	border: 1px solid black;
+.theme-img img {
+	padding: 20px 20px;
+	width: 300px;
+	height: 300px;
 }
+
+.theme-sub a {
+	display: flex;
+	justify-content: center;
+	text-decoration: none;
+	color: black;
+	margin-bottom: 10px;
+}
+
+.preview {
+	padding: 30px 150px;
+	background: #c7c4c4;
+	color: white;
+	min-height: 450px;
+	display: flex;
+	justify-content: space-between;
+}
+
+
+
+footer {
+	min-height: 200px;
+	text-align: left;
+	background: #efefef;
+    display: flex;
+	justify-content: center; 
+	flex-direction: column;
+	align-items: center;
+}
+
+.foot {
+    float: left;
+    padding: 20px 40px;
+}
+
+.foot>a {
+	margin: 10px 10px;
+	text-decoration: none;
+	color: black;
+}
+

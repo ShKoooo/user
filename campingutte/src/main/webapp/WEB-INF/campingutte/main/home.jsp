@@ -33,19 +33,48 @@
 <div class="body-container">
 	<div class="theme">
 		<div class="theme-img">
-			
+			<img src="/campingutte/resource/images/tvshow.jpg">
 		</div>
 		<div class="theme-sub">
-		<a>가족과 함께 떠나기 좋은 캠핑장</a>
+		<a href="#">드라마에 나온 핫한 캠핑장</a>
 		</div>
 	</div>
 	<div class="theme">
 		<div class="theme-img">
-			
+			<img src="/campingutte/resource/images/horse.jpg">
 		</div>
 		<div class="theme-sub">
-		<a>반려동물과 함께 즐기는 캠핑</a>
+		<a href="#">액티브한 즐길거리가 가득한 캠핑장</a>
 		</div>
+	</div>
+	<div class="theme">
+		<div class="theme-img">
+			<img src="/campingutte/resource/images/children.jpg">
+		</div>
+		<div class="theme-sub">
+		<a href="#">가족과 함께 떠나기 좋은 캠핑장</a>
+		</div>
+	</div>
+	<div class="theme">
+		<div class="theme-img">
+			<img src="/campingutte/resource/images/doggy.jpg">
+		</div>
+		<div class="theme-sub">
+		<a href="#">반려동물과 함께 즐기는 캠핑장</a>
+		</div>
+	</div>
+</div>
+
+
+<div class="preview">
+	<div class="pre-review">
+		<p> 캠핑리뷰 </p>
+	</div>
+	<div class="pre-comm">
+		<p> 커뮤니티 </p>
+	</div>
+	<div class="pre-svc">
+		<p> 고객센터 </p>
 	</div>
 </div>
 
