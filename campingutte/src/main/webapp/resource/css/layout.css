@@ -109,12 +109,6 @@ ul.nav li:hover > ul li a:hover {
   text-decoration: none;
 }
 
-.body-container {
-    margin: 0 auto 15px;
-    width: 800px;
-    min-height: 450px;
-    display: inline;
-}
 
 .home {
     background-image: url("/campingutte/resource/images/homeback.jpg");
@@ -172,13 +166,21 @@ ul.nav li:hover > ul li a:hover {
 	border: none;
 }
 
+
 .body-container {
+   
+    display: inline;
+}
+
+.body-container {
+    min-height: 450px;
+    
 	display: grid;
 	justify-content: center;
     grid-template: repeat(2, auto) / repeat(2, auto);
     gap: 15px;
-	margin: 20px auto;
-   
+	background: #1C2632;
+ 
 }
 
 .theme {
@@ -225,11 +227,14 @@ footer {
 
 .foot {
     float: left;
-    padding: 20px 40px;
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
 }
 
 .foot>a {
 	margin: 10px 10px;
+	margin-left: 20px;
 	text-decoration: none;
 	color: black;
 }
