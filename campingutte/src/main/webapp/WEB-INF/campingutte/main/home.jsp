@@ -6,12 +6,12 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
-
+<title>캠핑어때</title>
+<jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
-
+<div class="home">
 <header>
     <jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
 </header>
@@ -49,6 +49,10 @@
 	</div>
 </div>
 
-
+<footer>
+	<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
+</footer>
+<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
+</div>
 </body>
 </html>
