@@ -37,7 +37,7 @@ main .container {
 }
 
 .form-body .inputTF {
-	width: 100%;
+	width: 350px;
 	height: 45px;
 	padding: 0px;
 	padding-left: 15px;
@@ -45,7 +45,7 @@ main .container {
 	margin-bottom: 5px;
 }
 .btnConfirm {
-	width: 100%;
+	width: 368px;
 	padding: 10px;
 	padding-right: 17px;
 }
