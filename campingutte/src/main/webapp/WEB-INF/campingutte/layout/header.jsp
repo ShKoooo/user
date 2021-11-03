@@ -14,12 +14,12 @@
 			<div style="text-align: right;">
 				<a href="#">Home</a>
 
-					<a href="#">회원가입</a>
-					<a href="#">로그인</a>
+					<a href="#">회원가입 (비활성화)</a>
+					<a href="${pageContext.request.contextPath}/member/login.do">로그인</a>
 
 				<c:if test="">
-					<a href="#">로그아웃</a>
-					<a href="#">정보수정</a>
+					<a href="#">로그아웃 (비활성화)</a>
+					<a href="#">정보수정 (비활성화)</a>
 				</c:if>
 				
 			</div>
