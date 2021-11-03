@@ -27,6 +27,9 @@
 		<option>...</option>
 	</select>
 	<input type="text" placeholder="캠핑장 검색" >
+	<button type="submit" class="searchbtn" >
+		<img src="/campingutte/resource/images/search_icon.png" class="search-icon">
+	</button>
 	</div>
 </div>
 

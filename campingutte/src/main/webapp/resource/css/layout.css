@@ -19,6 +19,7 @@
 	height: inherit;
 	line-height: inherit;
 	float: right;
+	
 }
 
 .header-left {
@@ -26,10 +27,16 @@
     height: inherit;
     line-height: inherit;
     float: left;
+	display: flex;
 }
 
 .header-left a {
 	color: red;
+}
+
+.logoicon {
+	width: 60px;
+	height: 60px;
 }
 
 .header-top, .menu {
@@ -137,7 +144,9 @@ ul.nav li:hover > ul li a:hover {
 }
 
 .search-form {
+	display: flex;
  	padding : 20px 20px;
+ 	float: left;
 }
 
 .search-form > input  {
@@ -152,6 +161,17 @@ ul.nav li:hover > ul li a:hover {
 	font-size: 20px;
 }
 
+.search-form .search-icon {
+	background: red;
+	width: 50px;
+	height: 50px;
+}
+
+.search-form .searchbtn {
+	background: red;
+	border: none;
+}
+
 .body-container {
 	display: grid;
 	justify-content: center;
@@ -162,12 +182,13 @@ ul.nav li:hover > ul li a:hover {
 }
 
 .theme {
-	border: 1px solid black;
+	
+	background: #ff3a1af7;
 	
 }
 
 .theme-img img {
-	padding: 20px 20px;
+	padding: 10px 20px;
 	width: 300px;
 	height: 300px;
 }
@@ -176,8 +197,9 @@ ul.nav li:hover > ul li a:hover {
 	display: flex;
 	justify-content: center;
 	text-decoration: none;
-	color: black;
+	color: white;
 	margin-bottom: 10px;
+	font-weight: 200;
 }
 
 .preview {

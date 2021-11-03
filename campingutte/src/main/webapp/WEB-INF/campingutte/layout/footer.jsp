@@ -5,7 +5,7 @@
 
 <footer>
 	<div class="foot">
-		<a href="">캠핑어때로고</a>
+		<a href=""><img class="logoicon" src="/campingutte/resource/images/tent_icon_color.png"></a>
 		<a href="">개인정보취급방침</a>&nbsp;&nbsp;&nbsp;|
 		<a href="">홈페이지 이용약관</a>&nbsp;&nbsp;&nbsp;|
 		<a href="">광고 및 제휴 문의</a>&nbsp;&nbsp;&nbsp;|

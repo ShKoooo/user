@@ -7,6 +7,7 @@
 	<div class="header-top">
 	
 		<div class="header-left">
+			<img class="logoicon" src="/campingutte/resource/images/tent_icon_color.png">
 			<h1 class="logo"><a href="#">캠핑어때</a></h1>
 		</div>
 		
