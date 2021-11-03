@@ -6,7 +6,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>캠핑어때 회원가입</title>
+<jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
@@ -17,30 +18,37 @@ main .container {
 	min-height: 200px; 
 }
 
+.home{
+	background-image: none;
+}
+
 .title-body {
 	padding: 10px 0; text-align: center;
 }
 
 .title-body .article-title {
-	font-weight: bold; font-size: 27px; cursor: pointer;
+	color: white;
+    font-size: 30px;
+    font-weight: 600;
 }
 
 .form-body {
 	text-align: center;
 }
 
-.form-body .lbl {
-	position: absolute; margin-left: 15px; margin-top: 15px; color: #999;
-}
-
 .form-body .inputTF {
 	width: 100%;
 	height: 45px;
-	padding: 5px;
+	padding: 0px;
 	padding-left: 15px;
 	border:1px solid #666;
+	margin-bottom: 5px;
 }
-
+.btnConfirm {
+	width: 100%;
+	padding: 10px;
+	padding-right: 17px;
+}
 .msg-box {
 	text-align: center; color: blue;
 }
@@ -87,12 +95,10 @@ function sendLogin() {
 
 <header>
 	<jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
-	<%--
-		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-	--%>
 </header>
 
 <main>
+	<div class="search">
 	<div class="container">
 		<div class="title-body">
 			<span class="article-title">회원 로그인</span>
@@ -102,21 +108,16 @@ function sendLogin() {
 			<form name="loginForm" method="post" action="">
 				<table class="table">
 					<tr align="center"> 
-						<td> 
-							<label for="userId" id="lblUserId" class="lbl">아이디</label>
+						<td>
 							<input type="text" name="userId" id="userId" class="inputTF" maxlength="15"
-								tabindex="1"
-								onfocus="inputsFocus('lblUserId');"
-								onblur="bgLabel(this, 'lblUserId');">
+								tabindex="1" placeholder="아이디">
 						</td>
 					</tr>
 					<tr align="center"> 
 					    <td>
-							<label for="userPwd" id="lblUserPwd" class="lbl">패스워드</label>
 							<input type="password" name="userPwd" id="userPwd" class="inputTF" maxlength="20" 
 								tabindex="2"
-								onfocus="inputsFocus('lblUserPwd');"
-								onblur="bgLabel(this, 'lblUserPwd');">
+								placeholder="패스워드">
 					    </td>
 					</tr>
 					<tr align="center"> 
@@ -125,9 +126,9 @@ function sendLogin() {
 					    </td>
 					</tr>
 					<tr align="center">
-					    <td>
-							<a href="#">아이디 찾기 (비활성화)</a>&nbsp;|&nbsp; 
-							<a href="#">비밀번호 찾기 (비활성화)</a>&nbsp;|&nbsp;
+					    <td style="padding-right: 17px;">
+							<a href="#">아이디 찾기</a>&nbsp;|&nbsp; 
+							<a href="#">비밀번호 찾기</a>&nbsp;|&nbsp;
 							<a href="${pageContext.request.contextPath}/member/member.do">회원가입</a>
 					    </td>
 					</tr>
@@ -138,12 +139,16 @@ function sendLogin() {
 						<td class="msg-box">${message}</td>
 					</tr>
 				</table>
-			</form>           
+
+			</form>
+</div>           
 		</div>
 	</div>
 </main>
 
-<div>footer (미적용)</div>
-
+<footer>
+	<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
+</footer>
+<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
 </body>
 </html>
