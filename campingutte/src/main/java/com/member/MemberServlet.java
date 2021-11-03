@@ -3,12 +3,14 @@ package com.member;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.util.MyServlet;
 
+@WebServlet("/member/*")
 public class MemberServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
 
@@ -49,8 +51,8 @@ public class MemberServlet extends MyServlet{
 			return;
 		}
 		
-		String memberId = req.getParameter("memberId");
-		String memberPwd = req.getParameter("memberPwd");
+		String memberId = req.getParameter("userId");
+		String memberPwd = req.getParameter("userPwd");
 		
 		MemberDTO dto = dao.loginMember(memberId, memberPwd);
 		

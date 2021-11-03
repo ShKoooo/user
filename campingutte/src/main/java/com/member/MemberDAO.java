@@ -27,6 +27,8 @@ public class MemberDAO {
 			
 			rs = pstmt.executeQuery();
 			
+			// System.out.println(memberId); --> null
+			
 			if (rs.next()) {
 				dto = new MemberDTO();
 				dto.setMemberId(rs.getString("memberId"));
@@ -34,6 +36,9 @@ public class MemberDAO {
 				dto.setMemberName(rs.getString("memberName"));
 				dto.setMemberRegdate(rs.getString("memberRegdate"));
 				dto.setMemberUpdate(rs.getString("memberUpdate"));
+				
+				// test
+				// System.out.println(rs.getString("memberId"));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
