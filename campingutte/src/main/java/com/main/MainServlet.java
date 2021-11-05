@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.util.MyServlet;
 
-@WebServlet("/home.do")
+@WebServlet("/main.do")
 public class MainServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -18,8 +18,8 @@ public class MainServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		String uri=req.getRequestURI();
 		
-		if(uri.indexOf("home.do") != -1) {
-			forward(req, resp, "/WEB-INF/campingutte/main/home.jsp");
+		if(uri.indexOf("main.do") != -1) {
+			forward(req, resp, "/WEB-INF/campingutte/main/main.jsp");
 		}
 	}
 }
