@@ -24,7 +24,7 @@ public class MemberServlet extends MyServlet{
 			loginForm(req, resp);
 		} else if (uri.indexOf("login_ok.do") != -1) {
 			loginSubmit(req, resp);
-		} else if (uri.indexOf("member.do") != -1) {
+		} else if (uri.indexOf("signup.do") != -1) {
 			memberForm(req, resp);
 		} else if (uri.indexOf("member_ok.do") != -1) {
 			memberSubmit(req, resp);
@@ -95,10 +95,53 @@ public class MemberServlet extends MyServlet{
 	}
 	
 	protected void memberForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		// 회원가입 폼
+		req.setAttribute("title", "회원 가입");
+		req.setAttribute("mode", "member");
+
+		forward(req, resp, "/WEB-INF/campingutte/member/signup.jsp");
 	}
 
 	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
+		// 로그인 처리
+		// 세션객체. 세션 정보는 서버에 저장(로그인 정보, 권한등을 저장)
+		HttpSession session = req.getSession();
+
+		MemberDAO dao = new MemberDAO();
+		String cp = req.getContextPath();
+
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/");
+			return;
+		}
+
+		String memberId = req.getParameter("memberId");
+		String memberPwd = req.getParameter("memberPwd");
+
+		MemberDTO dto = dao.loginMember(memberId, memberPwd);
+		if (dto != null) {
+			// 로그인 성공 : 로그인정보를 서버에 저장
+			// 세션의 유지시간을 20분설정(기본 30분)
+			session.setMaxInactiveInterval(20 * 60);
+
+			// 세션에 저장할 내용
+			SessionInfo info = new SessionInfo();
+			info.setMemberId(dto.getMemberId());
+			info.setMemberName(dto.getMemberName());
+
+			// 세션에 member이라는 이름으로 저장
+			session.setAttribute("member", info);
+
+			// 메인화면으로 리다이렉트
+			resp.sendRedirect(cp + "/");
+			return;
+		}
+
+		// 로그인 실패인 경우(다시 로그인 폼으로)
+		String msg = "아이디 또는 패스워드가 일치하지 않습니다.";
+		req.setAttribute("message", msg);
+
+		forward(req, resp, "/WEB-INF/views/member/login.jsp");
 	}
+
 }

@@ -60,4 +60,55 @@ public class MemberDAO {
 		
 		return dto;
 	}
+	public int signupMember(MemberDTO dto) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			sql = "INSERT ALL "
+		    	+ " INTO member1(memberId, memberPwd, memberName, enabled, register_date, modify_date) VALUES(?, ?, ?, 1, SYSDATE, SYSDATE) "
+		    	+ " INTO member2(memberId, memberBirth, memberEmail, memberTel, memberAddr, memberAddr2) VALUES (?, TO_DATE(?,'YYYYMMDD'), ?, ?, ?, ?) "
+		    	+ " SELECT * FROM dual";
+		    
+		    pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMemberId());
+			pstmt.setString(2, dto.getMemberPwd());
+			pstmt.setString(3, dto.getMemberName());            
+			pstmt.setString(4, dto.getMemberId());
+			pstmt.setString(5, dto.getMemberBirth());
+			pstmt.setString(6, dto.getMemberEmail());
+			pstmt.setString(7, dto.getMemberTel());
+			pstmt.setString(8, dto.getMemberAddr());
+			pstmt.setString(9, dto.getMemberAddr2());
+			
+			result = pstmt.executeUpdate();
+			conn.commit();
+
+		} catch (SQLException e) {
+			try {
+				conn.rollback();
+			} catch (SQLException e2) {
+			}
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(pstmt!=null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+			
+			try {
+				conn.setAutoCommit(true);
+			} catch (SQLException e2) {
+			}
+		}
+		
+		return result;
+	}
+	
 }
