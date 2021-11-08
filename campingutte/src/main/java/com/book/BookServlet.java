@@ -20,6 +20,8 @@ public class BookServlet extends MyServlet{
 		
 		if(uri.indexOf("book.do") != -1) {
 			forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
-		}	
+		} else if(uri.indexOf("book_ok.do") != -1) {
+			forward(req, resp, "/WEB-INF/campingutte/book/book_ok.jsp");
+		} 	
 	}
 }
