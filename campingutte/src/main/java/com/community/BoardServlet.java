@@ -159,7 +159,7 @@ public class BoardServlet extends MyServlet {
 
 	private void writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글 저장
-		BoardDAO dao = new BoardDAO();
+//		BoardDAO dao = new BoardDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -180,7 +180,7 @@ public class BoardServlet extends MyServlet {
 			dto.setCommSubject(req.getParameter("commSubject"));
 			dto.setCommContent(req.getParameter("commContent"));
 
-			dao.insertBoard(dto, "write");
+//			dao.insertBoard(dto, "write");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -191,7 +191,7 @@ public class BoardServlet extends MyServlet {
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글보기
 		BoardDAO dao = new BoardDAO();
-		MyUtil util = new MyUtil();
+//		MyUtil util = new MyUtil();
 		
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
@@ -221,6 +221,7 @@ public class BoardServlet extends MyServlet {
 				resp.sendRedirect(cp + "/board/list.do?" + query);
 				return;
 			}
+/*
 			dto.setContent(util.htmlSymbols(dto.getContent()));
 
 			// 이전글 다음글
@@ -228,13 +229,13 @@ public class BoardServlet extends MyServlet {
 					dto.getOrderNo(), condition, keyword);
 			BoardDTO nextReadDto = dao.nextReadBoard(dto.getGroupNum(),
 					dto.getOrderNo(), condition, keyword);
-
+*/
 			// JSP로 전달할 속성
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
-			req.setAttribute("preReadDto", preReadDto);
-			req.setAttribute("nextReadDto", nextReadDto);
+//			req.setAttribute("preReadDto", preReadDto);
+//			req.setAttribute("nextReadDto", nextReadDto);
 
 			// 포워딩
 			forward(req, resp, "/WEB-INF/views/board/article.jsp");
@@ -267,7 +268,7 @@ public class BoardServlet extends MyServlet {
 			}
 
 			// 게시물을 올린 사용자가 아니면
-			if (! dto.getUserId().equals(info.getUserId())) {
+			if (! dto.getMemberId().equals(info.getMemberId())) {
 				resp.sendRedirect(cp + "/board/list.do?page=" + page);
 				return;
 			}
@@ -302,11 +303,11 @@ public class BoardServlet extends MyServlet {
 		
 		try {
 			BoardDTO dto = new BoardDTO();
-			dto.setBoardNum(Integer.parseInt(req.getParameter("boardNum")));
-			dto.setSubject(req.getParameter("subject"));
-			dto.setContent(req.getParameter("content"));
+//			dto.setBoardNum(Integer.parseInt(req.getParameter("boardNum")));
+			dto.setCommSubject(req.getParameter("subject"));
+			dto.setCommContent(req.getParameter("content"));
 
-			dto.setUserId(info.getUserId());
+			dto.setMemberId(info.getMemberId());
 
 			dao.updateBoard(dto);
 		} catch (Exception e) {
@@ -333,8 +334,8 @@ public class BoardServlet extends MyServlet {
 				return;
 			}
 			
-			String s = "[" + dto.getSubject() + "] 에 대한 답변입니다.\n";
-			dto.setContent(s);
+			String s = "[" + dto.getCommSubject() + "] 에 대한 답변입니다.\n";
+			dto.setCommContent(s);
 			
 			req.setAttribute("mode", "reply");
 			req.setAttribute("dto", dto);
@@ -351,7 +352,7 @@ public class BoardServlet extends MyServlet {
 	
 	private void replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 답변 완료
-		BoardDAO dao = new BoardDAO();
+//		BoardDAO dao = new BoardDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
@@ -367,17 +368,12 @@ public class BoardServlet extends MyServlet {
 		try {
 			BoardDTO dto = new BoardDTO();
 			
-			dto.setSubject(req.getParameter("subject"));
-			dto.setContent(req.getParameter("content"));
+			dto.setCommSubject(req.getParameter("subject"));
+			dto.setCommContent(req.getParameter("content"));
 			
-			dto.setGroupNum(Integer.parseInt(req.getParameter("groupNum")));
-			dto.setOrderNo(Integer.parseInt(req.getParameter("orderNo")));
-			dto.setDepth(Integer.parseInt(req.getParameter("depth")));
-			dto.setParent(Integer.parseInt(req.getParameter("parent")));
+			dto.setMemberId(info.getMemberId());
 			
-			dto.setUserId(info.getUserId());
-			
-			dao.insertBoard(dto, "reply");
+//			dao.insertBoard(dto, "reply");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -419,7 +415,7 @@ public class BoardServlet extends MyServlet {
 			}
 			
 			// 게시물을 올린 사용자나 admin이 아니면
-			if(! dto.getUserId().equals(info.getUserId()) && ! info.getUserId().equals("admin")) {
+			if(! dto.getMemberId().equals(info.getMemberId()) && ! info.getMemberId().equals("admin")) {
 				resp.sendRedirect(cp + "/board/list.do?" + query);
 				return;
 			}

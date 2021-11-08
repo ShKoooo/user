@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.community.BoardDTO;
+//import com.community.BoardDTO;
 import com.util.DBConn;
 
 public class BoardDAO {
@@ -236,9 +236,6 @@ public class BoardDAO {
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setMemberName(rs.getString("memberName"));
 				dto.setCommSubject(rs.getString("commSubject"));
-				dto.setGroupNum(rs.getInt("groupNum"));
-				dto.setDepth(rs.getInt("depth"));
-				dto.setOrderNo(rs.getInt("orderNo"));
 				dto.setCommHitCount(rs.getInt("hitCount"));
 				dto.setCommDate(rs.getString("reg_date"));
 
@@ -319,10 +316,6 @@ public class BoardDAO {
 				dto.setMemberName(rs.getString("memberName"));
 				dto.setCommSubject(rs.getString("commSubject"));
 				dto.setCommContent(rs.getString("content"));
-				dto.setGroupNum(rs.getInt("groupNum"));
-				dto.setDepth(rs.getInt("depth"));
-				dto.setOrderNo(rs.getInt("orderNo"));
-				dto.setParent(rs.getInt("parent"));
 				dto.setCommHitCount(rs.getInt("hitCount"));
 				dto.setCommDate(rs.getString("reg_date"));
 			}
