@@ -68,24 +68,20 @@ public class MemberDAO {
 		try {
 			conn.setAutoCommit(false);
 			
-			sql = "INSERT ALL "
-		    	+ " INTO member1(memberId, memberPwd, memberName, enabled, register_date, modify_date) VALUES(?, ?, ?, 1, SYSDATE, SYSDATE) "
-		    	+ " INTO member2(memberId, memberBirth, memberEmail, memberTel, memberAddr, memberAddr2) VALUES (?, TO_DATE(?,'YYYYMMDD'), ?, ?, ?, ?) "
-		    	+ " SELECT * FROM dual";
-		    
-		    pstmt = conn.prepareStatement(sql);
+			sql = "INSERT INTO member(memberId, memberPwd, memberName, memberBirth, memberEmail, memberTel, memberAddr, memberAddr2, memberRegdate, memberUpdate) VALUES (?, ?, ?, TO_DATE(?,'YYYYMMDD'), ?, ?, ?, ?, SYSDATE, SYSDATE)";
+			pstmt = conn.prepareStatement(sql);
+			
 			pstmt.setString(1, dto.getMemberId());
 			pstmt.setString(2, dto.getMemberPwd());
-			pstmt.setString(3, dto.getMemberName());            
-			pstmt.setString(4, dto.getMemberId());
-			pstmt.setString(5, dto.getMemberBirth());
-			pstmt.setString(6, dto.getMemberEmail());
-			pstmt.setString(7, dto.getMemberTel());
-			pstmt.setString(8, dto.getMemberAddr());
-			pstmt.setString(9, dto.getMemberAddr2());
+			pstmt.setString(3, dto.getMemberName());
+			pstmt.setString(4, dto.getMemberBirth());
+			pstmt.setString(5, dto.getMemberEmail());
+			pstmt.setString(6, dto.getMemberTel());
+			pstmt.setString(7, dto.getMemberAddr());
+			pstmt.setString(8, dto.getMemberAddr2());
+			
 			
 			result = pstmt.executeUpdate();
-			conn.commit();
 
 		} catch (SQLException e) {
 			try {

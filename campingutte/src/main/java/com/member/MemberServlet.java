@@ -1,6 +1,7 @@
 package com.member;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -103,45 +104,57 @@ public class MemberServlet extends MyServlet{
 	}
 
 	protected void memberSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 로그인 처리
-		// 세션객체. 세션 정보는 서버에 저장(로그인 정보, 권한등을 저장)
-		HttpSession session = req.getSession();
-
+		// 회원가입 처리
 		MemberDAO dao = new MemberDAO();
-		String cp = req.getContextPath();
 
+		String cp = req.getContextPath();
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp + "/");
 			return;
 		}
 
-		String memberId = req.getParameter("memberId");
-		String memberPwd = req.getParameter("memberPwd");
+		String message = "";
+		try {
+			MemberDTO dto = new MemberDTO();
+			dto.setMemberId(req.getParameter("memberId"));
+			dto.setMemberPwd(req.getParameter("memberPwd"));
+			dto.setMemberName(req.getParameter("memberName"));
 
-		MemberDTO dto = dao.loginMember(memberId, memberPwd);
-		if (dto != null) {
-			// 로그인 성공 : 로그인정보를 서버에 저장
-			// 세션의 유지시간을 20분설정(기본 30분)
-			session.setMaxInactiveInterval(20 * 60);
+			String memberBirth = req.getParameter("memberBirth").replaceAll("(\\.|\\-|\\/)", "");
+			dto.setMemberBirth(memberBirth);
 
-			// 세션에 저장할 내용
-			SessionInfo info = new SessionInfo();
-			info.setMemberId(dto.getMemberId());
-			info.setMemberName(dto.getMemberName());
+			String memberEmail = req.getParameter("memberEmail");
+			//dto.setMemberEmail(email1 + "@" + email2);
+			dto.setMemberEmail(memberEmail);
+			
+			String tel = req.getParameter("memberTel");
+			// dto.setMemberTel(tel1 + "-" + tel2 + "-" + tel3);
+			dto.setMemberTel(tel);
+			
+			dto.setMemberAddr(req.getParameter("memberAddr"));
+			dto.setMemberAddr2(req.getParameter("memberAddr2"));
 
-			// 세션에 member이라는 이름으로 저장
-			session.setAttribute("member", info);
-
-			// 메인화면으로 리다이렉트
+			dao.signupMember(dto);
 			resp.sendRedirect(cp + "/");
 			return;
+		} catch (SQLException e) {
+			if (e.getErrorCode() == 1)
+				message = "아이디가 중복됩니다.";
+			else if (e.getErrorCode() == 1400)
+				message = "빠진 항목 없이 입력하세요.";
+			else if (e.getErrorCode() == 1840 || e.getErrorCode() == 1861)
+				message = "올바른 날짜 형식을 지정하세요. ";
+			else
+				message = "회원 가입이 실패 했습니다.";
+		} catch (Exception e) {
+			message = "회원 가입이 실패 했습니다.";
+			e.printStackTrace();
 		}
 
-		// 로그인 실패인 경우(다시 로그인 폼으로)
-		String msg = "아이디 또는 패스워드가 일치하지 않습니다.";
-		req.setAttribute("message", msg);
-
-		forward(req, resp, "/WEB-INF/views/member/login.jsp");
+		req.setAttribute("title", "회원 가입");
+		req.setAttribute("mode", "member");
+		req.setAttribute("message", message);
+		forward(req, resp, "/WEB-INF/campingutte/member/signup.jsp");
 	}
 
 }

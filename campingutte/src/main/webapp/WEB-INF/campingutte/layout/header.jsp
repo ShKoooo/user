@@ -36,7 +36,7 @@
 								
 						<a href="${pageContext.request.contextPath}/">Home&nbsp;|&nbsp;</a>
 						<c:if test="${empty sessionScope.member}">
-							<a href="#">회원가입 (비활성화)</a>
+							<a href="${pageContext.request.contextPath}/member/signup.do">회원가입 (비활성화)</a>
 							<span style="color: white;">&nbsp;|&nbsp;</span>
 							<a href="${pageContext.request.contextPath}/member/login.do">로그인</a>
 						</c:if>
