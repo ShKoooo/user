@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.util.MyServlet;
 
-@WebServlet("/book.do")
+@WebServlet("/book/*")
 public class BookServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
 
