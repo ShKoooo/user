@@ -15,7 +15,7 @@ import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
-@WebServlet("/board/*")
+@WebServlet("/community/*")
 public class BoardServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -30,7 +30,7 @@ public class BoardServlet extends MyServlet {
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
 		if (info == null) {
-			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			forward(req, resp, "/WEB-INF/campingutte/member/login.jsp");
 			return;
 		}
 
@@ -47,11 +47,7 @@ public class BoardServlet extends MyServlet {
 		} else if (uri.indexOf("update.do") != -1) {
 			updateForm(req, resp);
 		} else if (uri.indexOf("update_ok.do") != -1) {
-			updateSubmit(req, resp);
-		} else if(uri.indexOf("reply.do") != -1) {
-			replyForm(req, resp);
-		} else if(uri.indexOf("reply_ok.do") != -1) {
-			replySubmit(req, resp);			
+			updateSubmit(req, resp);		
 		} else if (uri.indexOf("delete.do") != -1) {
 			delete(req, resp);
 		}
@@ -124,8 +120,8 @@ public class BoardServlet extends MyServlet {
 			}
 
 			// 페이징 처리
-			String listUrl = cp + "/board/list.do";
-			String articleUrl = cp + "/board/article.do?page=" + current_page;
+			String listUrl = cp + "/community/list.do";
+			String articleUrl = cp + "/community/article.do?page=" + current_page;
 			if (query.length() != 0) {
 				listUrl += "?" + query;
 				articleUrl += "&" + query;
@@ -148,58 +144,48 @@ public class BoardServlet extends MyServlet {
 		}
 
 		// JSP로 포워딩
-		forward(req, resp, "/WEB-INF/views/board/list.jsp");
+		forward(req, resp, "/WEB-INF/campingutte/community/list.jsp");
 	}
 
 	private void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글쓰기 폼
 		req.setAttribute("mode", "write");
-		forward(req, resp, "/WEB-INF/views/board/write.jsp");
+		forward(req, resp, "/WEB-INF/campingutte/community/write.jsp");
 	}
 
 	private void writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글 저장
-//		BoardDAO dao = new BoardDAO();
+		BoardDAO dao = new BoardDAO();
 
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
 		String cp = req.getContextPath();
-		if(req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/board/list.do");
-			return;
-		}
 		
 		try {
 			BoardDTO dto = new BoardDTO();
-
-			// userId는 세션에 저장된 정보
 			dto.setMemberId(info.getMemberId());
-
-			// 파라미터
 			dto.setCommSubject(req.getParameter("commSubject"));
 			dto.setCommContent(req.getParameter("commContent"));
 
-//			dao.insertBoard(dto, "write");
+			dao.insertBoard(dto);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/board/list.do");
+		resp.sendRedirect(cp + "/community/list.do");
 	}
 
 	private void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 글보기
 		BoardDAO dao = new BoardDAO();
-//		MyUtil util = new MyUtil();
 		
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
-		
 		String query = "page=" + page;
 
 		try {
-			int boardNum = Integer.parseInt(req.getParameter("boardNum"));
+			int commNo = Integer.parseInt(req.getParameter("commNo"));
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");
 			if (condition == null) {
@@ -207,44 +193,32 @@ public class BoardServlet extends MyServlet {
 				keyword = "";
 			}
 			keyword = URLDecoder.decode(keyword, "utf-8");
-
 			if (keyword.length() != 0) {
 				query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 			}
 
 			// 조회수 증가
-			dao.updateHitCount(boardNum);
+			dao.updateHitCount(commNo);
 
 			// 게시물 가져오기
-			BoardDTO dto = dao.readBoard(boardNum);
+			BoardDTO dto = dao.readBoard(commNo);
 			if (dto == null) {
-				resp.sendRedirect(cp + "/board/list.do?" + query);
+				resp.sendRedirect(cp + "/community/list.do?" + query);
 				return;
 			}
-/*
-			dto.setContent(util.htmlSymbols(dto.getContent()));
 
-			// 이전글 다음글
-			BoardDTO preReadDto = dao.preReadBoard(dto.getGroupNum(),
-					dto.getOrderNo(), condition, keyword);
-			BoardDTO nextReadDto = dao.nextReadBoard(dto.getGroupNum(),
-					dto.getOrderNo(), condition, keyword);
-*/
 			// JSP로 전달할 속성
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
-//			req.setAttribute("preReadDto", preReadDto);
-//			req.setAttribute("nextReadDto", nextReadDto);
 
-			// 포워딩
-			forward(req, resp, "/WEB-INF/views/board/article.jsp");
+			forward(req, resp, "/WEB-INF/campingutte/community/article.jsp");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/board/list.do?" + query);
+		resp.sendRedirect(cp + "/community/list.do?" + query);
 	}
 
 	private void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -263,13 +237,13 @@ public class BoardServlet extends MyServlet {
 			BoardDTO dto = dao.readBoard(boardNum);
 
 			if (dto == null) {
-				resp.sendRedirect(cp + "/board/list.do?page=" + page);
+				resp.sendRedirect(cp + "/community/list.do?page=" + page);
 				return;
 			}
 
 			// 게시물을 올린 사용자가 아니면
 			if (! dto.getMemberId().equals(info.getMemberId())) {
-				resp.sendRedirect(cp + "/board/list.do?page=" + page);
+				resp.sendRedirect(cp + "/community/list.do?page=" + page);
 				return;
 			}
 
@@ -277,13 +251,13 @@ public class BoardServlet extends MyServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("mode", "update");
 
-			forward(req, resp, "/WEB-INF/views/board/write.jsp");
+			forward(req, resp, "/WEB-INF/campingutte/community/write.jsp");
 			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/board/list.do?page=" + page);
+		resp.sendRedirect(cp + "/community/list.do?page=" + page);
 	}
 
 	private void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -295,7 +269,7 @@ public class BoardServlet extends MyServlet {
 		
 		String cp = req.getContextPath();
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/board/list.do");
+			resp.sendRedirect(cp + "/community/list.do");
 			return;
 		}
 		
@@ -303,9 +277,9 @@ public class BoardServlet extends MyServlet {
 		
 		try {
 			BoardDTO dto = new BoardDTO();
-//			dto.setBoardNum(Integer.parseInt(req.getParameter("boardNum")));
-			dto.setCommSubject(req.getParameter("subject"));
-			dto.setCommContent(req.getParameter("content"));
+			dto.setCommNo(Integer.parseInt(req.getParameter("commNo")));
+			dto.setCommSubject(req.getParameter("commSubject"));
+			dto.setCommContent(req.getParameter("commContent"));
 
 			dto.setMemberId(info.getMemberId());
 
@@ -314,72 +288,10 @@ public class BoardServlet extends MyServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/board/list.do?page=" + page);
+		resp.sendRedirect(cp + "/community/list.do?page=" + page);
 	}
 
-	private void replyForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 답변 폼
-		BoardDAO dao = new BoardDAO();
-		
-		String cp = req.getContextPath();
-		
-		String page = req.getParameter("page");
-		
-		try {
-			int boardNum = Integer.parseInt(req.getParameter("boardNum"));
-			
-			BoardDTO dto = dao.readBoard(boardNum);
-			if(dto == null) {
-				resp.sendRedirect(cp + "/board/list.do?page="+page);
-				return;
-			}
-			
-			String s = "[" + dto.getCommSubject() + "] 에 대한 답변입니다.\n";
-			dto.setCommContent(s);
-			
-			req.setAttribute("mode", "reply");
-			req.setAttribute("dto", dto);
-			req.setAttribute("page", page);
-		
-			forward(req, resp, "/WEB-INF/views/board/write.jsp");
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		resp.sendRedirect(cp + "/board/list.do?page="+page);
-	}
-	
-	private void replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 답변 완료
-//		BoardDAO dao = new BoardDAO();
-		
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		
-		String cp = req.getContextPath();
-		if(req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp + "/board/list.do");
-			return;
-		}
-		
-		String page = req.getParameter("page");
-		
-		try {
-			BoardDTO dto = new BoardDTO();
-			
-			dto.setCommSubject(req.getParameter("subject"));
-			dto.setCommContent(req.getParameter("content"));
-			
-			dto.setMemberId(info.getMemberId());
-			
-//			dao.insertBoard(dto, "reply");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
-		resp.sendRedirect(cp + "/board/list.do?page=" + page);		
-	}
+
 	
 	private void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 삭제
@@ -394,7 +306,7 @@ public class BoardServlet extends MyServlet {
 		String query = "page=" + page;
 
 		try {
-			int boardNum = Integer.parseInt(req.getParameter("boardNum"));
+			int num = Integer.parseInt(req.getParameter("num"));
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");
 			if (condition == null) {
@@ -407,24 +319,11 @@ public class BoardServlet extends MyServlet {
 				query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 			}
 
-			BoardDTO dto=dao.readBoard(boardNum);
-			
-			if(dto==null) {
-				resp.sendRedirect(cp + "/board/list.do?" + query);
-				return;
-			}
-			
-			// 게시물을 올린 사용자나 admin이 아니면
-			if(! dto.getMemberId().equals(info.getMemberId()) && ! info.getMemberId().equals("admin")) {
-				resp.sendRedirect(cp + "/board/list.do?" + query);
-				return;
-			}
-			
-			dao.deleteBoard(boardNum);
+			dao.deleteBoard(num, info.getMemberId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/board/list.do?" + query);
+		resp.sendRedirect(cp + "/community/list.do?" + query);
 	}
 }

@@ -9,6 +9,15 @@ public class BoardDTO {
 	private String commContent;
 	private String commDate;
 	private int commHitCount;
+	private int replyCount;
+	
+	
+	public int getReplyCount() {
+		return replyCount;
+	}
+	public void setReplyCount(int replyCount) {
+		this.replyCount = replyCount;
+	}
 	public int getListNum() {
 		return listNum;
 	}

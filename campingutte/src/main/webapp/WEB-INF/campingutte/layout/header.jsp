@@ -36,14 +36,14 @@
 								
 						<a href="${pageContext.request.contextPath}/">Home&nbsp;|&nbsp;</a>
 						<c:if test="${empty sessionScope.member}">
-							<a href="${pageContext.request.contextPath}/member/signup.do">회원가입 (비활성화)</a>
+							<a href="${pageContext.request.contextPath}/member/signup.do">회원가입</a>
 							<span style="color: white;">&nbsp;|&nbsp;</span>
 							<a href="${pageContext.request.contextPath}/member/login.do">로그인</a>
 						</c:if>
 						<c:if test="${not empty sessionScope.member}">					
 							<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a>
 							<span style="color: white;">&nbsp;|&nbsp;</span>
-							<a href="#">정보수정 (비활성화)</a>
+							<a href="#">정보수정</a>
 						</c:if>
 								
 					</div>
@@ -73,7 +73,7 @@
 	                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownBlog">
 	                                    <li><a class="dropdown-item" href="blog-home.html">추천명소</a></li>
 	                                    <li><a class="dropdown-item" href="blog-post.html">캠핑장터</a></li>
-	                                    <li><a class="dropdown-item" href="blog-post.html">자유게시판</a></li>
+	                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/community/list.do">자유게시판</a></li>
 	                                </ul>
 	                            </li>
 	                            <li class="nav-item dropdown">

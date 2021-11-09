@@ -120,9 +120,9 @@ function sendLogin() {
 					</tr>
 					<tr align="center">
 					    <td style="padding-right: 17px;">
-							<span onclick="location.href='#'" style="color: white">아이디 찾기</span>&nbsp;|&nbsp; 
-							<span onclick="location.href='#'" style="color: white">비밀번호 찾기</span>&nbsp;|&nbsp;
-							<span onclick="location.href='${pageContext.request.contextPath}/member/member.do'" style="color: white">회원가입</span>
+							<span onclick="location.href='#'" style="color: black">아이디 찾기</span>&nbsp;|&nbsp; 
+							<span onclick="location.href='#'" style="color: black">비밀번호 찾기</span>&nbsp;|&nbsp;
+							<span onclick="location.href='${pageContext.request.contextPath}/member/member.do'" style="color: black">회원가입</span>
 					    </td>
 					</tr>
 				</table>
