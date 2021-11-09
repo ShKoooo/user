@@ -108,7 +108,7 @@
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/goods/roomDelete.do" + query;
+	    var url = "${pageContext.request.contextPath}/admin/roomDelete.do" + query;
     	location.href = url;
     }
 }
@@ -190,7 +190,7 @@ function deleteBoard() {
 				<td width="50%">
 					<c:choose>
 						<c:when test="${sessionScope.member.userId==dto.userId}">
-							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
 						</c:when>
 						<c:otherwise>
 							<button type="button" class="btn" disabled="disabled">수정</button>
@@ -207,7 +207,7 @@ function deleteBoard() {
 			    	</c:choose>
 				</td>
 				<td align="right">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/roomList.do?${query}';">리스트</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomList.do?${query}';">리스트</button>
 				</td>
 			</tr>
 		</table>

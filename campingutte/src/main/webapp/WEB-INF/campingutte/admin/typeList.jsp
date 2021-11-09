@@ -66,7 +66,6 @@
 	padding: 7px 0;
 	text-align: center;
 }
-
 .btn {
 	color: #333;
 	border: 1px solid #333;
@@ -93,14 +92,13 @@
 	opacity: .65;
 }
 
-
 </style>
 <script type="text/javascript">
-<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
+<c:if test="${sessionScope.member.userId=='admin'}">
 function deleteBoard() {
-    if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
+    if(confirm("캠핑장 유형을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/goods/campDelete.do" + query;
+	    var url = "${pageContext.request.contextPath}/admin/typeDelete.do" + query;
     	location.href = url;
     }
 }
@@ -112,32 +110,29 @@ function deleteBoard() {
 
 <div class="body-container">
 	<div class="body-title">
-		<h3>등록된 캠핑장 관리</h3>
+		<h3>유형 목록</h3>
 	</div>
 	
-	<form name="campList" method="post">
+	<form name="typeList" method="post">
 		<table class="table">
 			<tr>
-				<th width="150">캠핑장명</th>
-				<th width="250">전화번호</th>
-				<th width="200">유형</th>
+				<th width="250">유형번호</th>
+				<th width="250">유형이름</th>
 				<th>변경</th>
 			</tr>
-			<c:forEach var="dto" items="${list}">
-				<tr>
-					<td>${dto.campName}</td>
-					<td>${dto.campTel}</td>
-					<td>${dto.typeNo}</td>
-					<td>
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?num=${dto.num}&page=${page}';">수정</button>
-						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
-					</td>
-				</tr>
-			</c:forEach>
+			
+		<c:forEach var="dto" items="${list}">
+			<tr>
+				<td>${dto.typeNo}</td>
+				<td>${dto.typeName}</td>
+				<td>
+					<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+				</td>
+			</tr>
+		</c:forEach>
 		</table>
 	</form> 
 </div>
-
 
 </body>
 </html>

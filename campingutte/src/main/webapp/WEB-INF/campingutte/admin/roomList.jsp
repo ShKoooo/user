@@ -98,7 +98,7 @@
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/goods/roomDelete.do" + query;
+	    var url = "${pageContext.request.contextPath}/admin/roomDelete.do" + query;
     	location.href = url;
     }
 }
@@ -121,15 +121,18 @@ function deleteBoard() {
 				<th width="200">1박당 객실 요금</th>
 				<th>변경</th>
 			</tr>
-			<tr>
-				<td>나무객실</td>
-				<td>2/4</td>
-				<td>100,000원</td>
-				<td>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
-					<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
-				</td>
-			</tr>
+			
+			<c:forEach var="dto" items="${list}">
+				<tr>
+					<td>${dto.roomName}</td>
+					<td>${dto.stdPers}/${dto.maxPers}</td>
+					<td>${dto.stdPrice}</td>
+					<td>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
+						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+					</td>
+				</tr>
+			</c:forEach>
 		</table>
 	</form> 
 </div>

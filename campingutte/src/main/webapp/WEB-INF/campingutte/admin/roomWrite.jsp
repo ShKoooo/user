@@ -163,7 +163,7 @@ function sendOk() {
         return;
     }
 
-    f.action = "${pageContext.request.contextPath}/goods/${mode}_ok.do";
+    f.action = "${pageContext.request.contextPath}/admin/${mode}_ok.do";
     f.submit();
 }
 
@@ -184,12 +184,17 @@ function sendOk() {
 		<table class="table table-form">
 		<!--캠핑장번호시퀀스처리? -->
 			<!-- 캠핑장번호를 가져올때-->
-			<!-- 
+			
 			<tr class="campNo">
 				<td>캠핑장번호</td>
-				<td><input type="text" name="campNo" class="sel4" placeholder="차량수를 입력해주세요"></td>
+				<td><input type="text" name="campNo" class="sel4" placeholder="캠핑장번호 입력해주세요"></td>
 			</tr>
-			 -->
+			
+			<tr class="roomNo">
+				<td>객실이름</td>
+				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실이름을 입력해주세요"></td>
+			</tr>
+			
 			<tr class="roomName">
 				<td>객실이름</td>
 				<td><input type="text" name="roomName" class="boxTF" placeholder="객실이름을 입력해주세요"></td>
@@ -246,7 +251,7 @@ function sendOk() {
 				<td align="center">
 					<button type="button" class="btn" onclick="sendOk();">등록</button>
 					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/roomList.do';">${mode=='roomUpdate'?'수정취소':'등록취소'}</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomList.do';">${mode=='roomUpdate'?'수정취소':'등록취소'}</button>
 					<c:if test="${mode=='romeUpdate'}">
 						<input type="hidden" name="num" value="">
 						<input type="hidden" name="page" value="">

@@ -109,7 +109,7 @@
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/goods/campDelete.do" + query;
+	    var url = "${pageContext.request.contextPath}/admin/campDelete.do" + query;
     	location.href = url;
     }
 }
@@ -128,38 +128,38 @@ function deleteBoard() {
 		<table class="table table-border table-article">
 			<tr>
 				<td align="center">
-					캠핑장이름
+					${dto.campName}
 				</td>
 			</tr>
 			
 			<tr>
 				<td>
-					기본주소 : 가시 나동 다다다
+					기본주소 : ${dto.campAddr1}
 				</td>
 			</tr>
 			<tr>
 				<td>
-					상세주소 : 가시 나동 다다다
+					상세주소 : ${dto.campAddr2}
 				</td>
 			</tr>
 			<tr>
 				<td>
-					전화번호 :
+					전화번호 : ${dto.campTel}
 				</td>
 			</tr>
 			<tr>
 				<td valign="top" height="200">
-					이 객실은 바로 앞 바다~뷰~
+					${dto.campDetail}
 				</td>
 			</tr>
 			<tr>
 				<td>
-					부대시설 :
+					부대시설 : ${dto.campAdd}
 				</td>
 			</tr>
 			<tr>
 				<td>
-					유형이름 :
+					유형이름 : ${dto.campName}
 				</td>
 			</tr>
 			<tr>
@@ -197,7 +197,7 @@ function deleteBoard() {
 				<td width="50%">
 					<c:choose>
 						<c:when test="${sessionScope.member.userId==dto.userId}">
-							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/campUpdate.do?num=${dto.num}&page=${page}';">수정</button>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?num=${dto.num}&page=${page}';">수정</button>
 						</c:when>
 						<c:otherwise>
 							<button type="button" class="btn" disabled="disabled">수정</button>
@@ -214,7 +214,7 @@ function deleteBoard() {
 			    	</c:choose>
 				</td>
 				<td align="right">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/campList.do?${query}';">리스트</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campList.do?${query}';">리스트</button>
 				</td>
 			</tr>
 		</table>
