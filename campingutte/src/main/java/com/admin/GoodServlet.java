@@ -151,7 +151,7 @@ public class GoodServlet extends MyUploadServlet {
 
 	private void campTypeWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 유형 등록 폼
-		forward(req, resp, "/WEB-INF/campingutte/admin/campTypeWrite.jsp");
+		forward(req, resp, "/WEB-INF/campingutte/admin/typeWrite.jsp");
 	}
 	
 	
