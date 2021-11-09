@@ -11,7 +11,7 @@ public class CampSiteDTO {
 	private String typeName; // 유형이름
 	private int imgNum; // 이미지 번호
 	private String imgName; // 이미지 파일명
-	
+	private String[] imageFiles; // 이미지 파일 받을 배열
 	
 	public String getCampNo() {
 		return campNo;
@@ -72,6 +72,12 @@ public class CampSiteDTO {
 	}
 	public void setImgName(String imgName) {
 		this.imgName = imgName;
+	}
+	public String[] getImageFiles() {
+		return imageFiles;
+	}
+	public void setImageFiles(String[] imageFiles) {
+		this.imageFiles = imageFiles;
 	}
 	
 }
