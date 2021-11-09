@@ -110,7 +110,7 @@ public class BookDAO {
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setString(1, keyword[1]);
-			pstmt.setString(2, keyword[1]);
+			pstmt.setString(2, keyword[0]);
 			
 			rs = pstmt.executeQuery();
 			
@@ -251,7 +251,7 @@ public class BookDAO {
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setString(1, keyword[1]);
-			pstmt.setString(2, keyword[1]);
+			pstmt.setString(2, keyword[0]);
 			
 			rs = pstmt.executeQuery();
 			
@@ -285,20 +285,6 @@ public class BookDAO {
 				}
 			}
 		}
-		
-		return list;
-	}
-	
-	// 객실 리스트 (검색조건추가된 상태)
-	// 검색조건 최신화 요망..
-	public List<RoomDTO> listRoom() {
-		List<RoomDTO> list = new ArrayList<RoomDTO>();
-		
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		StringBuilder sb = new StringBuilder();
-		
-		// TODO
 		
 		return list;
 	}
@@ -353,6 +339,125 @@ public class BookDAO {
 		}
 		
 		return dto;
+	}
+	
+	// 캠핑장의 객실 갯수
+	public int roomCount (String CampNo, String[] keyword) {
+		/*
+		 String [] keyword = 
+				{keywordSrtDate,keywordEndDate,keywordPeople};
+		 */
+		
+		int result = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		keyword[0] = keyword[0].replaceAll("(\\-|\\/|\\.)", ""); // start date
+		keyword[1] = keyword[1].replaceAll("(\\-|\\/|\\.)", ""); // end date
+		
+		try {
+			sb.append("SELECT NVL(COUNT(DISTINCT roomNo),0) cnt FROM room ");
+			sb.append("	WHERE ");
+			sb.append("	campNo = ?");
+			sb.append("	AND");
+			sb.append("	roomNo NOT IN (");
+			sb.append("		SELECT distinct roomNo");
+			sb.append("		FROM book");
+			sb.append("		WHERE bookSrtdate <= TO_DATE(?,'YYYYMMDD')");
+			sb.append("		AND");
+			sb.append("		bookEnddate >= TO_DATE(?,'YYYYMMDD')");
+			sb.append("	)");
+			sb.append("	AND maxPers >= ?");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, keyword[1]);
+			pstmt.setString(2, keyword[0]);
+			
+			if (!keyword[2].equals("")) {
+				if (Integer.parseInt(keyword[2]) > 0) {
+					pstmt.setInt(3, Integer.parseInt(keyword[2]));
+				} else {
+					pstmt.setInt(3, 0);
+				}				
+			} else {
+				pstmt.setInt(3, 0);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
+	// 객실 리스트 (검색조건추가된 상태)
+	// 검색조건 최신화 요망..
+	public List<RoomDTO> listRoom(String CampNo, String[] keyword, int start, int end) {
+		List<RoomDTO> roomList = new ArrayList<RoomDTO>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		keyword[0] = keyword[0].replaceAll("(\\-|\\/|\\.)", ""); // start date
+		keyword[1] = keyword[1].replaceAll("(\\-|\\/|\\.)", ""); // end date
+		
+		try {
+			sb.append("SELECT roomNo, roomName, stdPers, maxPers, stdPrice, extraPrice, campNo, roomDetail");
+			sb.append("	FROM room");
+			sb.append("	WHERE roomNo IN (");
+			sb.append("		SELECT DISTINCT roomNo FROM room ");
+			sb.append("		WHERE ");
+			sb.append("		campNo = ?");
+			sb.append("		AND");
+			sb.append("		roomNo NOT IN (");
+			sb.append("			SELECT distinct roomNo");
+			sb.append("			FROM book");
+			sb.append("			WHERE bookSrtdate <= TO_DATE(?,'YYYYMMDD')");
+			sb.append("			AND");
+			sb.append("			bookEnddate >= TO_DATE(?,'YYYYMMDD')");
+			sb.append("		)");
+			sb.append("	AND maxPers >= '2'");
+			sb.append("");
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return roomList;
 	}
 	
 	// 게시물 보기 (객실)

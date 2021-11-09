@@ -237,17 +237,69 @@ public class BookServlet extends MyServlet{
 		resp.sendRedirect(cp + "/book/campList.do?" + query);
 	}
 	
+	// AJAX - Text
 	protected void roomList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 객실리스트 (??) : TODO
+		// 객실리스트 (??)
 		// BoardSerlet - listReply 참고 (메인에 댓글 형태)
+		
+		BookDAO dao = new BookDAO();
+		MyUtil util = new MyUtil();
+		
+		try {
+			// int num = Integer.parseInt(req.getParameter("num"));
+			String campNo = req.getParameter("campNo");
+			String roomPageNo = req.getParameter("roomPageNo");
+			int current_page = 1;
+			if (roomPageNo  != null) {
+				current_page = Integer.parseInt(roomPageNo);
+			}
+			
+			String keywordSrtDate = req.getParameter("srtDate");
+			String keywordEndDate = req.getParameter("endDate");
+			// String keywordAddr1 = req.getParameter("addr1");
+			String keywordPeople = req.getParameter("people");
+			// String keywordCampName = req.getParameter("campName");
+			
+			keywordSrtDate = URLDecoder.decode(keywordSrtDate, "utf-8");
+			keywordEndDate = URLDecoder.decode(keywordEndDate, "utf-8");
+			// keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
+			keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
+			// keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");
+			
+			String [] keyword = 
+				{keywordSrtDate,keywordEndDate,keywordPeople}; // [0,1,2]
+			
+			
+			int rows = 5;
+			int roomTotal_page = 0;
+			int roomCount = 0;
+			
+			roomCount = dao.roomCount(campNo, keyword);
+			roomTotal_page = util.pageCount(rows, roomTotal_page);
+			
+			if (current_page > roomTotal_page) {
+				current_page = roomTotal_page;
+			}
+			
+			int start = (current_page-1) * rows + 1;
+			int end = current_page * rows;
+			
+			List<RoomDTO> listRoom = dao.listRoom(campNo, keyword, start, end);
+			// TODO
+		} catch (Exception e) {
+			
+		}
+		
 	}
 	
 	protected void book(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 객실 글보기 + 예약정보 기입 (세부사항 작성)
+		forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
 	}
 	
 	protected void bookSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예약정보 작성 완료
+		forward(req, resp, "/WEB-INF/campingutte/book/book_ok.jsp");
 	}
 	
 	protected void bookConfirm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
