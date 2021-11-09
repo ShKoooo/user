@@ -21,18 +21,24 @@
 		
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content />
-        <meta name="author" content />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
         <title>예약하기</title>
         
         <script type="text/javascript">
+        // 약관 아코디언
 		$(function(){
 			// $("#accordion").accordion();
 			
 			// 처음에 활성화되지 않고 활성화된 것 누르면 닫히도록
 			$("#accordion").accordion({active:false, collapsible:true});
 		});
-
+		
+        // 수량 계산
+		$("body").on("click", ".fas fa-minus", function(){
+			var qty = parseInt($(this).parent().children(".quantity")).val();
+			var price = parseInt()
+		});
 </script>
 <style type="text/css">
 #accordion > ul > li {
@@ -80,7 +86,7 @@
                         			</td>
                         			<td>
                         				<a href=""><i class="fas fa-minus"></i></a>
-                        				<span>1</span>
+                        				<span class="quantity">1</span>
                         				<a href=""><i class="fas fa-plus"></i></a>
                         			</td>
                         		</tr>

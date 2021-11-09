@@ -21,8 +21,35 @@
 
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content />
-<meta name="author" content />
+<meta name="description" content="" />
+<meta name="author" content="" />
+
+<script type="text/javascript">
+$(function(){
+	$("#checkIn").datepicker({
+		showMonthAfterYear:true,
+		defaultDate:"2021-11-02",
+		// minDate:"2021-11-01", maxDate:"2021-11-10"
+		minDate:0, maxDate:"+5D"
+	});
+});
+
+$(function(){
+	$("#checkOut").datepicker({
+		showMonthAfterYear:true,
+		defaultDate:"2021-11-02",
+		// minDate:"2021-11-01", maxDate:"2021-11-10"
+		minDate:0, maxDate:"+5D"
+	});
+});
+</script>
+<style type="text/css">
+
+.col-lg-3 > input {
+ margin-bottom: 12px;
+}
+
+</style>
 <title>검색리스트</title>
 
 </head>
@@ -36,7 +63,10 @@
 		    <div class="container px-5 my-5">
 		        <div class="row gx-5">
 		            <div class="col-lg-3">
-		            <input type="text" readonly="readonly" data-toggle="modal" data-target="#dateChoiceModal" placeholder="날짜" class="form-control font-size-h5 font-weight-bolder">
+		            <input type="text" id="checkIn" readonly="readonly" placeholder="체크인" class="form-control font-size-h5 font-weight-bolder">
+		            <input type="text" id="checkOut" readonly="readonly" placeholder="체크아웃" class="form-control font-size-h5 font-weight-bolder">
+		            <input type="text" placeholder="지역" class="form-control font-size-h5 font-weight-bolder">
+		            <input type="text" placeholder="캠핑장명" class="form-control font-size-h5 font-weight-bolder">
 		                <div class="d-flex align-items-center mt-lg-5 mb-4">
 		                    <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
 		                    <div class="ms-3">
