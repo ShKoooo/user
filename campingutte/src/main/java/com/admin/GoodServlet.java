@@ -16,6 +16,7 @@ import com.member.MemberDTO;
 import com.member.SessionInfo;
 import com.util.FileManager;
 import com.util.MyUploadServlet;
+import com.util.MyUtil;
 
 @MultipartConfig
 @WebServlet("/admin/*")
@@ -47,23 +48,32 @@ public class GoodServlet extends MyUploadServlet {
 		
 		
 		// uri에 따른 작업 구분
-		if(uri.indexOf("campList.do") != -1) {
+		if(uri.indexOf("campList.do") != -1) { // 캠핑장 리스트(관리자가 봄)
 			campList(req, resp);
-		} else if(uri.indexOf("campWrite.do") != -1) {
+		} else if(uri.indexOf("campTypeWrite.do") != -1) { // 캠핑장 유형 등록
+			campTypeWriteForm(req, resp);
+		} else if(uri.indexOf("campTypeWrite_ok.do") != -1) { // 캠핑장 유형 등록
+			campTypeWriteSubmit(req, resp);
+		} else if(uri.indexOf("campWrite.do") != -1) { // 캠핑장 정보 등록
 			campWriteForm(req, resp);
-		} else if(uri.indexOf("campWrite_ok.do") != -1) {
+		} else if(uri.indexOf("campWrite_ok.do") != -1) { // 캠핑장 정보 등록
 			campWriteSubmit(req, resp);
-		} else if(uri.indexOf("campUpdate.do") != -1) {
+		} else if(uri.indexOf("campUpdate.do") != -1) { // 캠핑장 정보 수정
 			campUpdateForm(req, resp);
-		} else if(uri.indexOf("campUpdate_ok.do") != -1) {
+		} else if(uri.indexOf("campUpdate_ok.do") != -1) { // 캠핑장 정보 수정
 			campUpdateSubmit(req, resp);
-		} else if(uri.indexOf("campDelete.do") != -1) {
+		} else if(uri.indexOf("campTypeDelete.do") != -1) { // 캠핑장 유형 삭제
+			campTypeDelete(req, resp);
+		} else if(uri.indexOf("campDelete.do") != -1) { // 캠핑장 정보 삭제 (캠핑장, 캠핑장 이미지, 객실, 객실 이미지)
 			campDelete(req, resp);
 		} else if (uri.indexOf("deleteCampImgFile") != -1) { // 수정에서 이미지파일만 삭제
 			deleteCampImgFile(req, resp);
-		} else if(uri.indexOf("campArticle.do") != -1) {
-			campArticle(req, resp);
-		} else if(uri.indexOf("roomList.do") != -1) {
+		} else if(uri.indexOf("campDetail.do") != -1) { // 캠핑장 글보기(클라이언트).
+			campDetail(req, resp);
+		}
+		
+				
+		  else if(uri.indexOf("roomList.do") != -1) {
 			roomList(req, resp);
 		} else if(uri.indexOf("roomWrite.do") != -1) {
 			roomWriteForm(req, resp);
@@ -75,18 +85,108 @@ public class GoodServlet extends MyUploadServlet {
 			roomUpdateSubmit(req, resp);
 		} else if(uri.indexOf("roomDelete.do") != -1) {
 			roomDelete(req, resp);
-		} else if(uri.indexOf("roomArticle.do") != -1) {
+		} else if(uri.indexOf("roomArticle.do") != -1) { // 객실상세 글보기(클라이언트)
 			roomArticle(req, resp);
 		}
 		
 	}
 	
-	// 등록한 유형 리스트..?
+	// 등록한 유형 리스트..? (없어도 될거같아서 일단 보류)
 	
 	// 등록한 캠핑장 리스트
 	private void campList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		CampSiteDAO dao = new CampSiteDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
 		
+		try {
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null) {
+				current_page = Integer.parseInt(page);
+			}
+			
+			// 전체 데이터 개수
+			int dataCount;
+			dataCount = dao.dataCount();
+			
+			// 전체 페이지 수
+			int rows = 10;
+			int total_page = util.pageCount(rows, dataCount);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+
+			// 게시물 가져오기
+			List<CampSiteDTO> list = null;
+			list = dao.listCampSite(start, end);
+
+			// 페이징 처리
+			String listUrl = cp + "/admin/campList.do";
+			String articleUrl = cp + "/admin/campArticle.do?page=" + current_page;
+
+			
+			String paging = util.paging(current_page, total_page, listUrl);
+
+			// 포워딩할 JSP에 전달할 속성
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP로 포워딩
+		forward(req, resp, "/WEB-INF/campingutte/admin/campList.jsp");
 	}
+	
+
+	private void campTypeWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 캠핑장 유형 등록 폼
+		forward(req, resp, "/WEB-INF/campingutte/admin/campTypeWrite.jsp");
+	}
+	
+	
+	private void campTypeWriteSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 캠핑장 유형 등록 완료
+		CampSiteDAO dao = new CampSiteDAO();
+		
+		// 관리자 정보 확인
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/main/main.do"); // 경로 바꿀듯
+			return;
+		}
+		
+		try {
+			MemberDTO mdto = new MemberDTO();
+			CampSiteDTO dto = new CampSiteDTO();
+			
+			mdto.setMemberId(info.getMemberId());
+			
+			// 등록받을 파라미터들 (name으로 받아옴)
+			dto.setTypeNo(req.getParameter("typeNo"));
+			dto.setTypeName(req.getParameter("typeName"));
+					
+			dao.insertCampType(dto);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/admin/campList.do");
+	}	
 	
 	
 	private void campWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -123,9 +223,10 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setCampAddr2(req.getParameter("campAddr2"));
 			dto.setCampTel(req.getParameter("campTel"));
 			dto.setCampDetail(req.getParameter("campDetail"));
+			dto.setTypeNo(req.getParameter("typeNo")); // 셀렉트 옵션으로 받기
+			dto.setCampAdd(req.getParameter("campAdd"));
 			
-			dto.setTypeNo(req.getParameter("typeNo"));
-			dto.setTypeName(req.getParameter("typeName"));
+//			dto.setTypeName(req.getParameter("typeName")); // 잘 되면 지우기
 			
 			
 			// 이미지 첨부
@@ -135,7 +236,7 @@ public class GoodServlet extends MyUploadServlet {
 				dto.setImageFiles(saveFiles);
 			}
 			
-			dao.insertCampType(dto);
+//			dao.insertCampType(dto); // 잘 되면 지우기 
 			dao.insertCampSite(dto);
 			dao.insertCampSiteImage(dto);
 
@@ -143,8 +244,9 @@ public class GoodServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp + "/main.do"); // 우선 메인으로 해둠
+		resp.sendRedirect(cp + "/admin/campList.do");
 	}
+	
 	
 	private void campUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 정보 수정 폼
@@ -214,9 +316,10 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setCampAddr2(req.getParameter("campAddr2"));
 			dto.setCampTel(req.getParameter("campTel"));
 			dto.setCampDetail(req.getParameter("campDetail"));
-			
 			dto.setTypeNo(req.getParameter("typeNo"));
-			dto.setTypeName(req.getParameter("typeName"));
+			dto.setCampAdd(req.getParameter("campAdd"));
+			
+//			dto.setTypeName(req.getParameter("typeName"));
 			
 			
 			// 이미지 첨부
@@ -226,7 +329,7 @@ public class GoodServlet extends MyUploadServlet {
 				dto.setImageFiles(saveFiles);
 			}
 			
-			dao.updateCampType(dto);
+//			dao.updateCampType(dto);
 			dao.updateCampSite(dto);
 			dao.updateCampSiteImage(dto);
 			
@@ -237,6 +340,48 @@ public class GoodServlet extends MyUploadServlet {
 		resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
 		
 	}
+
+	
+	private void campTypeDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 캠핑장 유형 삭제
+		CampSiteDAO dao = new CampSiteDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		String cp = req.getContextPath();
+		
+		String page = req.getParameter("page");
+
+		try {
+			MemberDTO mdto = new MemberDTO();
+			
+			String typeNo = req.getParameter("typeNo");
+			CampSiteDTO dto = dao.readCampSite(typeNo); // 같은 스트링이니까 찾아지지 않을까..되는지 봐야한다.
+			
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
+				return;
+			}
+
+			// 게시물을 올린 사용자가 아니면(관리자가 아니면)
+			// if (! mdto.getMemberId().equals(info.getMemberId())) {
+			if (! mdto.getMemberId().equals("admin")) {	
+				//resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
+				resp.sendRedirect(cp + "/main.do"); // 관리자아니면 여기 접근하면 안되니까 메인으로..? 
+				return;
+			}
+
+			// 객실 유형 테이블 데이터 삭제
+			dao.deleteCampType(typeNo, info.getMemberId());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
+	}
+	
 	
 	private void campDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 정보 삭제
@@ -273,7 +418,7 @@ public class GoodServlet extends MyUploadServlet {
 			}
 			
 			// 객실 이미지 파일 지우기
-			
+// ☆★☆★	☆여기 해야함★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★	
 			
 			
 			// 테이블 데이터 삭제(객실이미지, 객실, 캠핑장이미지, 캠핑장 다 지워져야함)
@@ -286,7 +431,7 @@ public class GoodServlet extends MyUploadServlet {
 	}
 	
 	private void deleteCampImgFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 수정에서 파일만 삭제
+		// 수정에서 캠핑장 이미지 파일만 삭제
 		CampSiteDAO dao = new CampSiteDAO();
 		
 		HttpSession session = req.getSession();
@@ -303,13 +448,13 @@ public class GoodServlet extends MyUploadServlet {
 			CampSiteDTO dto = dao.readCampSite(campNo);
 			
 			// 얘 되나 보자☆★☆★☆★☆★☆★☆★☆★
-			int imgNum = dto.getImgNum(); // 이미지 번호는 시퀀스라서 파라미터로 못가져와서 dto로 해보는데...제발됐으면...ㅎ
-			
+//			int imgNum = dto.getImgNum(); // 이미지 번호는 시퀀스라서 파라미터로 못가져와서 dto로 해보는데...제발됐으면...ㅎ
+			int imgNum = Integer.parseInt(req.getParameter("imgNum"));
 
-//			if (dto == null) {
-//				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
-//				return;
-//			}
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
+				return;
+			}
 
 			if (! info.getMemberId().equals(mdto.getMemberId())) {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
@@ -319,7 +464,7 @@ public class GoodServlet extends MyUploadServlet {
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
 
 			for (CampSiteDTO vo : listCampSiteImage) {
-				if (vo.getImgNum() == imgNum) { // 이거 고쳐야함..
+				if (vo.getImgNum() == imgNum) {
 					// 파일삭제
 					FileManager.doFiledelete(pathname, vo.getImgName());
 					dao.deleteCampSiteImage(imgNum);
@@ -343,9 +488,58 @@ public class GoodServlet extends MyUploadServlet {
 		resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
 	}
 	
-	private void campArticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private void campDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 캠핑장 글보기 (클라이언트)
+		CampSiteDAO dao = new CampSiteDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
 		
+//		HttpSession session = req.getSession();
+//		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		// 검색 리스트로??		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+		
+		try {
+			//int num = Integer.parseInt(req.getParameter("num"));
+			String campNo = req.getParameter("campNo");
+			
+			// 게시물 가져오기
+			CampSiteDTO dto = dao.readCampSite(campNo);
+			if (dto == null) { // 게시물이 없으면 다시 리스트로
+				resp.sendRedirect(cp + "/selector/searchList.do?" + query);
+//				resp.sendRedirect(cp + "/main.do");
+				return;
+			}		
+			dto.setCampDetail(util.htmlSymbols(dto.getCampDetail()));
+
+			
+			// 캠핑장 이미지 파일 리스트
+			List<CampSiteDTO> listFile = dao.listCampImgFile(campNo);
+			
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("query", query);
+			req.setAttribute("listFile", listFile);
+			
+			
+			// 포워딩
+			forward(req, resp, "/WEB-INF/campingutte/goods/campDetail.jsp");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/selector/searchList.do?" + query);
+//		resp.sendRedirect(cp + "/main.do");
 	}
+
+
+	
+	
 	
 	private void roomList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	

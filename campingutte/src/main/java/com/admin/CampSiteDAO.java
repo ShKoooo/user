@@ -52,8 +52,8 @@ public class CampSiteDAO {
 		String sql = "";
 		
 		try {
-			sql = "INSERT INTO campSite(campNo, campName, campAddr1, campAddr2, campTel, campDetail, typeNo)"
-					+ " VALUES (?,?,?,?,?,?,?)";
+			sql = "INSERT INTO campSite(campNo, campName, campAddr1, campAddr2, campTel, campDetail, typeNo, campAdd)"
+					+ " VALUES (?,?,?,?,?,?,?,?)";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -64,6 +64,7 @@ public class CampSiteDAO {
 			pstmt.setString(5, dto.getCampTel());
 			pstmt.setString(6, dto.getCampDetail());
 			pstmt.setString(7, dto.getTypeNo());
+			pstmt.setString(8, dto.getCampAdd());
 			
 			result = pstmt.executeUpdate();
 			
@@ -140,8 +141,8 @@ public class CampSiteDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT s.campNo, campName, campAddr1, campAddr2, campTel, campDetail,"
-					+ " i.imgName, t.typeName"
+			sql = "SELECT s.campNo, campName, campAddr1, campAddr2, campTel, campDetail, campAdd,"
+					+ " i.imgName, t.typeNo, t.typeName"
 					+ " FROM campSite s"
 					+ " JOIN campType t ON s.typeNo = t.typeNo"
 					+ " JOIN campsiteImage i ON s.campNo = i.campNo"
@@ -153,7 +154,7 @@ public class CampSiteDAO {
 			rs = pstmt.executeQuery();
 			
 			// 또는 while
-			if(rs.next()) {
+			while(rs.next()) {
 				dto = new CampSiteDTO();
 				
 				dto.setCampNo(rs.getString("campNo"));
@@ -162,7 +163,9 @@ public class CampSiteDAO {
 				dto.setCampAddr2(rs.getString("campAddr2"));
 				dto.setCampTel(rs.getString("campTel"));
 				dto.setCampDetail(rs.getString("campDetail"));
+				dto.setCampAdd(rs.getString("campAdd"));
 				dto.setImgName(rs.getString("imgName"));
+				dto.setTypeNo(rs.getString("typeNo")); // 유형삭제하려고 추가.
 				dto.setTypeName(rs.getString("typeName"));
 			}
 
@@ -187,7 +190,7 @@ public class CampSiteDAO {
 		return dto;
 	}
 	
-	
+/*	유형은 삭제후 다시 등록하게 하자. -> 일단 주석
 	// 등록한 캠핑장 유형이름 수정
 	public int updateCampType(CampSiteDTO dto) throws SQLException {
 		int result = 0;
@@ -220,7 +223,7 @@ public class CampSiteDAO {
 		
 		return result;
 	}
-	
+*/	
 	
 	
 	// 등록한 캠핑장 정보 수정
@@ -232,7 +235,7 @@ public class CampSiteDAO {
 		try {
 			// 캠핑장번호 수정을 뺀 이유는 캠핑장번호 수정했다 소속되는 정보들이 붕 뜰까봐..
 			sql = "UPDATE campSite SET campName =?, campAddr1 = ?, campAddr2 = ?, "
-					+ "campTel = ?, campDetail = ?, typeNo = ? WHERE campNo = ?";
+					+ "campTel = ?, campDetail = ?, typeNo = ?, campAdd = ? WHERE campNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			
@@ -243,7 +246,8 @@ public class CampSiteDAO {
 			pstmt.setString(4, dto.getCampTel());
 			pstmt.setString(5, dto.getCampDetail());
 			pstmt.setString(6, dto.getTypeNo()); // 유형은 소속유형 바꾸고싶을 수 있으니 수정 가능하게 둠
-			pstmt.setString(7, dto.getCampNo());
+			pstmt.setString(7, dto.getCampAdd());
+			pstmt.setString(8, dto.getCampNo());
 			
 			result = pstmt.executeUpdate();
 			
