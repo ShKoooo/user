@@ -169,7 +169,7 @@ function sendOk() {
         return;
     }
     
-    f.action = "${pageContext.request.contextPath}/bbs/${mode}_ok.do";
+    f.action = "${pageContext.request.contextPath}/goods/${mode}_ok.do";
     f.submit();
 }
 
@@ -250,7 +250,7 @@ function sendOk() {
 				<td align="center">
 					<button type="button" class="btn" onclick="sendOk();">등록</button>
 					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campList.do';">${mode=='campUpdate'?'수정취소':'등록취소'}</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/campList.do';">${mode=='campUpdate'?'수정취소':'등록취소'}</button>
 					<c:if test="${mode=='campUpdate'}">
 						<input type="hidden" name="num" value="">
 						<input type="hidden" name="page" value="">

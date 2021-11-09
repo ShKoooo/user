@@ -109,7 +109,7 @@
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/" + query;
+	    var url = "${pageContext.request.contextPath}/goods/campDelete.do" + query;
     	location.href = url;
     }
 }
@@ -166,8 +166,8 @@ function deleteBoard() {
 				<td height="110">
 					<div class="img-box">
 						<c:forEach var="vo" items="${listFile}">
-							<img src="${pageContext.request.contextPath}/uploads/sphoto/${vo.imageFilename}"
-								onclick="imageViewer('${pageContext.request.contextPath}/uploads/sphoto/${vo.imageFilename}');">
+							<img src="${pageContext.request.contextPath}"
+								onclick="imageViewer('${pageContext.request.contextPath}');">
 						</c:forEach>
 					</div>
 				</td>	
@@ -197,7 +197,7 @@ function deleteBoard() {
 				<td width="50%">
 					<c:choose>
 						<c:when test="${sessionScope.member.userId==dto.userId}">
-							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/update.do?num=${dto.num}&page=${page}';">수정</button>
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/campUpdate.do?num=${dto.num}&page=${page}';">수정</button>
 						</c:when>
 						<c:otherwise>
 							<button type="button" class="btn" disabled="disabled">수정</button>
@@ -214,7 +214,7 @@ function deleteBoard() {
 			    	</c:choose>
 				</td>
 				<td align="right">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/list.do?${query}';">리스트</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/campList.do?${query}';">리스트</button>
 				</td>
 			</tr>
 		</table>

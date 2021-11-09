@@ -98,7 +98,7 @@
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/" + query;
+	    var url = "${pageContext.request.contextPath}/goods/roomDelete.do" + query;
     	location.href = url;
     }
 }
@@ -126,7 +126,7 @@ function deleteBoard() {
 				<td>2/4</td>
 				<td>100,000원</td>
 				<td>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/goods/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
 					<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
 				</td>
 			</tr>
