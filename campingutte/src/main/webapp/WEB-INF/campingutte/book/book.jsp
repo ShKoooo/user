@@ -34,11 +34,43 @@
 			$("#accordion").accordion({active:false, collapsible:true});
 		});
 		
+        
         // 수량 계산
-		$("body").on("click", ".fas fa-minus", function(){
-			var qty = parseInt($(this).parent().children(".quantity")).val();
-			var price = parseInt()
-		});
+        $(function(){
+        	
+	        $("body").on("click", ".btnPlus", function(){
+				var qty = parseInt($(this).parent("td").find(".quantity").text());
+				var essQty = parseInt($(this).parent("td").find(".essentialQuantity").text());
+	        
+				qty = qty+1;
+				essQty = essQty+1;
+				
+				$(this).parent("td").find(".quantity").text(qty);
+				$(this).parent("td").find(".essentialQuantity").text(essQty);
+			});
+	        
+			$("body").on("click", ".btnMinus", function(){
+				var qty = parseInt($(this).parent("td").find(".quantity").text());
+				var essQty = parseInt($(this).parent("td").find(".essentialQuantity").text());
+				
+				essQty = essQty-1;
+				qty = qty-1;
+				
+				if(qty < 0){
+					return false;
+				}
+				if(essQty < 1) {
+					return false;
+				}
+				$(this).parent("td").find(".quantity").text(qty);
+				$(this).parent("td").find(".essentialQuantity").text(essQty);
+			});
+        });
+        
+        // 금액 계산
+        $(function(){
+        	
+        });
 </script>
 <style type="text/css">
 #accordion > ul > li {
@@ -79,15 +111,15 @@
                         		<tr>
                         			<td>
                         				<span style="font-size: 20px;">장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;">19500원</span><br>
+                        				<span class="price" style="font-size: 20px;">19500원(필수)</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
                         			</td>
-                        			<td>
-                        				<a href=""><i class="fas fa-minus"></i></a>
-                        				<span class="quantity">1</span>
-                        				<a href=""><i class="fas fa-plus"></i></a>
+                        			<td id="count">
+                        				<button class="btnMinus" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
+                        				<span class="essentialQuantity">1</span>
+                        				<button class="btnPlus" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
                         			</td>
                         		</tr>
                         		<tr>
@@ -98,10 +130,10 @@
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
                         			</td>
-                        			<td>
-                        				<a href=""><i class="fas fa-minus"></i></a>
-                        				<span>1</span>
-                        				<a href=""><i class="fas fa-plus"></i></a>
+                        			<td id="count">
+                        				<button class="btnMinus" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
+                        				<span class="quantity">0</span>
+                        				<button class="btnPlus" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
                         			</td>
                         		</tr>
                         		<tr>
@@ -112,10 +144,10 @@
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
                         			</td>
-                        			<td>
-                        				<a href=""><i class="fas fa-minus"></i></a>
-                        				<span>1</span>
-                        				<a href=""><i class="fas fa-plus"></i></a>
+                        			<td id="count">
+                        				<button class="btnMinus" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
+                        				<span class="quantity">0</span>
+                        				<button class="btnPlus" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
                         			</td>
                         		</tr>
                         	</tbody>
@@ -286,14 +318,46 @@
                                	<br>
 								<h5> 결제금액 정보 </h5>
 								<hr>
-								<ul>
-									<li style="list-style:none; padding-left:0px;">[객실요금]</li>
-									<li>2021년 11월 29일 (월) / 100,000원 * 1개 = 100,000원</li>
-									<li>객실요금 합계 100,000 원</li>
-									<li style="list-style:none; padding-left:0px;">[옵션]</li>
-									<li>지금결제: 장작세트 19,500원 * 1개 = 19,500원</li>
-									<li style="text-align: right; list-style:none; padding-left:0px; font-size: 19px; font-weight: bold;">총 금액 : 119,500 원</li>
-								</ul>
+								<table>
+									<tr>
+										<td>[객실요금]</td>
+									</tr>
+									<tr>
+										<td>2021년 11월 29일 (월)</td>
+									</tr>
+									<tr>
+										<td>
+										<span>객실요금 </span>
+										<span class="roomPrice">0</span>
+										<span> 원</span>
+										</td>
+									</tr>
+									<tr>
+										<td>[옵션]</td>
+									</tr>
+									<tr>
+										<td>
+											<span>지금결제: </span>
+											<span class="optionName">장작세트 19,500원</span>
+											<span> * </span>
+											<span class="optionQty">0</span>
+											<span>개 = </span>
+											<span class="optionPrice">0</span>
+											<span>원</span>
+										</td>
+										<td>
+											<span>총 금액 : </span>
+											<span>0</span>
+											<span>원</span>
+										</td>
+									</tr>
+									
+									
+								</table>
+		
+									
+									
+							
                                     <!-- Submit error message-->
                                     <!---->
                                     <!-- This is what your users will see when there is-->
