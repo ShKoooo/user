@@ -269,11 +269,11 @@ public class GoodServlet extends MyUploadServlet {
 				return;
 			}
 
-			// 관리자가 아니면 메인으로
-			if (! mdto.getMemberId().equals(info.getMemberId())) { // 잘되나 봐야함
-				resp.sendRedirect(cp + "/main.do");
-				return;
-			}
+//			// 관리자가 아니면 메인으로
+//			if (! mdto.getMemberId().equals(info.getMemberId())) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
+//				resp.sendRedirect(cp + "/main.do");
+//				return;
+//			}
 
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
 

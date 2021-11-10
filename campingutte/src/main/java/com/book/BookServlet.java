@@ -44,6 +44,7 @@ public class BookServlet extends MyServlet{
 			// 객실리스트 (메인 글과 댓글 구분과 같은..?)
 			roomList(req,resp);
 		} else if (uri.indexOf("book1.do") != -1) {
+			// bookForm(req, resp);
 			// book 연결용
 			forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
 		}
@@ -51,12 +52,27 @@ public class BookServlet extends MyServlet{
 		// + 마이페이지 예약 취소/수정 추가..
 	}
 	
+	/*
+	Session
+	(1) ID
+	(2) NAME
+	(3) (ROLL)
+	(4) SrtDate 시작일
+	(5) EndDate 종료일
+	(6) Addr1 장소
+	(7) People 인원
+	(8) CampName 캠프장명
+	*/
+	
 	protected void campList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 리스트 (캠핑장 리스트 + 검색)
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
 		
 		String cp = req.getContextPath();
+		
+		// 세션객체. SrtDate 시작일, EndDate 종료일, Addr1 장소, People 인원, CampName 캠프장명
+		HttpSession session = req.getSession();
 		
 		try {
 			String page = req.getParameter("page");
@@ -83,6 +99,19 @@ public class BookServlet extends MyServlet{
 				keywordPeople = URLDecoder.decode(keywordPeople,"utf-8"); // 필요없음.
 				keywordCampName = URLDecoder.decode(keywordCampName,"utf-8");
 			}
+			
+			// 세션에 저장할 내용: SrtDate, EndDate, Addr1, People, CampName
+			SessionInfo info = (SessionInfo)session.getAttribute("member");
+						// 세션에 member이라는 이름으로 저장
+						// session.setAttribute("member", info);
+			
+			info.setSrtDate(keywordSrtDate);
+			info.setEndDate(keywordEndDate);
+			info.setAddr1(keywordAddr1);
+			info.setPeople(keywordPeople);
+			info.setCampName(keywordCampName);
+			
+			session.setAttribute("member", info);
 			
 			// 전체 캠핑장 개수
 			int campCount;
@@ -320,7 +349,7 @@ public class BookServlet extends MyServlet{
 	
 	protected void book(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 객실 글보기 + 예약정보 기입 (세부사항 작성)
-		// 예약정보 기입?
+		// 예약정보 기입? (--> bookForm)
 		// forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
 		
 		BookDAO dao = new BookDAO();
@@ -390,8 +419,31 @@ public class BookServlet extends MyServlet{
 		resp.sendRedirect(cp + "/book/roomList.do?" + query);
 	}
 	
+	/*
+	protected void bookForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 예약정보 입력
+		// 예약자명, 휴대폰번호, 이메일, 요청사항
+		BookDAO dao = new BookDAO();
+		MyUtil util = new MyUtil();
+		
+		// 글쓰기 폼 형태 필요 없음?
+	}
+	*/
+	
 	protected void bookSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 예약정보 작성 완료
+		// 예약정보 작성 완료 (저장)
+		BookDAO dao = new BookDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp);
+			// TODO
+		}
+		
 		forward(req, resp, "/WEB-INF/campingutte/book/book_ok.jsp");
 	}
 	

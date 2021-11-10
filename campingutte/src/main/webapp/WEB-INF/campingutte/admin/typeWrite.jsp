@@ -127,7 +127,7 @@ function sendOk() {
     }
   
 
-    f.action = "${pageContext.request.contextPath}/admin/campxTypeWrite_ok.do";
+    f.action = "${pageContext.request.contextPath}/admin/campTypeWrite_ok.do";
     f.submit();
 }
 
@@ -172,9 +172,13 @@ function changeType() {
 				<td>
 					<select name="selectType" class="selectField" onchange="changeType();">
 						<option value="">선택</option>
-						<option value="1.캠핑장">1.캠핑장</option>
-						<option value="2.글램핑">2.글램핑</option>
-						<option value="3.캠핑카">3.캠핑카</option>
+						<c:forEach var="dto" items="${list}">
+							<option value="${dto.typeNo}.${dto.typeNmae}">${dto.typeNo}.${dto.typeNmae}</option>
+							<!-- 
+							<option value="2.글램핑">2.글램핑</option>
+							<option value="3.캠핑카">3.캠핑카</option>
+							 -->
+						</c:forEach>
 						<option value="direct">직접입력</option>
 					</select>
 					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeNo}" style="width: 20%;" readonly="readonly"> 

@@ -96,10 +96,10 @@
 
 </style>
 <script type="text/javascript">
-function deleteBoard() {
+function deleteBoard(campNo) {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
-	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/goods/campDelete.do" + query;
+	    var query = "campNo="+campNo+"&page=${page}";
+	    var url = "${pageContext.request.contextPath}/admin/campDelete.do" + query;
     	location.href = url;
     }
 }
@@ -117,19 +117,21 @@ function deleteBoard() {
 	<form name="campList" method="post">
 		<table class="table">
 			<tr>
+				<th width="100">캠핑장번호</th>
 				<th width="150">캠핑장명</th>
 				<th width="250">전화번호</th>
-				<th width="200">유형</th>
+				<th width="150">유형</th>
 				<th>변경</th>
 			</tr>
 			<c:forEach var="dto" items="${list}">
 				<tr>
+					<td>${dto.campNo}</td>
 					<td>${dto.campName}</td>
 					<td>${dto.campTel}</td>
 					<td>${dto.typeNo}</td>
 					<td>
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?campNo=${dto.campNo}&page=${page}';">수정</button>
-						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+						<button type="button" class="btn" onclick="deleteBoard('${dto.campNo}');">삭제</button>
 					</td>
 				</tr>
 			</c:forEach>
