@@ -142,11 +142,11 @@ public class CampSiteDAO {
 		
 		try {
 			sql = "SELECT s.campNo, campName, campAddr1, campAddr2, campTel, campDetail, campAdd,"
-					+ " i.imgName, t.typeNo, t.typeName"
+					+ " imgName, t.typeNo, typeName"
 					+ " FROM campSite s"
 					+ " JOIN campType t ON s.typeNo = t.typeNo"
 					+ " JOIN campsiteImage i ON s.campNo = i.campNo"
-					+ " WHERE campNo = ?";
+					+ " WHERE s.campNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, campNo);

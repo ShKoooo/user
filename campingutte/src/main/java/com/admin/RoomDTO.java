@@ -9,7 +9,9 @@ public class RoomDTO {
 	private int extraPrice; // 초과인원 1박 요금
 	private String campNo; // 캠핑장 번호
 	private String roomDetail; /// 설명
-	
+	private int imgNum; // 이미지 번호
+	private String imgName; // 이미지 파일명
+	private String[] imageFiles; // 이미지 파일 받을 배열
 	
 	public String getRoomNo() {
 		return roomNo;
@@ -59,5 +61,23 @@ public class RoomDTO {
 	public void setRoomDetail(String roomDetail) {
 		this.roomDetail = roomDetail;
 	}
-		
+	public int getImgNum() {
+		return imgNum;
+	}
+	public void setImgNum(int imgNum) {
+		this.imgNum = imgNum;
+	}
+	public String getImgName() {
+		return imgName;
+	}
+	public void setImgName(String imgName) {
+		this.imgName = imgName;
+	}
+	public String[] getImageFiles() {
+		return imageFiles;
+	}
+	public void setImageFiles(String[] imageFiles) {
+		this.imageFiles = imageFiles;
+	}
+	
 }
