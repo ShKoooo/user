@@ -215,7 +215,7 @@ function deleteFile(fileNum) {
 		return;
 	}
 	
-	var query = "num=${dto.num}&fileNum=" + fileNum + "&page=${page}";
+	var query = "campNo=${dto.campNo}&fileNum=" + fileNum + "&page=${page}";
 	var url = "${pageContext.request.contextPath}/admin/deleteFile.do?" + query;
 	location.href = url;
 }
