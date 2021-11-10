@@ -108,6 +108,32 @@
 </style>
 
 <script type="text/javascript">
+function sendOk() {
+    var f = document.typeWriteForm;
+	var str;
+	
+    str = f.typeNo.value.trim();
+    if(!str) {
+        alert("유형번호를 입력하세요. ");
+        f.subject.focus();
+        return;
+    }
+
+    str = f.typeName.value.trim();
+    if(!str) {
+        alert("유형이름을 입력하세요. ");
+        f.content.focus();
+        return;
+    }
+  
+
+    f.action = "${pageContext.request.contextPath}/admin/campxTypeWrite_ok.do";
+    f.submit();
+}
+
+
+
+
 function changeType() {
     var f = document.typeWriteForm;
 	    

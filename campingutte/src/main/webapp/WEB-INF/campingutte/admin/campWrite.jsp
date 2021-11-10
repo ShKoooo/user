@@ -169,12 +169,7 @@ function sendOk() {
         return;
     }
     
-    str = f.campType.value.trim();
-    if(!str) {
-        alert("캠핑 유형을 입력하세요. (캠핑장, 카라반, 글램핑..etc) ");
-        f.campType.focus();
-        return;
-    }
+    
     
     f.action = "${pageContext.request.contextPath}/admin/${mode}_ok.do";
     f.submit();

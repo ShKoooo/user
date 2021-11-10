@@ -42,6 +42,29 @@ $(function(){
 		minDate:0, maxDate:"+5D"
 	});
 });
+
+// 인원수 증가
+$(function(){
+	$("body").on("click", ".btnPlus", function(){
+		var count = parseInt($(this).parent("div").find("input[type=text]").val());
+		count=count+1;
+		
+		$(this).parent("div").find("input[type=text]").val(count);
+	});
+});
+
+// 인원수 감소
+$(function(){
+	$("body").on("click", ".btnMinus", function(){
+		var count = parseInt($(this).parent("div").find("input[type=text]").val());
+		count=count-1;
+		if(count < 0) {
+			return false;
+		}
+		
+		$(this).parent("div").find("input[type=text]").val(count);
+	});
+});
 </script>
 <style type="text/css">
 
@@ -67,6 +90,18 @@ $(function(){
 		            <input type="text" id="checkOut" readonly="readonly" placeholder="체크아웃" class="form-control font-size-h5 font-weight-bolder">
 		            <input type="text" placeholder="지역" class="form-control font-size-h5 font-weight-bolder">
 		            <input type="text" placeholder="캠핑장명" class="form-control font-size-h5 font-weight-bolder">
+		            <div class="headCount" style="display: flex;">
+			            <span>성인</span>
+			            <button class="btnMinus">-</button>
+			            <input type="text" name="adult" id="adult" readonly="readonly" value="1">
+			            <button class="btnPlus">+</button>
+		            </div>
+		            <div class="headCount" style="display: flex;">
+			            <span>아동</span>
+			            <button class="btnMinus">-</button>
+			            <input type="text" name="kid" readonly="readonly" value="0">
+			            <button class="btnPlus">+</button>
+		            </div>
 		                <div class="d-flex align-items-center mt-lg-5 mb-4">
 		                    <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
 		                    <div class="ms-3">

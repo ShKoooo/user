@@ -96,7 +96,6 @@
 
 </style>
 <script type="text/javascript">
-<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
@@ -104,7 +103,7 @@ function deleteBoard() {
     	location.href = url;
     }
 }
-</c:if>
+
 
 </script>
 </head>
@@ -129,7 +128,7 @@ function deleteBoard() {
 					<td>${dto.campTel}</td>
 					<td>${dto.typeNo}</td>
 					<td>
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?num=${dto.num}&page=${page}';">수정</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?campNo=${dto.campNo}&page=${page}';">수정</button>
 						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
 					</td>
 				</tr>
