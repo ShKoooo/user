@@ -19,7 +19,7 @@ public class SessionInfo {
 	// 이하 검색관련 값
 	private String srtDate;
 	private String endDate;
-	private String addr;
+	private String addr1;
 	private String people; // 미입력 대비 String 형으로 저장 (필요시 int로 변경)
 	private String campName; // 검색	
 	
@@ -55,11 +55,11 @@ public class SessionInfo {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	public String getAddr() {
-		return addr;
+	public String getAddr1() {
+		return addr1;
 	}
-	public void setAddr(String addr) {
-		this.addr = addr;
+	public void setAddr1(String addr1) {
+		this.addr1 = addr1;
 	}
 	public String getPeople() {
 		return people;
