@@ -437,8 +437,39 @@ public class BookDAO {
 			sb.append("			AND");
 			sb.append("			bookEnddate >= TO_DATE(?,'YYYYMMDD')");
 			sb.append("		)");
-			sb.append("	AND maxPers >= '2'");
-			sb.append("");
+			sb.append("	AND maxPers >= ?");
+			sb.append("	)");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, keyword[1]);
+			pstmt.setString(2, keyword[0]);
+			
+			if (!keyword[2].equals("")) {
+				if (Integer.parseInt(keyword[2]) > 0) {
+					pstmt.setInt(3, Integer.parseInt(keyword[2]));
+				} else {
+					pstmt.setInt(3, 0);
+				}				
+			} else {
+				pstmt.setInt(3, 0);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				RoomDTO dto = new RoomDTO();
+				
+				dto.setRoomNo(rs.getString("roomNo"));
+				dto.setRoomName(rs.getString("roomName"));
+				dto.setStdPers(rs.getInt("stdPers"));
+				dto.setMaxPers(rs.getInt("maxPers"));
+				dto.setStdPrice(rs.getInt("stdPrice"));
+				dto.setExtraPrice(rs.getInt("extraPrice"));
+				dto.setCampNo(rs.getString("campNo"));
+				dto.setRoomDetail(rs.getString("roomDetail"));
+				
+				roomList.add(dto);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -461,6 +492,55 @@ public class BookDAO {
 	}
 	
 	// 게시물 보기 (객실)
+	public RoomDTO readRoom(String roomNo) {
+		RoomDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			sql = "SELECT roomNo, roomName, stdPers, maxPers, stdPrice, extraPrice, campNo, roomDetail"
+				+ " FROM room"
+				+ "	WHERE roomNo = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, roomNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				dto = new RoomDTO();
+				
+				dto.setRoomNo(rs.getString("roomNo"));
+				dto.setRoomName(rs.getString("roomName"));
+				dto.setStdPers(rs.getInt("stdPers"));
+				dto.setMaxPers(rs.getInt("maxPers"));
+				dto.setStdPrice(rs.getInt("stdPrice"));
+				dto.setExtraPrice(rs.getInt("extraPrice"));
+				dto.setCampNo(rs.getString("campNo"));
+				dto.setRoomDetail(rs.getString("roomDetail"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
 	
 	// 예약 수정
 	

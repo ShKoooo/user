@@ -9,7 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
+import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
@@ -27,7 +29,7 @@ public class BookServlet extends MyServlet{
 			// 캠핑장 리스트 (캠핑장 리스트 + 검색)
 			campList(req,resp);
 		} else if (uri.indexOf("campArticle.do") != -1) {
-			// 캠핑장 글보기 (캠핑장 상세정보 + 객실리스트)
+			// 캠핑장 글보기 (캠핑장 상세정보 + (x)객실리스트(x) )
 			campArticle(req,resp);
 		} else if (uri.indexOf("book.do") != -1) {
 			// 객실 글보기 + 예약정보 기입 (세부사항 작성)
@@ -38,6 +40,12 @@ public class BookServlet extends MyServlet{
 		} else if (uri.indexOf("confirm.do") != -1) {
 			// 예약확인서 출력
 			bookConfirm(req, resp);
+		} else if (uri.indexOf("roomList.do") != -1) {
+			// 객실리스트 (메인 글과 댓글 구분과 같은..?)
+			roomList(req,resp);
+		} else if (uri.indexOf("book1.do") != -1) {
+			// book 연결용
+			forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
 		}
 		// + TODO: 댓글형태의 객실리스트 추가..
 		// + 마이페이지 예약 취소/수정 추가..
@@ -166,7 +174,7 @@ public class BookServlet extends MyServlet{
 	}
 	
 	protected void campArticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 캠핑장 글보기 (캠핑장 상세정보 + 객실리스트)
+		// 캠핑장 글보기 (캠핑장 상세정보 + 객실리스트(?) )
 		// TODO: 객실리스트
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
@@ -197,7 +205,7 @@ public class BookServlet extends MyServlet{
 				{keywordSrtDate,keywordEndDate,keywordAddr1,keywordPeople,keywordCampName};
 			// String query = "";
 			if (keywordSrtDate.length() != 0 || keywordEndDate.length() != 0) {
-				query += "srtDate="+URLEncoder.encode(keyword[0], "utf-8")
+				query += "&srtDate="+URLEncoder.encode(keyword[0], "utf-8")
 					+"&endDate="+URLEncoder.encode(keyword[1], "utf-8");
 				
 				if (keyword[2].length() != 0) {
@@ -240,7 +248,7 @@ public class BookServlet extends MyServlet{
 	// AJAX - Text
 	protected void roomList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 객실리스트 (??)
-		// BoardSerlet - listReply 참고 (메인에 댓글 형태)
+		// study4/bbs/BoardSerlet - listReply 참고 (메인에 댓글 형태)
 		
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
@@ -285,16 +293,101 @@ public class BookServlet extends MyServlet{
 			int end = current_page * rows;
 			
 			List<RoomDTO> listRoom = dao.listRoom(campNo, keyword, start, end);
-			// TODO
-		} catch (Exception e) {
 			
+			for (RoomDTO dto : listRoom) {
+				dto.setRoomDetail(dto.getRoomDetail().replaceAll("\n","<br>"));
+			}
+			
+			String roomPaging = util.pagingMethod(current_page, roomTotal_page, "listPage");
+			
+			req.setAttribute("listRoom", listRoom);
+			req.setAttribute("pageNo", current_page);
+			req.setAttribute("roomCount", roomCount);
+			req.setAttribute("roomTotal_page", roomTotal_page);
+			req.setAttribute("roomPaging", roomPaging);
+			
+			forward(req,resp,"/WEB-INF/campingutte/bbs/roomList.jsp");
+			// campArticle,
+			// roomList 
+			
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
+		resp.sendError(405); //
 	}
 	
 	protected void book(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 객실 글보기 + 예약정보 기입 (세부사항 작성)
-		forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
+		// 예약정보 기입?
+		// forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
+		
+		BookDAO dao = new BookDAO();
+		MyUtil util = new MyUtil();
+		
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		String query = "page="+page;
+		
+		try {
+			// roomNo (읽어와야 함!)
+			String roomNo = req.getParameter("roomNo");
+			
+			// String condition = req.getParameter("condition");
+			String keywordSrtDate = req.getParameter("srtDate");
+			String keywordEndDate = req.getParameter("endDate");
+			// String keywordAddr1 = req.getParameter("addr1");
+			String keywordPeople = req.getParameter("people");
+			// String keywordCampName = req.getParameter("campName");
+			
+			keywordSrtDate = URLDecoder.decode(keywordSrtDate, "utf-8");
+			keywordEndDate = URLDecoder.decode(keywordEndDate, "utf-8");
+			// keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
+			keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
+			// keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");
+			
+			String [] keyword = 
+				{keywordSrtDate,keywordEndDate,keywordPeople}; // [0,1,2]
+			
+			if (keywordSrtDate.length() != 0 || keywordEndDate.length() != 0) {
+				query += "&srtDate="+URLEncoder.encode(keyword[0], "utf-8")
+					+"&endDate="+URLEncoder.encode(keyword[1], "utf-8");
+				
+				if (keyword[2].length() != 0) {
+					query += "&people="+URLEncoder.encode(keyword[2], "utf-8");
+				}
+			}
+			
+			// 객실 게시물 가져오기
+			RoomDTO dto = dao.readRoom(roomNo);
+			
+			if (dto == null) { // 객실 게시글 없으면
+				resp.sendRedirect(cp+"/book/campArticle.do"+query);
+				return;
+			}
+			dto.setRoomDetail(util.htmlSymbols(dto.getRoomDetail()));
+			
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("query", query);
+			
+			// 이전글,다음글 없음
+			
+			// 포워딩
+			forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
+			return;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/book/roomList.do?" + query);
 	}
 	
 	protected void bookSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
