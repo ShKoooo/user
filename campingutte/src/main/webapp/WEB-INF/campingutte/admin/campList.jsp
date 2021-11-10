@@ -98,8 +98,8 @@
 <script type="text/javascript">
 function deleteBoard(num) {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
-	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/goods/campDelete.do" + query;
+	    var query = "campNo=${dto.campNo}&page=${page}";
+	    var url = "${pageContext.request.contextPath}/admin/campDelete.do" + query;
     	location.href = url;
     }
 }
