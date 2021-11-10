@@ -51,6 +51,18 @@ public class BookServlet extends MyServlet{
 		// + 마이페이지 예약 취소/수정 추가..
 	}
 	
+	/*
+	Session
+	(1) ID
+	(2) NAME
+	(3) (ROLL)
+	(4) SrtDate 시작일
+	(5) EndDate 종료일
+	(6) Addr1 장소
+	(7) People 인원
+	(8) CampName 캠프장명
+	*/
+	
 	protected void campList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 리스트 (캠핑장 리스트 + 검색)
 		BookDAO dao = new BookDAO();
