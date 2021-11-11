@@ -168,7 +168,7 @@ public class BookDAO {
 				dto.setCampAddr2(rs.getString("campAddr2"));
 				dto.setCampTel(rs.getString("campTel"));
 				dto.setCampDetail(rs.getString("campDetail"));
-				dto.setTypeName(rs.getString("campTypeName"));
+				dto.setTypeName(rs.getString("typeName"));
 				
 				list.add(dto);
 			}
