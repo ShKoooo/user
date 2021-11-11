@@ -12,6 +12,7 @@ public class BookDTO {
 	private String bookDate;
 	private int people;
 	private String roomNo;
+	private String bookEmail;
 	
 	public String getBookNo() {
 		return bookNo;
@@ -78,5 +79,11 @@ public class BookDTO {
 	}
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
+	}
+	public String getBookEmail() {
+		return bookEmail;
+	}
+	public void setBookEmail(String bookEmail) {
+		this.bookEmail = bookEmail;
 	}
 }

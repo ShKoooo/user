@@ -32,10 +32,11 @@ public class BookServlet extends MyServlet{
 			// 캠핑장 글보기 (캠핑장 상세정보 + (x)객실리스트(x) )
 			campArticle(req,resp);
 		} else if (uri.indexOf("book.do") != -1) {
-			// 객실 글보기 + 예약정보 기입 (세부사항 작성)
+			// 객실 글보기 
+			// + 예약정보 기입 (세부사항 작성) ==> bookSubmit에서 (book_ok.do)
 			book(req, resp);
 		} else if (uri.indexOf("book_ok.do") != -1) {
-			// 예약정보 작성 완료
+			// 예약정보 작성/ 완료
 			bookSubmit(req, resp);
 		} else if (uri.indexOf("confirm.do") != -1) {
 			// 예약확인서 출력
@@ -365,7 +366,8 @@ public class BookServlet extends MyServlet{
 	}
 	
 	protected void book(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 객실 글보기 + 예약정보 기입 (세부사항 작성)
+		// 객실 글보기
+		// + 예약정보 기입 (세부사항 작성) --> bookSubmit에서..
 		// 예약정보 기입? (--> bookForm)
 		// forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
 		
@@ -455,7 +457,7 @@ public class BookServlet extends MyServlet{
 	*/
 	
 	protected void bookSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 예약정보 작성 완료 (저장)
+		// 예약정보 작성 완료 (저장) -- 예약완료 (예약확인서 출력으로 넘어가기)
 		BookDAO dao = new BookDAO();
 		
 		HttpSession session = req.getSession();
@@ -475,10 +477,11 @@ public class BookServlet extends MyServlet{
 			// bookNo
 			// bookName, bookTel, bookSrtdate, bookEnddate, bookRequest
 			// totalPrice, memberId, bookDate, people, roomNo
+			// bookEmail
 			
 			// 세션에 저장된 정보 불러오기
 			// memberName, srtdate, enddate, memberId, people, roomNo
-			dto.setBookName(info.getMemberName()); // -> if문
+			// dto.setBookName(info.getMemberName()); // 세션에서 불러올 필요 없음..
 			dto.setBookSrtdate(info.getSrtDate());
 			dto.setBookEnddate(info.getEndDate());
 			dto.setMemberId(info.getMemberId());
@@ -488,18 +491,47 @@ public class BookServlet extends MyServlet{
 			// 세션에 저장되지 않은 정보 불러오기
 			// bookTel,
 			// 전화번호, 이메일, 예약요청사항
-			// TODO: DB 테이블수정..
+			// 세션에서 받은 이름: 멤버 이름!
+			// jsp에서 받은 이름: 예약 이름 (멤버 이름과 다를 수 있음...)
 			
+			dto.setBookName(req.getParameter("name"));
+			dto.setBookTel(req.getParameter("phone"));
+			dto.setBookEmail(req.getParameter("email"));
+			dto.setBookRequest(req.getParameter("message"));
 			
+			// book DB입력
+			dao.insertBook(dto);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		forward(req, resp, "/WEB-INF/campingutte/book/book_ok.jsp");
+		
+		// forward(req, resp, "/WEB-INF/campingutte/book/book_ok.jsp");
+		
+		// 버튼?눌렀을 때 예약확인서로...
+		// 아니면 그냥?
+		// forward(req, resp, "/WEB-INF/campingutte/book/confirm.jsp");
+		resp.sendRedirect(cp+"/book/confirm.do");
 	}
 	
 	protected void bookConfirm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 예약확인서 출력
+		BookDAO dao = new BookDAO();
+		MyUtil util = new MyUtil();
+		
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		try {
+			// TODO
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// Redirect 처리
+		// TODO
 	}
 }

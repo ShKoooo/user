@@ -542,6 +542,71 @@ public class BookDAO {
 		return dto;
 	}
 	
+	// 예약정보 입력
+	public int insertBook(BookDTO dto) throws SQLException{
+		int result = 0;
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+		
+		try {
+			// 이름, 전화번호, 이메일
+			sql = "SELECT memberName, memberTel, memberEmail"
+				+ " FROM member"
+				+ " WHERE memberId = ?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getMemberId());
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				dto.setBookName((dto.getBookName()==null||dto.getBookName().equals(""))?rs.getString("memberName"):dto.getBookName());
+				dto.setBookTel((dto.getBookTel()==null||dto.getBookTel().equals(""))?rs.getString("memberTel"):dto.getBookTel());
+				dto.setBookEmail((dto.getBookEmail()==null||dto.getBookEmail().equals(""))?rs.getString("memberEmail"):dto.getBookEmail());				
+			}
+			
+			rs.close();
+			pstmt.close();
+			
+			sql = "INSERT INTO book(bookNo, bookName, bookTel, bookSrtdate, bookEnddate,"
+				+ " bookRequest, totalPrice, memberId, bookDate, people, roomNo)"
+				+ " VALUES (book_seq.NEXTVAL, ?,		?,		?,			?"
+				+ " ?,			?,			?,			SYSDATE,		?,		?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getBookName());
+			pstmt.setString(2, dto.getBookTel());
+			pstmt.setString(3, dto.getBookSrtdate());
+			pstmt.setString(4, dto.getBookEnddate());
+			pstmt.setString(5, dto.getBookRequest());
+			pstmt.setInt(6, dto.getTotalPrice());
+			pstmt.setString(7, dto.getMemberId());
+			pstmt.setInt(8, dto.getPeople());
+			pstmt.setString(9, dto.getRoomNo());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
+	
 	// 예약 수정
 	
 	// 예약 취소
