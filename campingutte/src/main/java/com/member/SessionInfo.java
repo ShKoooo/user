@@ -21,7 +21,8 @@ public class SessionInfo {
 	private String endDate;
 	private String addr1;
 	private String people; // 미입력 대비 String 형으로 저장 (필요시 int로 변경)
-	private String campName; // 검색	
+	private String campName; // 검색	캠핑장이름
+	private String roomNo;
 	
 	public String getMemberId() {
 		return memberId;
@@ -72,5 +73,11 @@ public class SessionInfo {
 	}
 	public void setCampName(String campName) {
 		this.campName = campName;
+	}
+	public String getRoomNo() {
+		return roomNo;
+	}
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
 	}
 }

@@ -44,8 +44,8 @@ public class BookServlet extends MyServlet{
 			// 객실리스트 (메인 글과 댓글 구분과 같은..?)
 			roomList(req,resp);
 		} else if (uri.indexOf("book1.do") != -1) {
-			// bookForm(req, resp);
-			// book 연결용
+			// bookForm(req, resp); // (X)
+			// book 연결용 (나중에 삭제)
 			forward(req, resp, "/WEB-INF/campingutte/book/book.jsp");
 		}
 		// + TODO: 댓글형태의 객실리스트 추가..
@@ -360,6 +360,8 @@ public class BookServlet extends MyServlet{
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
 		
+		
+		
 		String page = req.getParameter("page");
 		String query = "page="+page;
 		
@@ -399,6 +401,11 @@ public class BookServlet extends MyServlet{
 				resp.sendRedirect(cp+"/book/campArticle.do"+query);
 				return;
 			}
+			
+			info.setRoomNo(roomNo);
+			
+			session.setAttribute("member", info);
+			
 			dto.setRoomDetail(util.htmlSymbols(dto.getRoomDetail()));
 			
 			// JSP로 전달할 속성
@@ -426,7 +433,7 @@ public class BookServlet extends MyServlet{
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
 		
-		// 글쓰기 폼 형태 필요 없음?
+		// 글쓰기 폼 형태 필요 없음
 	}
 	*/
 	
@@ -440,8 +447,33 @@ public class BookServlet extends MyServlet{
 		String cp = req.getContextPath();
 		
 		if (req.getMethod().equalsIgnoreCase("GET")) {
-			resp.sendRedirect(cp);
-			// TODO
+			resp.sendRedirect(cp+"/book/roomList.do"); // 객실 리스트로 리다이렉트
+			return;
+		}
+		
+		try {
+			BookDTO dto = new BookDTO();
+			
+			// bookNo
+			// bookName, bookTel, bookSrtdate, bookEnddate, bookRequest
+			// totalPrice, memberId, bookDate, people, roomNo
+			
+			// 세션에 저장된 정보 불러오기
+			// memberName, srtdate, enddate, memberId, people, roomNo
+			dto.setBookName(info.getMemberName()); // -> if문
+			dto.setBookSrtdate(info.getSrtDate());
+			dto.setBookEnddate(info.getEndDate());
+			dto.setMemberId(info.getMemberId());
+			dto.setPeople(Integer.parseInt(info.getPeople()));
+			dto.setRoomNo(info.getRoomNo());
+			
+			// 세션에 저장되지 않은 정보 불러오기
+			// bookTel,
+			// 전화번호, 이메일, 예약요청사항
+			// TODO: DB 테이블수정..
+			
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		
 		forward(req, resp, "/WEB-INF/campingutte/book/book_ok.jsp");
