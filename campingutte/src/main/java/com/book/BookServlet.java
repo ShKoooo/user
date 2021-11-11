@@ -91,6 +91,23 @@ public class BookServlet extends MyServlet{
 			String keywordPeople = req.getParameter("people");
 			String keywordCampName = req.getParameter("campName");
 			
+			if (keywordSrtDate == null) {
+				keywordSrtDate = "";
+			}
+			if (keywordEndDate == null) {
+				keywordEndDate = "";
+			}
+			if (keywordAddr1 == null) {
+				keywordAddr1 = "";
+			}
+			if (keywordPeople == null) {
+				keywordPeople = "";
+			}
+			if (keywordCampName == null) {
+				keywordCampName = "";
+			}
+			
+			
 			// GET 방식 디코딩
 			if (req.getMethod().equalsIgnoreCase("GET")) {
 				keywordSrtDate = URLDecoder.decode(keywordSrtDate,"utf-8");
@@ -451,6 +468,7 @@ public class BookServlet extends MyServlet{
 			return;
 		}
 		
+		// book_seq
 		try {
 			BookDTO dto = new BookDTO();
 			
@@ -471,6 +489,8 @@ public class BookServlet extends MyServlet{
 			// bookTel,
 			// 전화번호, 이메일, 예약요청사항
 			// TODO: DB 테이블수정..
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -149,12 +149,7 @@ function sendOk() {
     var f = document.campWriteForm;
 	var str;
 	
-	 str = f.campNo.value.trim();
-	    if(!str) {
-	        alert("캠핑장 번호를 입력하세요. ");
-	        f.campNo.focus();
-	        return;
-	    }
+	
 	
     str = f.campName.value.trim();
     if(!str) {
@@ -210,12 +205,12 @@ function sendOk() {
 }
 
 <c:if test="${mode=='update'}">
-function deleteFile(fileNum) {
+function deleteFile(imgNum) {
 	if(! confirm("이미지를 삭제 하시겠습니까 ?")) {
 		return;
 	}
 	
-	var query = "campNo=${dto.campNo}&fileNum=" + fileNum + "&page=${page}";
+	var query = "campNo=${dto.campNo}&imgNum=" + imgNum + "&page=${page}";
 	var url = "${pageContext.request.contextPath}/admin/deleteFile.do?" + query;
 	location.href = url;
 }
@@ -331,27 +326,27 @@ $(function(){
 		<!--캠핑장번호시퀀스처리? -->
 			<tr class="campNo">
 				<td>캠핑장번호</td>
-				<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장 번호를 입력해주세요." value=""></td>
+				<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장 번호를 입력해주세요." value="${dto.campNo}"></td>
 			</tr>
 			
 			<tr class="campName">
 				<td>캠핑장이름</td>
-				<td><input type="text" name="campName" class="boxTF" placeholder="캠핑장 이름을 입력해주세요." value=""></td>
+				<td><input type="text" name="campName" class="boxTF" placeholder="캠핑장 이름을 입력해주세요." value="${dto.campName}"></td>
 			</tr>
 			
 			<tr class="campAddr1">
 				<td>기본주소</td>
-				<td><input type="text" name="campAddr1" class="boxTF" placeholder="필수입력 사항입니다." value=""></td>
+				<td><input type="text" name="campAddr1" class="boxTF" placeholder="필수입력 사항입니다." value="${dto.campAddr2}"></td>
 			</tr>
 			
 			<tr class="campAddr2">
 				<td>상세주소</td>
-				<td><input type="text" name="campAddr2" class="boxTF" placeholder="필수입력 사항입니다." value=""></td>
+				<td><input type="text" name="campAddr2" class="boxTF" placeholder="필수입력 사항입니다." value="${dto.campAddr2}"></td>
 			</tr>
 			
 			<tr class="campTel">
 				<td>전화번호</td>
-				<td><input type="text" name="campTel" class="boxTF" placeholder="필수입력 사항입니다." value=""></td>
+				<td><input type="text" name="campTel" class="boxTF" placeholder="필수입력 사항입니다." value="${dto.campTel}"></td>
 			</tr>
 			
 			<tr class="campDetail">
@@ -363,7 +358,7 @@ $(function(){
 			
 			<tr class="campAdd">
 				<td>부대시설</td>
-				<td><input type="text" name="campAdd" class="boxTF" placeholder="ex) 샤워장, 바베큐, 화장실 ..etc" value=""></td>
+				<td><input type="text" name="campAdd" class="boxTF" placeholder="ex) 샤워장, 바베큐, 화장실 ..etc" value="${dto.campAdd}"></td>
 			</tr>
 			<!--
 			<tr class="TypeNo">
@@ -418,7 +413,7 @@ $(function(){
 					<button type="reset" class="btn">다시입력</button>
 					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campList.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 					<c:if test="${mode=='update'}">
-						<input type="hidden" name="num" value="${dto.num}">
+						<input type="hidden" name="campNo" value="${dto.campNo}">
 						<input type="hidden" name="page" value="${page}">
 					</c:if>
 				</td>
