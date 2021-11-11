@@ -203,7 +203,7 @@ function sendOk() {
     f.submit();
 }
 
-<c:if test="${mode=='update'}">
+<c:if test="${mode=='roomUpdate'}">
 function deleteFile(imgNum) {
 	if(! confirm("이미지를 삭제 하시겠습니까 ?")) {
 		return;
@@ -372,10 +372,10 @@ $(function(){
 		<table class="table">
 			<tr>
 				<td align="center">
-					<button type="button" class="btn" onclick="sendOk();">등록</button>
+					<button type="button" class="btn" onclick="sendOk();">${mode=='roomUpdate'?'수정완료':'등록하기'}</button>
 					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomList.do';">${mode=='update'?'수정취소':'등록취소'}</button>
-					<c:if test="${mode=='update'}">
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomList.do';">${mode=='roomUpdate'?'수정취소':'등록취소'}</button>
+					<c:if test="${mode=='roomUpdate'}">
 						<input type="hidden" name="roomNo" value="${dto.roomNo}">
 						<input type="hidden" name="page" value="${page}">
 					</c:if>
