@@ -205,12 +205,12 @@ function sendOk() {
 }
 
 <c:if test="${mode=='update'}">
-function deleteFile(fileNum) {
+function deleteFile(imgNum) {
 	if(! confirm("이미지를 삭제 하시겠습니까 ?")) {
 		return;
 	}
 	
-	var query = "campNo=${dto.campNo}&fileNum=" + fileNum + "&page=${page}";
+	var query = "campNo=${dto.campNo}&imgNum=" + imgNum + "&page=${page}";
 	var url = "${pageContext.request.contextPath}/admin/deleteFile.do?" + query;
 	location.href = url;
 }

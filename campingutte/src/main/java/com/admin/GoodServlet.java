@@ -283,7 +283,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("listCampSiteImage", listCampSiteImage);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "campUpdate"); // 여기를 campUpdate로 고쳤더니 수정이 됐다
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/campWrite.jsp");
 			return;
@@ -694,7 +694,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("listRoomImage", listRoomImage);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "roomUpdate");
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
 			return;
