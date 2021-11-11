@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title> 캠핑어때 자유게시판 </title>
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
 
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
@@ -31,12 +33,12 @@
 </header>
 
 <main>
-	<div class="body-container" style="width: 700px;">
-		<div class="body-title">
-			<h3><i class="fas fa-chalkboard"></i> 게시판 </h3>
+	<div class="body-container" style="width: 850px; vertical-align: center; margin-left: 50px; margin-top: 60px;">
+		<div class="body-title" style="vertical-align: center;">
+			<h3><i class="fas fa-chalkboard" style="vertical-align: center;"></i> 게시판 </h3>
 		</div>
         
-		<table class="table table-border table-article">
+		<table class="table table-border table-article" style="vertical-align: center;">
 			<tr>
 				<td colspan="2" align="center">
 					${dto.commSubject}

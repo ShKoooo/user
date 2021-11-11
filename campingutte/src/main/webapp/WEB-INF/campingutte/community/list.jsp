@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title> 캠핑어때 자유게시판 </title>
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
 
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
@@ -106,7 +108,7 @@ function searchList() {
 				<tr>
 					<td>${dto.listNum}</td>
 					<td class="left">
-						<a href="${articleUrl}&num=${dto.commNo}">${dto.commSubject}</a>
+						<a href="${articleUrl}&commNo=${dto.commNo}">${dto.commSubject}</a>
 					</td>
 					<td>${dto.memberName}</td>
 					<td>${dto.commDate}</td>
@@ -151,9 +153,6 @@ function searchList() {
 <footer>
 	<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 </footer>
-<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
-
-
 
 </body>
 

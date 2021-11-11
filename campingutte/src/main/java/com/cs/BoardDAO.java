@@ -1,4 +1,4 @@
-package com.community;
+package com.cs;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.community.BoardDTO;
 import com.util.DBConn;
 
 public class BoardDAO {
@@ -52,7 +51,7 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) FROM community";
+			sql = "SELECT COUNT(*) FROM servCenter";
 			pstmt = conn.prepareStatement(sql);
 
 			rs = pstmt.executeQuery();
@@ -89,7 +88,7 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) FROM community b JOIN member m ON b.memberId = m.memberId ";
+			sql = "SELECT COUNT(*) FROM servCenter b JOIN member m ON b.memberId = m.memberId ";
 			if(condition.equals("all")) {
 				sql += "  WHERE INSTR(commSubject, ?) >= 1 OR INSTR(commContent, ?) >= 1 ";
 			} else if(condition.equals("commDate")) {
@@ -144,7 +143,7 @@ public class BoardDAO {
 			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
 			sb.append("         SELECT commNo, b.memberId, memberName, commSubject, commHitCount, ");
 			sb.append("               TO_CHAR(commDate, 'YYYY-MM-DD') commDate");
-			sb.append("         FROM community b ");
+			sb.append("         FROM servCenter b ");
 			sb.append("         JOIN member m ON b.memberId = m.memberId ");
 			sb.append("         ORDER BY commNo DESC ");
 			sb.append("     ) tb WHERE ROWNUM <= ? ");
@@ -200,7 +199,7 @@ public class BoardDAO {
 			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
 			sb.append("         SELECT commNo, b.memberId, memberName, commSubject, commHitCount, ");
 			sb.append("               TO_CHAR(commDate, 'YYYY-MM-DD') commDate ");
-			sb.append("         FROM community b ");
+			sb.append("         FROM servCenter b ");
 			sb.append("         JOIN member m ON b.memberId = m.memberId ");
 			if (condition.equals("all")) {
 				sb.append("     WHERE INSTR(commSubject, ?) >= 1 OR INSTR(commContent, ?) >= 1 ");
@@ -296,9 +295,9 @@ public class BoardDAO {
 
 		try {
 			// OriginalSql = SELECT commNo, b.memberId, memberName, commSubject, commContent, commDate, commHitCount,
-			// FROM community b  JOIN member m ON b.memberId=m.memberId  WHERE b.commNo = ? , Error Msg = ORA-00936:
+			// FROM servCenter b  JOIN member m ON b.memberId=m.memberId  WHERE b.commNo = ? , Error Msg = ORA-00936:
 			sql = "SELECT commNo, b.memberId, memberName, commSubject, commContent, commDate, commHitCount " 
-					+ " FROM community b "
+					+ " FROM servCenter b "
 					+ " JOIN member m ON b.memberId=m.memberId "
 					+ " WHERE b.commNo = ? ";
 			pstmt = conn.prepareStatement(sql);
@@ -378,14 +377,14 @@ public class BoardDAO {
 
 		try {
 			if (memberId.equals("admin")) {
-				sql = "DELETE FROM community WHERE commNo=?";
+				sql = "DELETE FROM servCenter WHERE commNo=?";
 				pstmt = conn.prepareStatement(sql);
 				
 				pstmt.setInt(1, commNo);
 				
 				result = pstmt.executeUpdate();
 			} else {
-				sql = "DELETE FROM community WHERE commNo=? AND memberId=?";
+				sql = "DELETE FROM servCenter WHERE commNo=? AND memberId=?";
 				
 				pstmt = conn.prepareStatement(sql);
 				

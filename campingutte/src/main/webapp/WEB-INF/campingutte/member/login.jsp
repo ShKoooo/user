@@ -9,7 +9,8 @@
 <title>캠핑어때 회원가입</title>
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
-
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
 <style type="text/css">
 main .container {
 	margin: 80px auto 50px;
@@ -139,9 +140,6 @@ function sendLogin() {
 	</div>
 </main>
 
-<footer>
-	<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
-</footer>
-<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
+<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 </body>
 </html>

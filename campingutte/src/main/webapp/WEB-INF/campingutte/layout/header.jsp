@@ -79,9 +79,9 @@
 	                            <li class="nav-item dropdown">
 	                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">고객센터</a>
 	                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
-	                                    <li><a class="dropdown-item" href="portfolio-overview.html">자주하는질문</a></li>
-	                                    <li><a class="dropdown-item" href="portfolio-item.html">FAQ</a></li>
-	                                    <li><a class="dropdown-item" href="portfolio-item.html">1:1상담</a></li>
+	                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/cs/faq.do">자주하는 질문</a></li>
+	                                    <li><a class="dropdown-item" href="portfolio-item.html">1:1 상담</a></li>
+	                                    <li><a class="dropdown-item" href="portfolio-item.html">고객센터 안내</a></li>
 	                                </ul>
 	                            </li>
 	                        </ul>

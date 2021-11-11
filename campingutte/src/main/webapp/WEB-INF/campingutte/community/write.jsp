@@ -9,6 +9,9 @@
 <title>캠핑어때 자유게시판 글쓰기</title>
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
+
 <style type="text/css">
 .table-form td {
 	padding: 7px 0;
@@ -78,7 +81,7 @@ function sendOk() {
 <main>
 	<div class="bodyclass" style="width: 90%;">
 		<div class="body-title">
-			<h3><i class="fas fa-chalkboard-teacher"></i> 질문과 답변 </h3>
+			<h3><i class="fas fa-chalkboard-teacher"></i> 글쓰기 </h3>
 		</div>
         
 		<form name="boardForm" method="post">
@@ -129,8 +132,6 @@ function sendOk() {
 <footer>
 	<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 </footer>
-<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
-
 
 
 
