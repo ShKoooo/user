@@ -451,6 +451,7 @@ public class BookServlet extends MyServlet{
 			return;
 		}
 		
+		// book_seq
 		try {
 			BookDTO dto = new BookDTO();
 			
@@ -471,6 +472,8 @@ public class BookServlet extends MyServlet{
 			// bookTel,
 			// 전화번호, 이메일, 예약요청사항
 			// TODO: DB 테이블수정..
+			
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
