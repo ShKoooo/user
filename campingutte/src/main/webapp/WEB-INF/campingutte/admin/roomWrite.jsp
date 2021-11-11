@@ -204,12 +204,12 @@ function sendOk() {
 }
 
 <c:if test="${mode=='update'}">
-function deleteFile(fileNum) {
+function deleteFile(imgNum) {
 	if(! confirm("이미지를 삭제 하시겠습니까 ?")) {
 		return;
 	}
 	
-	var query = "roomNo=${dto.roomNo}&fileNum=" + fileNum + "&page=${page}";
+	var query = "roomNo=${dto.roomNo}&imgNum=" + imgNum + "&page=${page}";
 	var url = "${pageContext.request.contextPath}/admin/deleteFile.do?" + query;
 	location.href = url;
 }
@@ -308,44 +308,44 @@ $(function(){
 			
 			<tr class="campNo">
 				<td>캠핑장번호</td>
-				<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장번호 입력해주세요"></td>
+				<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장번호 입력해주세요" value="${dto.campNo}"></td>
 			</tr>
 			
 			
 			<tr class="roomNo">
 				<td>객실번호</td>
-				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요"></td>
+				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}"></td>
 			</tr>
 			
 			<tr class="roomName">
 				<td>객실이름</td>
-				<td><input type="text" name="roomName" class="boxTF" placeholder="객실이름을 입력해주세요"></td>
+				<td><input type="text" name="roomName" class="boxTF" placeholder="객실이름을 입력해주세요" value="${dto.roomName}"></td>
 			</tr>
 			
 			<tr class="stdPers">
 				<td>기본예약인원</td>
-				<td><input type="text" name="stdPers" class="boxTF" placeholder="기본예약인원을 입력해주세요"></td>
+				<td><input type="text" name="stdPers" class="boxTF" placeholder="기본예약인원을 입력해주세요" value="${dto.stdPers}"></td>
 			</tr>
 			
 			<tr class="maxPers">
 				<td>최대예약인원</td>
-				<td><input type="text" name="maxPers" class="boxTF" placeholder="최대예약인원을 입력해주세요"></td>
+				<td><input type="text" name="maxPers" class="boxTF" placeholder="최대예약인원을 입력해주세요" value="${dto.maxPers}"></td>
 			</tr>
 			
 			<tr class="stdPrice">
 				<td>1박 기본요금</td>
-				<td><input type="text" name="stdPrice" class="boxTF" placeholder="1박 기본요금 사항입니다."></td>
+				<td><input type="text" name="stdPrice" class="boxTF" placeholder="1박 기본요금 사항입니다." value="${dto.stdPrice}"></td>
 			</tr>
 			
 			<tr class="extraPrice">
 				<td>초과인원요금</td>
-				<td><input type="text" name="extraPrice" class="boxTF" placeholder="초과인원요금을 입력해주세요"></td>
+				<td><input type="text" name="extraPrice" class="boxTF" placeholder="초과인원요금을 입력해주세요" value="${dto.extraPrice}"></td>
 			</tr>
 			
 			<tr class="roomDetail">
 				<td>설명</td>
 				<td>
-					<textarea name="roomDetail" class="boxTA"></textarea>
+					<textarea name="roomDetail" class="boxTA">${dto.roomDetail}</textarea>
 				</td>
 			</tr>
 			<tr> 

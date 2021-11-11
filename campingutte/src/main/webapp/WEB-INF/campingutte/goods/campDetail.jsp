@@ -20,7 +20,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
         <link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
-<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
+		<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
     </head>
     <body class="d-flex flex-column">
         <main class="flex-shrink-0">
