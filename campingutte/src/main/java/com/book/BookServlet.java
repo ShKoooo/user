@@ -526,12 +526,42 @@ public class BookServlet extends MyServlet{
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		try {
+			/*
+			keyword = URLDecoder.decode(keyword,"utf-8");
+			
+			if (keyword.length() != 0) {
+				query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
+			}
+			*/
+			
+			// book에서 가져오기 (==> 얘도 세션으로 처리해야 할 듯)..
 			// TODO
+			
+			// BookDTO dto = dao.readBook(BookNo); // 이거로 써야 함
+			BookDTO dto = dao.readBook("BookNo"); // 임시
+			
+			// 예약확인서가 없으면 메인으로 리턴.. 
+			if (dto==null) {
+				resp.sendRedirect(cp+"/");
+				return;
+			}
+			
+			dto.setBookRequest(util.htmlSymbols(dto.getBookRequest()));
+			
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			// req.setAttribute("query", query);
+			
+			// 예약확인서.jsp 로 포워딩
+			forward(req,resp,"/WEB-INF/campingutte/book/confirm.jsp");
+			return;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		// Redirect 처리
-		// TODO
+		resp.sendRedirect(cp+"/book/book.do");
+		// resp.sendRedirect(cp+"/book/book.do?"+query);
+		// TODO: 쿼리 추가 or 세션 수정
 	}
 }
