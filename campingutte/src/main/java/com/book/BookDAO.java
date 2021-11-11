@@ -142,6 +142,8 @@ public class BookDAO {
 	// 캠핑장 리스트
 	public List<CampSiteDTO> listCamp(int start, int end) {
 		List<CampSiteDTO> list = new ArrayList<CampSiteDTO>();
+		// List<CampsiteImageDTO> list2 = null;
+		List<CampsiteImageDTO> list2 = new ArrayList<CampsiteImageDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
@@ -169,6 +171,9 @@ public class BookDAO {
 				dto.setCampTel(rs.getString("campTel"));
 				dto.setCampDetail(rs.getString("campDetail"));
 				dto.setTypeName(rs.getString("typeName"));
+				
+				list2 = readCampImages(rs.getString("campNo"));
+				dto.setImages(list2);
 				
 				list.add(dto);
 			}
@@ -201,9 +206,15 @@ public class BookDAO {
 	 */
 	public List<CampSiteDTO> listCamp(int start, int end, String[] keyword) {
 		List<CampSiteDTO> list = new ArrayList<CampSiteDTO>();
+		// List<CampsiteImageDTO> list2 = null;
+		List<CampsiteImageDTO> list2 = new ArrayList<CampsiteImageDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
+		
+		String sql;
+		PreparedStatement pstmt2 = null;
+		ResultSet rs2 = null;
 		
 		if (keyword[0].equals("") || keyword[1].equals("")) { // 날짜미입력시 리턴 널
 			return list;
@@ -266,6 +277,9 @@ public class BookDAO {
 				dto.setCampDetail(rs.getString("campDetail"));
 				dto.setTypeName(rs.getString("campTypeName"));
 				
+				list2 = readCampImages(rs.getString("campNo"));
+				dto.setImages(list2);
+				
 				list.add(dto);
 			}
 		} catch (Exception e) {
@@ -284,6 +298,20 @@ public class BookDAO {
 				} catch (SQLException e) {
 				}
 			}
+			
+			if (rs2 != null) {
+				try {
+					rs2.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt2 != null) {
+				try {
+					pstmt2.close();
+				} catch (SQLException e) {
+				}
+			}
 		}
 		
 		return list;
@@ -291,6 +319,8 @@ public class BookDAO {
 	
 	// 게시물 보기 (캠핑장)
 	public CampSiteDTO readCamp (String campNo) {
+		// List<CampsiteImageDTO> list2 = null;
+		List<CampsiteImageDTO> list2 = new ArrayList<CampsiteImageDTO>();
 		CampSiteDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -319,6 +349,9 @@ public class BookDAO {
 				dto.setCampTel(rs.getString("campTel"));
 				dto.setCampDetail(rs.getString("campDetail"));
 				dto.setTypeName(rs.getString("typeName"));
+				
+				list2 = readCampImages(rs.getString("campNo"));
+				dto.setImages(list2);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -414,6 +447,8 @@ public class BookDAO {
 	// 검색조건 최신화 요망..
 	public List<RoomDTO> listRoom(String CampNo, String[] keyword, int start, int end) {
 		List<RoomDTO> roomList = new ArrayList<RoomDTO>();
+		// List<RoomImageDTO> list2 = null;
+		List<RoomImageDTO> list2 = new ArrayList<RoomImageDTO>();
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -468,7 +503,11 @@ public class BookDAO {
 				dto.setCampNo(rs.getString("campNo"));
 				dto.setRoomDetail(rs.getString("roomDetail"));
 				
-				roomList.add(dto);
+				// 객실 그림 가져오기
+				list2 = readRoomImages(rs.getString("roomNo"));
+				dto.setImages(list2);
+				
+				roomList.add(dto);				
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -498,6 +537,9 @@ public class BookDAO {
 		ResultSet rs = null;
 		String sql;
 		
+		// List<RoomImageDTO> list2 = null;
+		List<RoomImageDTO> list2 = new ArrayList<RoomImageDTO>();
+		
 		try {
 			sql = "SELECT roomNo, roomName, stdPers, maxPers, stdPrice, extraPrice, campNo, roomDetail"
 				+ " FROM room"
@@ -519,6 +561,10 @@ public class BookDAO {
 				dto.setExtraPrice(rs.getInt("extraPrice"));
 				dto.setCampNo(rs.getString("campNo"));
 				dto.setRoomDetail(rs.getString("roomDetail"));
+				
+				// 객실 그림 가져오기
+				list2 = readRoomImages(rs.getString("roomNo"));
+				dto.setImages(list2);
 			}
 			
 		} catch (Exception e) {
@@ -543,12 +589,13 @@ public class BookDAO {
 	}
 	
 	// 예약정보 입력
-	public int insertBook(BookDTO dto) throws SQLException{
+	public String insertBook(BookDTO dto) throws SQLException{
 		int result = 0;
 		
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
+		String bookNo = "";
 		
 		try {
 			// 이름, 전화번호, 이메일
@@ -569,10 +616,22 @@ public class BookDAO {
 			rs.close();
 			pstmt.close();
 			
+			/*
+			// SQL 쿼리 테스트
+			INSERT INTO book(bookNo, bookName, bookTel, bookSrtdate, bookEnddate,bookRequest, totalPrice, memberId, bookDate, people, roomNo)
+			VALUES (book_seq.NEXTVAL, '이이이','070','2021-12-01','2021-12-10', '없어',217000,'kim',SYSDATE,2,'c001r001');
+			
+			commit;
+			
+			select book_seq.currval from dual;
+			*/
+			
 			sql = "INSERT INTO book(bookNo, bookName, bookTel, bookSrtdate, bookEnddate,"
 				+ " bookRequest, totalPrice, memberId, bookDate, people, roomNo)"
-				+ " VALUES (book_seq.NEXTVAL, ?,		?,		?,			?"
+				+ " VALUES (book_seq.NEXTVAL, ?,		?,		?,			?,"
 				+ " ?,			?,			?,			SYSDATE,		?,		?)";
+			
+			// bookNo = dto.getMemberId()+
 			
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getBookName());
@@ -586,6 +645,23 @@ public class BookDAO {
 			pstmt.setString(9, dto.getRoomNo());
 			
 			result = pstmt.executeUpdate();
+			
+			if (result == 0) {
+				throw new SQLException("BOOK 테이블 쿼리입력 실패");
+			} else {
+				pstmt.close();
+			}
+			
+			// SELECT book_seq.CURRVAL FROM DUAL;
+			sql = "SELECT book_seq.CURRVAL FROM dual";
+			pstmt = conn.prepareStatement(sql);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				bookNo = rs.getString(1);
+			}
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw e;
@@ -604,7 +680,7 @@ public class BookDAO {
 			}
 		}
 		
-		return result;
+		return bookNo;
 	}
 	
 	// 예약확인서 출력 (예약정보 읽어오기)
@@ -663,6 +739,116 @@ public class BookDAO {
 		}
 		
 		return dto;
+	}
+	
+	// 캠핑장 이미지 가져오기 (TEMP)
+	public List<CampsiteImageDTO> readCampImages(String campNo) {
+		List<CampsiteImageDTO> list = new ArrayList<CampsiteImageDTO>();
+		
+		PreparedStatement pstmt2 = null;
+		ResultSet rs2 = null;
+		String sql;
+		
+		try {
+			// 그림 가져와서 dto에 저장하기
+			sql = "SELECT imgNum, imgName, campNo"
+				+ " FROM campsiteImage"
+				+ " WHERE campNo = ?";
+			
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setString(1, campNo);
+			
+			rs2 = pstmt2.executeQuery();
+			
+			// List<CampsiteImageDTO> list2 = new ArrayList<CampsiteImageDTO>();
+			while (rs2.next()) {
+				CampsiteImageDTO dto2 = new CampsiteImageDTO();
+				
+				dto2.setImgNum(rs2.getInt("imgNum"));
+				dto2.setImgName(rs2.getString("imgName"));
+				dto2.setCampNo(rs2.getString("campNo"));
+				
+				list.add(dto2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs2 != null) {
+				try {
+					rs2.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt2 != null) {
+				try {
+					pstmt2.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	// 객실 이미지 가져오기
+	public List<RoomImageDTO> readRoomImages(String roomNo) {
+		List<RoomImageDTO> list = new ArrayList<RoomImageDTO>();
+		
+		PreparedStatement pstmt2 = null;
+		ResultSet rs2 = null;
+		String sql;
+		
+		try {
+			// 그림 가져와서 dto에 저장하기
+			sql = "SELECT imgNum, imgName, roomNo, campNo"
+				+ " FROM roomImage"
+				+ " WHERE roomNo = ?";
+			
+			pstmt2 = conn.prepareStatement(sql);
+			pstmt2.setString(1, roomNo);
+			
+			rs2 = pstmt2.executeQuery();
+			
+			// List<CampsiteImageDTO> list2 = new ArrayList<CampsiteImageDTO>();
+			while (rs2.next()) {
+				RoomImageDTO dto2 = new RoomImageDTO();
+				
+				dto2.setImgNum(rs2.getInt("imgNum"));
+				dto2.setImgName(rs2.getString("imgName"));
+				dto2.setRoomNo(rs2.getString("roomNo"));
+				dto2.setCampNo(rs2.getString("campNo"));
+				
+				list.add(dto2);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs2 != null) {
+				try {
+					rs2.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt2 != null) {
+				try {
+					pstmt2.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return list;
+	}
+	
+	// 예약 갯수
+	public int bookCount(String memberId) {
+		int result  = 0;
+		
+		// TODO
+		
+		return result;
 	}
 	
 	// 예약 수정

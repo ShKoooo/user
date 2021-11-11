@@ -1,15 +1,18 @@
 package com.book;
 
+import java.util.List;
+
 public class CampSiteDTO {
 	private int listNum;
-	private String CampNo;
-	private String CampName;
-	private String CampAddr1;
-	private String CampAddr2;
-	private String CampTel;
-	private String CampDetail;
-	private String TypeNo;
-	private String TypeName;
+	private String campNo;
+	private String campName;
+	private String campAddr1;
+	private String campAddr2;
+	private String campTel;
+	private String campDetail;
+	private String typeNo;
+	private String typeName;
+	private List<CampsiteImageDTO> images;
 	// 캠핑장 이미지? (따로?) 
 	
 	public int getListNum() {
@@ -19,51 +22,57 @@ public class CampSiteDTO {
 		this.listNum = listNum;
 	}
 	public String getCampNo() {
-		return CampNo;
+		return campNo;
 	}
 	public void setCampNo(String campNo) {
-		CampNo = campNo;
+		this.campNo = campNo;
 	}
 	public String getCampName() {
-		return CampName;
+		return campName;
 	}
 	public void setCampName(String campName) {
-		CampName = campName;
+		this.campName = campName;
 	}
 	public String getCampAddr1() {
-		return CampAddr1;
+		return campAddr1;
 	}
 	public void setCampAddr1(String campAddr1) {
-		CampAddr1 = campAddr1;
+		this.campAddr1 = campAddr1;
 	}
 	public String getCampAddr2() {
-		return CampAddr2;
+		return campAddr2;
 	}
 	public void setCampAddr2(String campAddr2) {
-		CampAddr2 = campAddr2;
+		this.campAddr2 = campAddr2;
 	}
 	public String getCampTel() {
-		return CampTel;
+		return campTel;
 	}
 	public void setCampTel(String campTel) {
-		CampTel = campTel;
+		this.campTel = campTel;
 	}
 	public String getCampDetail() {
-		return CampDetail;
+		return campDetail;
 	}
 	public void setCampDetail(String campDetail) {
-		CampDetail = campDetail;
+		this.campDetail = campDetail;
 	}
 	public String getTypeNo() {
-		return TypeNo;
+		return typeNo;
 	}
 	public void setTypeNo(String typeNo) {
-		TypeNo = typeNo;
+		this.typeNo = typeNo;
 	}
 	public String getTypeName() {
-		return TypeName;
+		return typeName;
 	}
 	public void setTypeName(String typeName) {
-		TypeName = typeName;
+		this.typeName = typeName;
+	}
+	public List<CampsiteImageDTO> getImages() {
+		return images;
+	}
+	public void setImages(List<CampsiteImageDTO> images) {
+		this.images = images;
 	}
 }

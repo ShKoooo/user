@@ -1,27 +1,30 @@
 package com.book;
 
+import java.util.List;
+
 public class RoomDTO {
-	private String RoomNo;
-	private String RoomName;
+	private String roomNo;
+	private String roomName;
 	private int stdPers;
 	private int maxPers;
 	private int stdPrice;
 	private int extraPrice;
 	private String campNo;
 	private String roomDetail;
+	private List<RoomImageDTO> images;
 	// 객실이미지?
 	
 	public String getRoomNo() {
-		return RoomNo;
+		return roomNo;
 	}
 	public void setRoomNo(String roomNo) {
-		RoomNo = roomNo;
+		this.roomNo = roomNo;
 	}
 	public String getRoomName() {
-		return RoomName;
+		return roomName;
 	}
 	public void setRoomName(String roomName) {
-		RoomName = roomName;
+		this.roomName = roomName;
 	}
 	public int getStdPers() {
 		return stdPers;
@@ -58,5 +61,11 @@ public class RoomDTO {
 	}
 	public void setRoomDetail(String roomDetail) {
 		this.roomDetail = roomDetail;
+	}
+	public List<RoomImageDTO> getImages() {
+		return images;
+	}
+	public void setImages(List<RoomImageDTO> images) {
+		this.images = images;
 	}
 }
