@@ -73,18 +73,20 @@ public class GoodServlet extends MyUploadServlet {
 		}
 		
 				
-		  else if(uri.indexOf("roomList.do") != -1) {
+		  else if(uri.indexOf("roomList.do") != -1) { // 객실리스트
 			roomList(req, resp);
-		} else if(uri.indexOf("roomWrite.do") != -1) {
+		} else if(uri.indexOf("roomWrite.do") != -1) { // 객실 등록
 			roomWriteForm(req, resp);
-		} else if(uri.indexOf("roomWrite_ok.do") != -1) {
+		} else if(uri.indexOf("roomWrite_ok.do") != -1) { // 객실 등록
 			roomWriteSubmit(req, resp);
-		} else if(uri.indexOf("roomUpdate.do") != -1) {
+		} else if(uri.indexOf("roomUpdate.do") != -1) { // 객실 수정
 			roomUpdateForm(req, resp);
-		} else if(uri.indexOf("roomUpdate_ok.do") != -1) {
+		} else if(uri.indexOf("roomUpdate_ok.do") != -1) { // 객실 수정
 			roomUpdateSubmit(req, resp);
-		} else if(uri.indexOf("roomDelete.do") != -1) {
+		} else if(uri.indexOf("roomDelete.do") != -1) { // 객실 삭제
 			roomDelete(req, resp);
+		} else if (uri.indexOf("deleteRoomImgFile") != -1) { // 수정에서 이미지파일만 삭제
+			deleteRoomImgFile(req, resp);
 		} else if(uri.indexOf("roomArticle.do") != -1) { // 객실상세 글보기(클라이언트)
 			roomArticle(req, resp);
 		}
@@ -252,14 +254,14 @@ public class GoodServlet extends MyUploadServlet {
 		// 캠핑장 정보 수정 폼
 		CampSiteDAO dao = new CampSiteDAO();
 		
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo)session.getAttribute("member");
+//		HttpSession session = req.getSession();
+//		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
 		
 		try {
-			MemberDTO mdto = new MemberDTO();
+//			MemberDTO mdto = new MemberDTO();
 			
 			String campNo = req.getParameter("campNo");
 			CampSiteDTO dto = dao.readCampSite(campNo);
@@ -386,6 +388,7 @@ public class GoodServlet extends MyUploadServlet {
 	private void campDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 정보 삭제
 		CampSiteDAO dao = new CampSiteDAO();
+		RoomDAO rdao = new RoomDAO();
 		
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
@@ -399,6 +402,10 @@ public class GoodServlet extends MyUploadServlet {
 			
 			String campNo = req.getParameter("campNo");
 			CampSiteDTO dto = dao.readCampSite(campNo);
+			
+			// 이게 될까...1
+			String roomNo = req.getParameter("roomNo");
+			RoomDTO rdto = rdao.readRoom(roomNo);
 			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
@@ -417,8 +424,12 @@ public class GoodServlet extends MyUploadServlet {
 				FileManager.doFiledelete(pathname, vo.getImgName());
 			}
 			
+			// 이게 될까...2
 			// 객실 이미지 파일 지우기
-// ☆★☆★	☆여기 해야함★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★☆★	
+			List<RoomDTO> listRoomImage = rdao.listRoomImgFile(roomNo);
+			for (RoomDTO vo : listRoomImage) {
+				FileManager.doFiledelete(pathname, vo.getImgName());
+			}
 			
 			
 			// 테이블 데이터 삭제(객실이미지, 객실, 캠핑장이미지, 캠핑장 다 지워져야함)
@@ -541,8 +552,59 @@ public class GoodServlet extends MyUploadServlet {
 	
 	
 	
+	// 객실 리스트
 	private void roomList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+		RoomDAO dao = new RoomDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
+		
+		try {
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null) {
+				current_page = Integer.parseInt(page);
+			}
+			
+			// 전체 데이터 개수
+			int dataCount;
+			dataCount = dao.dataCount();
+			
+			// 전체 페이지 수
+			int rows = 10;
+			int total_page = util.pageCount(rows, dataCount);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+
+			// 게시물 가져오기
+			List<RoomDTO> list = null;
+			list = dao.listRoom(start, end);
+
+			// 페이징 처리
+			String listUrl = cp + "/admin/roomList.do";
+			String articleUrl = cp + "/admin/roomArticle.do?page=" + current_page;
+
+			
+			String paging = util.paging(current_page, total_page, listUrl);
+
+			// 포워딩할 JSP에 전달할 속성
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP로 포워딩
+		forward(req, resp, "/WEB-INF/campingutte/admin/roomList.jsp"); // 경로는 룸리스트로???
 	}
 	
 	private void roomWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -552,23 +614,292 @@ public class GoodServlet extends MyUploadServlet {
 	}
 	
 	private void roomWriteSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 객실 등록 완료
+		RoomDAO dao = new RoomDAO();
 		
+		// 관리자 정보 확인
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		if(req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/main/main.do"); // 경로 바꿀듯
+			return;
+		}
+		
+		try {
+			MemberDTO mdto = new MemberDTO();
+			RoomDTO dto = new RoomDTO();
+			
+			mdto.setMemberId(info.getMemberId());
+			
+			// 등록받을 파라미터들 (name으로 받아옴)
+			dto.setRoomNo(req.getParameter("roomNo"));
+			dto.setStdPers(Integer.parseInt(req.getParameter("stdPers")));
+			dto.setMaxPers(Integer.parseInt(req.getParameter("maxPers")));
+			dto.setStdPrice(Integer.parseInt(req.getParameter("stdPrice")));
+			dto.setExtraPrice(Integer.parseInt(req.getParameter("extraPrice")));
+			dto.setCampNo(req.getParameter("campNo"));
+			dto.setRoomDetail(req.getParameter("roomDetail"));
+			dto.setRoomName(req.getParameter("roomName"));
+			
+			
+			// 이미지 첨부
+			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
+			if (map != null) {
+				String[] saveFiles = map.get("saveFilenames");
+				dto.setImageFiles(saveFiles);
+			}
+			
+			dao.insertRoom(dto);
+			dao.insertRoomImage(dto);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/admin/roomList.do");
 	}
 	
 	private void roomUpdateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 객실 정보 수정 폼
+		RoomDAO dao = new RoomDAO();
 		
+//		HttpSession session = req.getSession();
+//		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String cp = req.getContextPath();
+		String page = req.getParameter("page");
+		
+		try {
+//			MemberDTO mdto = new MemberDTO();
+			
+			String roomNo = req.getParameter("roomNo");
+			RoomDTO dto = dao.readRoom(roomNo);
+
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
+				return;
+			}
+
+//			// 관리자가 아니면 메인으로
+//			if (! mdto.getMemberId().equals(info.getMemberId())) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
+//				resp.sendRedirect(cp + "/main.do");
+//				return;
+//			}
+
+			List<RoomDTO> listRoomImage = dao.listRoomImgFile(roomNo);
+
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("listRoomImage", listRoomImage);
+
+			req.setAttribute("mode", "update");
+
+			forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
+			return;
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);		
 	}
 	
 	private void roomUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 완료
+		RoomDAO dao = new RoomDAO();
 		
+		String cp = req.getContextPath();
+		if (req.getMethod().equalsIgnoreCase("GET")) {
+			resp.sendRedirect(cp + "/admin/roomList.do");
+			return;
+		}
+
+		String page = req.getParameter("page");
+
+		try {
+			RoomDTO dto = new RoomDTO();
+
+			// 우선 입력한거 다 수정 가능하게 해둠
+			// 등록받을 파라미터들 (name으로 받아옴)
+			dto.setRoomNo(req.getParameter("roomNo"));
+			dto.setStdPers(Integer.parseInt(req.getParameter("stdPers")));
+			dto.setMaxPers(Integer.parseInt(req.getParameter("maxPers")));
+			dto.setStdPrice(Integer.parseInt(req.getParameter("stdPrice")));
+			dto.setExtraPrice(Integer.parseInt(req.getParameter("extraPrice")));
+			dto.setCampNo(req.getParameter("campNo"));
+			dto.setRoomDetail(req.getParameter("roomDetail"));
+			dto.setRoomName(req.getParameter("roomName"));
+			
+			
+			// 이미지 첨부
+			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
+			if (map != null) {
+				String[] saveFiles = map.get("saveFilenames");
+				dto.setImageFiles(saveFiles);
+			}
+			
+			dao.updateRoom(dto);
+			dao.updateRoomImage(dto);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
 	}
 	
 	private void roomDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 객실 정보 삭제
+		RoomDAO dao = new RoomDAO();
 		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		String cp = req.getContextPath();
+		
+		String page = req.getParameter("page");
+
+		try {
+			MemberDTO mdto = new MemberDTO();
+			
+			String roomNo = req.getParameter("roomNo");
+			RoomDTO dto = dao.readRoom(roomNo);
+			
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
+				return;
+			}
+
+			// 게시물을 올린 사용자가 아니면
+			if (! mdto.getMemberId().equals(info.getMemberId())) {
+				resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
+				return;
+			}
+
+			// 객실 이미지 파일 지우기
+			List<RoomDTO> listRoomImage = dao.listRoomImgFile(roomNo);
+			for (RoomDTO vo : listRoomImage) {
+				FileManager.doFiledelete(pathname, vo.getImgName());
+			}	
+			
+			
+			// 테이블 데이터 삭제(객실이미지, 객실 다 지워져야함)
+			dao.deleteRoom(roomNo, info.getMemberId());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);		
 	}
 	
-	private void roomArticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private void deleteRoomImgFile(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정에서 객실 이미지 파일만 삭제
+		RoomDAO dao = new RoomDAO();
 		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		String cp = req.getContextPath();
+
+		String page = req.getParameter("page");
+
+		try {
+			MemberDTO mdto = new MemberDTO();
+			
+			String roomNo = req.getParameter("roomNo");
+			RoomDTO dto = dao.readRoom(roomNo);
+			
+			// 얘 되나 보자☆★☆★☆★☆★☆★☆★☆★
+//			int imgNum = dto.getImgNum(); // 이미지 번호는 시퀀스라서 파라미터로 못가져와서 dto로 해보는데...제발됐으면...ㅎ
+			int imgNum = Integer.parseInt(req.getParameter("imgNum"));
+
+			if (dto == null) {
+				resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
+				return;
+			}
+
+			if (! info.getMemberId().equals(mdto.getMemberId())) {
+				resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
+				return;
+			}
+			
+			List<RoomDTO> listRoomImage = dao.listRoomImgFile(roomNo);
+
+			for (RoomDTO vo : listRoomImage) {
+				if (vo.getImgNum() == imgNum) {
+					// 파일삭제
+					FileManager.doFiledelete(pathname, vo.getImgName());
+					dao.deleteRoomImage(imgNum);
+					listRoomImage.remove(vo);
+					break;
+				}
+			}
+
+			req.setAttribute("dto", dto);
+			req.setAttribute("listRoomImage", listRoomImage);
+			req.setAttribute("page", page);
+
+			req.setAttribute("mode", "update");
+
+			forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
+	}	
+	
+	private void roomArticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 객실 글보기 (클라이언트)
+		RoomDAO dao = new RoomDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
+		
+//		HttpSession session = req.getSession();
+//		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		// 검색 리스트로??		
+		String page = req.getParameter("page");
+		String query = "page=" + page;
+		
+		try {
+			//int num = Integer.parseInt(req.getParameter("num"));
+			String roomNo = req.getParameter("roomNo");
+			
+			// 게시물 가져오기
+			RoomDTO dto = dao.readRoom(roomNo);
+			if (dto == null) { // 게시물이 없으면 다시 캠핑상세로(주소 article인지 detail인지 확인하기)
+				resp.sendRedirect(cp + "/admin/campDetail.do?" + query);
+//				resp.sendRedirect(cp + "/main.do");
+				return;
+			}		
+			dto.setRoomDetail(util.htmlSymbols(dto.getRoomDetail()));
+
+			
+			// 객실 이미지 파일 리스트
+			List<RoomDTO> listFile = dao.listRoomImgFile(roomNo);
+			
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("query", query);
+			req.setAttribute("listFile", listFile);
+			
+			
+			// 포워딩
+			forward(req, resp, "/WEB-INF/campingutte/goods/roomDetail.jsp"); // 객실상세 주소 알아보고 넣기.
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		resp.sendRedirect(cp + "/admin/campDetail.do?" + query); // 경로 어디로 하지..?
+//		resp.sendRedirect(cp + "/main.do");		
 	}
 	
 }
