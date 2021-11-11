@@ -1,20 +1,14 @@
 package com.goods;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.member.MemberDTO;
-import com.member.SessionInfo;
-import com.util.FileManager;
 import com.util.MyUploadServlet;
 import com.util.MyUtil;
 
@@ -23,14 +17,14 @@ import com.util.MyUtil;
 public class GoodServlet extends MyUploadServlet {
 	private static final long serialVersionUID = 1L;
 
-	private String pathname;
+//	private String pathname;
 	
 	@Override
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		
 		String uri = req.getRequestURI();
-		String cp = req.getContextPath();
+//		String cp = req.getContextPath();
 
 // 캠핑장, 객실 상세 페이지는 비회원도 볼 수 있어야 하므로 세션처리 뺌.
 //		HttpSession session = req.getSession();
