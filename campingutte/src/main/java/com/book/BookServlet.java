@@ -91,6 +91,23 @@ public class BookServlet extends MyServlet{
 			String keywordPeople = req.getParameter("people");
 			String keywordCampName = req.getParameter("campName");
 			
+			if (keywordSrtDate == null) {
+				keywordSrtDate = "";
+			}
+			if (keywordEndDate == null) {
+				keywordEndDate = "";
+			}
+			if (keywordAddr1 == null) {
+				keywordAddr1 = "";
+			}
+			if (keywordPeople == null) {
+				keywordPeople = "";
+			}
+			if (keywordCampName == null) {
+				keywordCampName = "";
+			}
+			
+			
 			// GET 방식 디코딩
 			if (req.getMethod().equalsIgnoreCase("GET")) {
 				keywordSrtDate = URLDecoder.decode(keywordSrtDate,"utf-8");
