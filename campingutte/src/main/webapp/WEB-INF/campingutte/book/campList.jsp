@@ -165,9 +165,6 @@ function searchList(){
 									<tr>
 										<td>${dto.campNo}</td>
 										<td>${dto.campName}</td>
-										<td>${dto.userName}</td>
-										<td>${dto.reg_date}</td>
-										<td>${dto.hitCount}</td>
 									</tr>
 								</c:forEach>
 								</table>
