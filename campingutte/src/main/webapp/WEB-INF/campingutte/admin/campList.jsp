@@ -119,16 +119,16 @@ function deleteBoard(campNo) {
 			<tr>
 				<th width="100">캠핑장번호</th>
 				<th width="150">캠핑장명</th>
-				<th width="250">전화번호</th>
-				<th width="150">유형</th>
+				<th width="150">유형번호</th>
+				<th width="250">유형이름</th>
 				<th>변경</th>
 			</tr>
 			<c:forEach var="dto" items="${list}">
 				<tr>
 					<td>${dto.campNo}</td>
 					<td>${dto.campName}</td>
-					<td>${dto.campTel}</td>
 					<td>${dto.typeNo}</td>
+					<td>${dto.typeName}</td>
 					<td>
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?campNo=${dto.campNo}&page=${page}';">수정</button>
 						<button type="button" class="btn" onclick="deleteBoard('${dto.campNo}');">삭제</button>

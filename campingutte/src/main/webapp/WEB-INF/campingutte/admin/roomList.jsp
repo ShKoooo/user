@@ -94,15 +94,14 @@
 
 </style>
 <script type="text/javascript">
-<c:if test="${sessionScope.member.userId==dto.userId || sessionScope.member.userId=='admin'}">
-function deleteBoard() {
+
+function deleteBoard(roomNo) {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
-	    var query = "num=${dto.num}&page=${page}";
+	    var query = "roomNo="+roomNo"&page=${page}";
 	    var url = "${pageContext.request.contextPath}/admin/roomDelete.do" + query;
     	location.href = url;
     }
 }
-</c:if>
 
 </script>
 </head>
@@ -116,20 +115,22 @@ function deleteBoard() {
 	<form name="roomList" method="post">
 		<table class="table">
 			<tr>
+				<th width="150">객실번호</th>
 				<th width="150">객실이름</th>
-				<th width="250">기준인원/최대인원</th>
+				<th width="150">기준인원</th>
 				<th width="200">1박당 객실 요금</th>
 				<th>변경</th>
 			</tr>
 			
 			<c:forEach var="dto" items="${list}">
 				<tr>
+					<td>${dto.roomNo}</td>
 					<td>${dto.roomName}</td>
-					<td>${dto.stdPers}/${dto.maxPers}</td>
+					<td>${dto.stdPers}</td>
 					<td>${dto.stdPrice}</td>
 					<td>
-						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomUpdate.do?num=${dto.num}&page=${page}';">수정</button>
-						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/roomUpdate.do?roomNo=${dto.roomNo}&page=${page}';">수정</button>
+						<button type="button" class="btn" onclick="deleteBoard('${dto.roomNo}');">삭제</button>
 					</td>
 				</tr>
 			</c:forEach>
