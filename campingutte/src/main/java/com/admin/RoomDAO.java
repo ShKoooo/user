@@ -264,7 +264,7 @@ public class RoomDAO {
 			sql = "SELECT r.roomNo, stdPers, maxPers, stdPrice, extraPrice,"
 					+ " r.campNo, roomDetail, roomName, imgName"
 					+ " FROM room r"
-					+ " JOIN roomImage i ON r.roomNo = i.roomNo"
+					+ " LEFT OUTER JOIN roomImage i ON r.roomNo = i.roomNo"
 					+ " WHERE r.roomNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);

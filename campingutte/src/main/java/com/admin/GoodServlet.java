@@ -395,9 +395,7 @@ public class GoodServlet extends MyUploadServlet {
 		
 		String page = req.getParameter("page");
 
-		try {
-			// MemberDTO mdto = new MemberDTO();
-			
+		try {			
 			String campNo = req.getParameter("campNo");
 			CampSiteDTO dto = dao.readCampSite(campNo);
 			
@@ -415,12 +413,14 @@ public class GoodServlet extends MyUploadServlet {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
 				return;
 			}
+			
 
 			// 캠핑장 이미지 파일 지우기
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
 			for (CampSiteDTO vo : listCampSiteImage) {
 				FileManager.doFiledelete(pathname, vo.getImgName());
 			}
+			
 			
 			// 이게 될까...2
 			// 객실 이미지 파일 지우기
