@@ -145,7 +145,7 @@ public class CampSiteDAO {
 					+ " imgName, t.typeNo, typeName"
 					+ " FROM campSite s"
 					+ " JOIN campType t ON s.typeNo = t.typeNo"
-					+ " JOIN campsiteImage i ON s.campNo = i.campNo"
+					+ " LEFT OUTER JOIN campsiteImage i ON s.campNo = i.campNo"
 					+ " WHERE s.campNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);
