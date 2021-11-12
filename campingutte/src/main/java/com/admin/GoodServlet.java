@@ -281,7 +281,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("listCampSiteImage", listCampSiteImage);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "campUpdate");
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/campWrite.jsp");
 			return;
@@ -486,7 +486,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("listCampSiteImage", listCampSiteImage);
 			req.setAttribute("page", page);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "campUpdate"); // 캠프업데이트? 업데이트?
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/campWrite.jsp");
 			return;
@@ -692,7 +692,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("page", page);
 			req.setAttribute("listRoomImage", listRoomImage);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "roomUpdate");
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
 			return;
@@ -840,7 +840,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("listRoomImage", listRoomImage);
 			req.setAttribute("page", page);
 
-			req.setAttribute("mode", "update");
+			req.setAttribute("mode", "roomUpdate"); // 업데이트? 룸업데이트?
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
 			return;
