@@ -8,6 +8,9 @@
 <link rel="stylesheet" href="resource/css/styles.css">
 <script src="resource/js/scripts.js"></script>
 
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
+
 <meta charset="UTF-8">
 
 <title>Insert title here</title>

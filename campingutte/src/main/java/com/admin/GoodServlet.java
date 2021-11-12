@@ -254,15 +254,13 @@ public class GoodServlet extends MyUploadServlet {
 		// 캠핑장 정보 수정 폼
 		CampSiteDAO dao = new CampSiteDAO();
 		
-//		HttpSession session = req.getSession();
-//		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
 		
 		try {
-//			MemberDTO mdto = new MemberDTO();
-			
 			String campNo = req.getParameter("campNo");
 			CampSiteDTO dto = dao.readCampSite(campNo);
 
@@ -271,11 +269,11 @@ public class GoodServlet extends MyUploadServlet {
 				return;
 			}
 
-//			// 관리자가 아니면 메인으로
-//			if (! mdto.getMemberId().equals(info.getMemberId())) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
-//				resp.sendRedirect(cp + "/main.do");
-//				return;
-//			}
+			// 관리자가 아니면 메인으로
+			if (! info.getMemberId().equals("admin")) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
+				resp.sendRedirect(cp + "/main.do");
+				return;
+			}
 
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
 
