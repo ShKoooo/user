@@ -326,7 +326,12 @@ $(function(){
 		<!--캠핑장번호시퀀스처리? -->
 			<tr class="campNo">
 				<td>캠핑장번호</td>
-				<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장 번호를 입력해주세요." value="${dto.campNo}"></td>
+				<c:if test="${mode=='campUpdate'}">
+					<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장 번호를 입력해주세요." value="${dto.campNo}" readonly="readonly"></td>
+				</c:if>
+				<c:if test="${mode=='campWrite'}">
+					<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장 번호를 입력해주세요." value="${dto.campNo}"></td>
+				</c:if>
 			</tr>
 			
 			<tr class="campName">
@@ -391,7 +396,7 @@ $(function(){
 						<input type="file" name="selectFile" accept="image/*" multiple="multiple" style="display: none;" class="boxTF">
 				</td>
 			</tr>
-			<c:if test="${mode=='update'}">
+			<c:if test="${mode=='campUpdate'}">
 				<tr>
 					<td>등록이미지</td>
 					<td> 
