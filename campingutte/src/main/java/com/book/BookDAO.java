@@ -212,7 +212,7 @@ public class BookDAO {
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 		
-		String sql;
+		// String sql;
 		PreparedStatement pstmt2 = null;
 		ResultSet rs2 = null;
 		
