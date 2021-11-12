@@ -61,10 +61,12 @@ $(function(){
 		$(this).parent("div").find("input[type=text]").val(count);
 	});
 	
-	var adult = parseInt($(""))
+});
+$(function(){
+
+
 	
 });
-
 
 // 성인 + 아동
 
@@ -121,15 +123,15 @@ function searchList(){
 		            
 		            <div>
 		            	<span style="margin-right: 50px;">성인</span>
-			            <button class="btnMinus">-</button>
+			            <button type="button" class="btnMinus">-</button>
 			            <input type="text" name="adult" id="adult" readonly="readonly" value="1" style="border: none; padding: 0; text-align: center;">
-			            <button class="btnPlus">+</button>
+			            <button type="button" class="btnPlus">+</button>
 					</div>
 					<div>
 						<span style="margin-right: 50px;">아동</span>
-			            <button class="btnMinus">-</button>
-			            <input type="text" name="kid"  id="adult" readonly="readonly" value="0"  style="border: none; padding: 0; text-align: center;">
-			            <button class="btnPlus">+</button>
+			            <button type="button" class="btnMinus">-</button>
+			            <input type="text" name="kid"  id="adult" readonly="readonly" value="0" style="border: none; padding: 0; text-align: center;">
+			            <button type="button" class="btnPlus">+</button>
 					</div>
 		            <div><button class="btn btn-primary btn-lg disabled" id="submitButton" type="button" style="width: 100%" onclick="searchList();">숙소 검색</button></div>
 		                <div class="d-flex align-items-center mt-lg-5 mb-4">
@@ -166,6 +168,7 @@ function searchList(){
 										<td>${dto.campNo}</td>
 										<td>${dto.campName}</td>
 									</tr>
+									
 								</c:forEach>
 								</table>
 

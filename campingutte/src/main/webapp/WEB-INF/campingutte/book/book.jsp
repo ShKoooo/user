@@ -41,9 +41,13 @@
 	        $("body").on("click", ".btnPlus", function(){
 				var qty = parseInt($(this).parent("td").find(".quantity").text());
 				var essQty = parseInt($(this).parent("td").find(".essentialQuantity").text());
-	        
+	        	var price = $(this).closest("tr").find(".price").attr("data-num");
+	        	
+	        	
 				qty = qty+1;
 				essQty = essQty+1;
+				
+				amount(price, qty);
 				
 				$(this).parent("td").find(".quantity").text(qty);
 				$(this).parent("td").find(".essentialQuantity").text(essQty);
@@ -62,15 +66,19 @@
 				if(essQty < 1) {
 					return false;
 				}
+				
 				$(this).parent("td").find(".quantity").text(qty);
 				$(this).parent("td").find(".essentialQuantity").text(essQty);
 			});
+			
         });
         
         // 금액 계산
-        $(function(){
-        	
-        });
+        function amount(price, qty) {
+        	var a = qty * price;
+        	$(".optionQty").text(qty);
+        	$(".optionPrice").text(a);
+        }
 </script>
 <style type="text/css">
 #accordion > ul > li {
@@ -110,8 +118,8 @@
                         	<tbody>
                         		<tr>
                         			<td>
-                        				<span style="font-size: 20px;">장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;">19500원(필수)</span><br>
+                        				<span class="optName" style="font-size: 20px;" >장작세트 - </span>
+                        				<span class="price" style="font-size: 20px;" data-num="30000">30000원(필수)</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
@@ -124,8 +132,8 @@
                         		</tr>
                         		<tr>
                         			<td>
-                        				<span style="font-size: 20px;">장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;">19500원</span><br>
+                        				<span class="optName" style="font-size: 20px;">장작세트 - </span>
+                        				<span class="price" style="font-size: 20px;" data-num="20000">20000원</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
@@ -138,8 +146,8 @@
                         		</tr>
                         		<tr>
                         			<td>
-                        				<span style="font-size: 20px;">장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;">19500원</span><br>
+                        				<span class="optName" style="font-size: 20px;">장작세트 - </span>
+                        				<span class="price" style="font-size: 20px;" data-num="10000">10000원</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
@@ -338,7 +346,7 @@
 									<tr>
 										<td>
 											<span>지금결제: </span>
-											<span class="optionName">장작세트 19,500원</span>
+											<span class="optionName"></span>
 											<span> * </span>
 											<span class="optionQty">0</span>
 											<span>개 = </span>
