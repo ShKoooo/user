@@ -779,19 +779,53 @@ public class BookServlet extends MyServlet{
 			
 			// 전체 데이터 개수
 			int dataCount;
+			
+			if (memberInfo.getMemberId() == null) {
+				resp.sendRedirect(cp+"/member/login.do"); // 또는 로그아웃으로..
+				return;
+			}
 			dataCount = dao.bookCount(memberInfo.getMemberId());
 			
-			// TODO :
 			// 전체 페이지 수
+			int rows = 10;
+			int total_page = util.pageCount(rows, dataCount);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+			
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
 			
 			// 게시물 가져오기
+			List<BookDTO> list = null;
+			// 키워드 없음 -> 키워드 길이 비교 없음
+			list = dao.listBook(start,end,memberInfo.getMemberId());
 			
 			// 리스트 글번호 만들기
+			int listNum, n = 0;
+			for (BookDTO dto : list) {
+				listNum = dataCount = (start+n-1);
+				dto.setBookArticleNo(listNum);
+				n++;
+			}
+			
+			// String query = ""; // X
 			
 			// 페이징 처리
+			String listUrl = cp + "/book/bookList.do";
+			String articleUrl = cp + "/book/bookArticle.do?page="+current_page;
+			
+			String paging = util.paging(current_page, total_page, listUrl);
 			
 			// 포워딩할 JSP에 전달할 속성
-			
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			// req.setAttribute("condition", condition);
+			// req.setAttribute("keyword", keyword);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -801,7 +835,25 @@ public class BookServlet extends MyServlet{
 	}
 	
 	protected void bookArticle(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 예약 글보기 --> 이 화면에서 리뷰작성으로 넘어갑니닷
+		// 예약 글보기 --> (예약확인서와 비슷해요!) 이 화면에서 리뷰작성으로 넘어갑니닷
+		BookDAO dao = new BookDAO();
+		MyUtil util = new MyUtil();
+		
+		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo memberInfo = (SessionInfo)session.getAttribute("member");
+		
+		String page = req.getParameter("page");
+		String query = "page="+page;
+		
+		try {
+			// TODO
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp+"/book/bookList.do?"+query);
 	}
 	
 	protected void bookUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

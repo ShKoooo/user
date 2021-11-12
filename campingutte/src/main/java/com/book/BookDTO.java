@@ -1,6 +1,7 @@
 package com.book;
 
 public class BookDTO {
+	private int bookArticleNo;
 	private String bookNo;
 	private String bookName;
 	private String bookTel;
@@ -14,6 +15,12 @@ public class BookDTO {
 	private String roomNo;
 	private String bookEmail;
 	
+	public int getBookArticleNo() {
+		return bookArticleNo;
+	}
+	public void setBookArticleNo(int bookArticleNo) {
+		this.bookArticleNo = bookArticleNo;
+	}
 	public String getBookNo() {
 		return bookNo;
 	}

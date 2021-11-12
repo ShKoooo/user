@@ -845,10 +845,117 @@ public class BookDAO {
 	// 예약 갯수
 	public int bookCount(String memberId) {
 		int result  = 0;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
 		
-		// TODO
+		try {
+			sql = "SELECT NVL(COUNT(*),0) FROM book";
+			if (!memberId.equalsIgnoreCase("admin")) {
+				sql += " WHERE memberId = ?";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			if (!memberId.equalsIgnoreCase("admin")) {
+				pstmt.setString(1, memberId);
+			}
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
 		
 		return result;
+	}
+	
+	// 예약 리스트
+	public List<BookDTO> listBook(int start, int end, String memberId) {
+		List<BookDTO> list = new ArrayList<BookDTO>();
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT * FROM ( ");
+			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
+			sb.append("			SELECT bookNo, bookName, bookTel, bookSrtdate, bookEnddate,");
+			sb.append(" 			bookRequest, totalPrice, memberId, bookDate, people,");
+			sb.append(" 			roomNo, bookEmail");
+			sb.append(" 		FROM book");
+			if (!memberId.equalsIgnoreCase("admin")) {
+				sb.append("WHERE memberId = "+memberId);
+			}
+			sb.append("     ) tb WHERE ROWNUM <= ? ");
+			sb.append(" ) WHERE rnum >= ? ");
+			
+			/*			
+			sql = "SELECT bookNo, bookName, bookTel, bookSrtdate, bookEnddate,"
+				+ " bookRequest, totalPrice, memberId, bookDate, people,"
+				+ " roomNo, bookEmail "
+				+ " FROM book";
+			*/
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				BookDTO dto = new BookDTO();
+				
+				dto.setBookNo(rs.getString("bookNo"));
+				dto.setBookName(rs.getString("bookName"));
+				dto.setBookTel(rs.getString("bookTel"));
+				dto.setBookSrtdate(rs.getString("bookSrtdate"));
+				dto.setBookEnddate(rs.getString("bookEnddate"));
+				dto.setBookRequest(rs.getString("bookRequest"));
+				dto.setTotalPrice(rs.getInt("totalPrice"));
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setBookDate(rs.getString("bookDate"));
+				dto.setPeople(rs.getInt("people"));
+				dto.setRoomNo(rs.getString("roomNo"));
+				dto.setBookEmail(rs.getString("bookEmail"));
+				
+				list.add(dto);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		
+		return list;
 	}
 	
 	// 예약 수정
