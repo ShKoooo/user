@@ -98,7 +98,7 @@
 function deleteBoard(roomNo) {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    var query = "roomNo="+roomNo+"&page=${page}";
-	    var url = "${pageContext.request.contextPath}/admin/roomDelete.do" + query;
+	    var url = "${pageContext.request.contextPath}/admin/roomDelete.do?" + query;
     	location.href = url;
     }
 }
