@@ -210,7 +210,7 @@ function deleteFile(imgNum) {
 	}
 	
 	var query = "roomNo=${dto.roomNo}&imgNum=" + imgNum + "&page=${page}";
-	var url = "${pageContext.request.contextPath}/admin/deleteFile.do?" + query;
+	var url = "${pageContext.request.contextPath}/admin/deleteRoomImgFile.do?" + query;
 	location.href = url;
 }
 </c:if>
@@ -355,12 +355,12 @@ $(function(){
 					<input type="file" name="selectFile" accept="image/*" multiple="multiple" style="display: none;" class="boxTF">
 				</td>
 			</tr>
-			<c:if test="${mode=='update'}">
+			<c:if test="${mode=='roomUpdate'}">
 				<tr>
 					<td>등록이미지</td>
 					<td> 
 						<div class="img-box">
-							<c:forEach var="vo" items="${listFile}">
+							<c:forEach var="vo" items="${listRoomImage}">
 								<img src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"
 									onclick="deleteFile('${vo.imgNum}');">
 							</c:forEach>
