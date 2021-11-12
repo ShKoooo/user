@@ -5,9 +5,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="resource/css/styles.css">
+<script src="resource/js/scripts.js"></script>
+
 <meta charset="UTF-8">
+
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
 <style type="text/css">
 .body-container {
     margin: 0 auto 15px;
@@ -93,15 +98,16 @@
 	opacity: .65;
 }
 
-
 </style>
+
+
 <script type="text/javascript">
 function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
 	    //var query = "campNo="+campNo+"&page=${page}";
 	    var query = "campNo=${dto.campNo}&page=${page}";
 	    var url = "${pageContext.request.contextPath}/admin/campDelete.do?" + query;
-    	location.href = url;
+	    location.href = url;
     }
 }
 
@@ -109,6 +115,8 @@ function deleteBoard() {
 </script>
 </head>
 <body>
+<!-- header(메뉴바) 부분 -->
+<jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
 
 <div class="body-container">
 	<div class="body-title">
@@ -140,6 +148,8 @@ function deleteBoard() {
 	</form> 
 </div>
 
+<!-- footer 부분 -->
+<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 
 </body>
 </html>
