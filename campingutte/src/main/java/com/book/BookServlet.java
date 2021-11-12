@@ -113,6 +113,7 @@ public class BookServlet extends MyServlet{
 		if (bookInfo != null) {
 			session.removeAttribute("book");			
 		}
+		// bookInfo = (BookSessionInfo)session.getAttribute("book");
 		
 		try {
 			String page = req.getParameter("page");
@@ -162,6 +163,19 @@ public class BookServlet extends MyServlet{
 						// 세션에 member이라는 이름으로 저장
 						// session.setAttribute("member", info);
 			// BookSessionInfo bookInfo = (BookSessionInfo)session.getAttribute("book");
+			/*
+				if (bookInfo.getSrtDate() != null && !bookInfo.getSrtDate().equals("") ) {	
+				}
+				if (bookInfo.getEndDate() != null && !bookInfo.getEndDate().equals("") ) {	
+				}
+				if (bookInfo.getAddr1() != null && !bookInfo.getAddr1().equals("") ) {	
+				}
+				if (bookInfo.getPeople() != null && !bookInfo.getPeople().equals("") ) {	
+				}
+				if (bookInfo.getCampName() != null && !bookInfo.getCampName().equals("") ) {	
+				}
+			*/
+			bookInfo = new BookSessionInfo();
 			
 			bookInfo.setSrtDate(keywordSrtDate);
 			bookInfo.setEndDate(keywordEndDate);
