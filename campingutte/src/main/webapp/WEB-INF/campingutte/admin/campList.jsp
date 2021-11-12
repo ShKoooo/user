@@ -96,10 +96,11 @@
 
 </style>
 <script type="text/javascript">
-function deleteBoard(campNo) {
+function deleteBoard() {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
-	    var query = "campNo="+campNo+"&page=${page}";
-	    var url = "${pageContext.request.contextPath}/admin/campDelete.do" + query;
+	    //var query = "campNo="+campNo+"&page=${page}";
+	    var query = "campNo=${dto.campNo}&page=${page}";
+	    var url = "${pageContext.request.contextPath}/admin/campDelete.do?" + query;
     	location.href = url;
     }
 }
@@ -131,7 +132,7 @@ function deleteBoard(campNo) {
 					<td>${dto.typeName}</td>
 					<td>
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campUpdate.do?campNo=${dto.campNo}&page=${page}';">수정</button>
-						<button type="button" class="btn" onclick="deleteBoard('${dto.campNo}');">삭제</button>
+						<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
 					</td>
 				</tr>
 			</c:forEach>

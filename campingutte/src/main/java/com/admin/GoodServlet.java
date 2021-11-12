@@ -405,7 +405,7 @@ public class GoodServlet extends MyUploadServlet {
 			
 			// 이게 될까...1
 			String roomNo = req.getParameter("roomNo");
-			RoomDTO rdto = rdao.readRoom(roomNo);
+//			RoomDTO rdto = rdao.readRoom(roomNo);
 			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
@@ -423,6 +423,7 @@ public class GoodServlet extends MyUploadServlet {
 			for (CampSiteDTO vo : listCampSiteImage) {
 				FileManager.doFiledelete(pathname, vo.getImgName());
 			}
+//			dao.deleteCampSiteImage(imgNum); 여기부터
 			
 			// 이게 될까...2
 			// 객실 이미지 파일 지우기
@@ -434,6 +435,7 @@ public class GoodServlet extends MyUploadServlet {
 			
 			// 테이블 데이터 삭제(객실이미지, 객실, 캠핑장이미지, 캠핑장 다 지워져야함)
 			dao.deleteCampSite(campNo, info.getMemberId());
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -44,18 +44,18 @@ public class GoodServlet extends MyUploadServlet {
 		
 		// uri에 따른 작업 구분
 		if(uri.indexOf("campList.do") != -1) { // 캠핑장 리스트 (혹시 몰라서 일단 넣어두었다.)
-			campList(req, resp);
+//			campList(req, resp);
 		}else if(uri.indexOf("campDetail.do") != -1) { // 캠핑장 글보기(클라이언트).
 			campDetail(req, resp);
 		} else if(uri.indexOf("roomList.do") != -1) { // 객실리스트 (혹시 몰라서 일단 넣어두었다.)
-			roomList(req, resp);
+//			roomList(req, resp);
 		}  else if(uri.indexOf("roomDetail.do") != -1) { // 객실상세 글보기(클라이언트)
 			roomDetail(req, resp);
 		}
 		
 	}
 	
-	
+/*	
 	// 등록한 캠핑장 리스트
 	private void campList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		CampSiteDAO dao = new CampSiteDAO();
@@ -110,7 +110,7 @@ public class GoodServlet extends MyUploadServlet {
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/campingutte/admin/campList.jsp");
 	}
-	
+*/	
 
 	private void campDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 캠핑장 글보기 (클라이언트)
@@ -132,10 +132,11 @@ public class GoodServlet extends MyUploadServlet {
 			
 			// 게시물 가져오기
 			CampSiteDTO dto = dao.readCampSite(campNo);
-			if (dto == null) { // 게시물이 없으면 다시 검색리스트로
-				resp.sendRedirect(cp + "/selector/searchList.do?" + query);
-				return;
-			}
+// 임시로 막음. 나중에 풀어야함.
+//			if (dto == null) { // 게시물이 없으면 다시 검색리스트로
+//				resp.sendRedirect(cp + "/selector/searchList.do?" + query);
+//				return;
+//			}
 			
 			dto.setCampDetail(util.htmlSymbols(dto.getCampDetail()));
 
@@ -164,7 +165,7 @@ public class GoodServlet extends MyUploadServlet {
 
 	
 	
-	
+/*	
 	// 객실 리스트
 	private void roomList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		RoomDAO dao = new RoomDAO();
@@ -219,7 +220,7 @@ public class GoodServlet extends MyUploadServlet {
 		// JSP로 포워딩
 		forward(req, resp, "/WEB-INF/campingutte/admin/roomList.jsp"); // 경로는 룸리스트로???
 	}
-	
+*/	
 
 	
 	private void roomDetail(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
