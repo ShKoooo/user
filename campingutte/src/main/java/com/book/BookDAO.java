@@ -959,6 +959,105 @@ public class BookDAO {
 	}
 	
 	// 예약 수정
+	public int updateBook(BookDTO dto) throws SQLException{
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "UPDATE book SET bookName = ?, bookTel = ?, bookEmail = ?, bookRequest = ?";
+			
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getBookName());
+			pstmt.setString(2, dto.getBookTel());
+			pstmt.setString(3, dto.getBookEmail());
+			pstmt.setString(4, dto.getBookRequest());
+			
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
 	
 	// 예약 취소
+	public int deleteBook(String bookNo, String memberId) throws SQLException{
+		int result1 = 0, result2 = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			conn.setAutoCommit(false);
+			
+			if (memberId.equalsIgnoreCase("admin")) {
+				sql = "DELETE FROM review WHERE bookNo = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, bookNo);
+				
+				result1 = pstmt.executeUpdate();
+				
+				pstmt.close();
+				
+				sql = "DELETE FROM book WHERE bookNo = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, bookNo);
+				
+				result2 = pstmt.executeUpdate();
+				
+				if (result1 != 0 && result2 != 0) {
+					conn.commit();					
+				} else {
+					conn.rollback();
+				}
+			} else {
+				sql = "DELETE FROM review WHERE bookNo = ? AND memberId = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, bookNo);
+				pstmt.setString(2, memberId);
+				
+				result1 = pstmt.executeUpdate();
+				
+				pstmt.close();
+				
+				sql = "DELETE FROM book WHERE bookNo = ? AND memberId = ?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, bookNo);
+				pstmt.setString(2, memberId);
+				
+				result2 = pstmt.executeUpdate();
+				
+				if (result1 != 0 && result2 != 0) {
+					conn.commit();					
+				} else {
+					conn.rollback();
+				}
+			}
+		} catch (SQLException e) {
+			conn.rollback();
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+			
+			try {
+				conn.setAutoCommit(true);
+			} catch (Exception e2) {
+			}
+		}
+		
+		return result1 + result2;
+	}
 }

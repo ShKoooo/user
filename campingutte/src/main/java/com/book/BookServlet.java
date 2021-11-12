@@ -858,23 +858,147 @@ public class BookServlet extends MyServlet{
 		HttpSession session = req.getSession();
 		SessionInfo memberInfo = (SessionInfo)session.getAttribute("member");
 		
+		// 로그인 여부 확인
+		if (memberInfo == null) { // 로그아웃 상태일 때
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
 		String page = req.getParameter("page");
 		String query = "page="+page;
 		
 		try {
-			// TODO
+			String bookNo = req.getParameter("bookNo"); // 예약번호 (bookNo): 받아와야 함
+			
+			// 예약 가져오기 (= 게시물 가져오기)
+			BookDTO dto = dao.readBook(bookNo);
+			
+			if (dto == null) { // 예약이 없으면 다시 리스트로
+				resp.sendRedirect(cp + "/book/bookList.do?" + query);
+				return;
+			}
+			
+			dto.setBookRequest(util.htmlSymbols(dto.getBookRequest()));
+			
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("query", query);
+			
+			// 포워딩
+			forward(req, resp, "/WEB-INF/campingutte/book/bookArticle.jsp");
+			return;
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		// 못찾았을때 리스트로 Redirect
 		resp.sendRedirect(cp+"/book/bookList.do?"+query);
 	}
 	
 	protected void bookUpdate(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 예약 수정
+		// 예약 수정 (수정 폼)
+		BookDAO dao = new BookDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo memberInfo = (SessionInfo) session.getAttribute("member");
+		String cp = req.getContextPath();
+		
+		// 로그인 여부 확인
+		if (memberInfo == null) { // 로그아웃 상태일 때
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String page = req.getParameter("page");
+		
+		try {
+			String bookNo = req.getParameter("bookNo"); // 예약번호 (bookNo): 받아와야 함
+			BookDTO dto = dao.readBook(bookNo);
+			
+			if (dto == null) {
+				resp.sendRedirect(cp+"/book/BookList.do?page="+page);
+				return;
+			}
+			
+			// 예약한 사용자가 아니라면
+			if (!dto.getMemberId().equals(memberInfo.getMemberId())) {
+				resp.sendRedirect(cp+"/book/BookList.do?page="+page);
+				return;
+			}
+			
+			// JSP로 전달할 속성
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			
+			forward(req, resp, "/WEB-INF/campingutte/book/bookUpdate.jsp");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 수정 불가/오류일 때 리다이렉트 : 예약 리스트로...
+		resp.sendRedirect(cp+"/book/BookList.do?page="+page);
 	}
 	
+	protected void bookUpdateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 예약 수정 완료
+		BookDAO dao = new BookDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo memberInfo = (SessionInfo) session.getAttribute("member");
+		String cp = req.getContextPath();
+		
+		// 로그인 여부 확인
+		if (memberInfo == null) { // 로그아웃 상태일 때
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String page = req.getParameter("page");
+		
+		try {
+			BookDTO dto = new BookDTO();
+			
+			dto.setBookName(req.getParameter("bookName"));
+			dto.setBookTel(req.getParameter("bookTel"));
+			dto.setBookEmail(req.getParameter("bookEmail"));
+			dto.setBookRequest(req.getParameter("bookRequest"));
+			
+			dao.updateBook(dto);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		// 수정 오류 시 리다이렉트
+		resp.sendRedirect(cp+"/book/bookList.do?page="+page);
+	}
+	
+	
 	protected void bookDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 예약 취소
+		// 예약 취소 (=게시글 삭제)
+		BookDAO dao = new BookDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo memberInfo = (SessionInfo) session.getAttribute("member");
+		String cp = req.getContextPath();
+		
+		// 로그인 여부 확인
+		if (memberInfo == null) { // 로그아웃 상태일 때
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
+		
+		String page = req.getParameter("page");
+		
+		try {
+			String bookNo = req.getParameter("bookNo");
+			
+			dao.deleteBook(bookNo, memberInfo.getMemberId());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendRedirect(cp+"/book/bookList.do?page="+page);
 	}
 }
