@@ -28,47 +28,63 @@
 $(function(){
 	$("#checkIn").datepicker({
 		showMonthAfterYear:true,
-		defaultDate:"2021-11-02",
-		// minDate:"2021-11-01", maxDate:"2021-11-10"
-		minDate:0, maxDate:"+5D"
+		minDate:0
 	});
 });
 
 $(function(){
 	$("#checkOut").datepicker({
 		showMonthAfterYear:true,
-		defaultDate:"2021-11-02",
-		// minDate:"2021-11-01", maxDate:"2021-11-10"
-		minDate:0, maxDate:"+5D"
+		minDate:"+2D"
 	});
 });
+
+//숙박일 수 계산
+function dateCalcul(){
+	var start = $("input[name=srtDate]").datepicker('getDate');
+	var end = $("input[name=endDate]").datepicker('getDate');
+	
+	var day = (end - start)/1000/60/60/24;
+}
 
 // 인원수 증가 및 감소
 $(function(){
 	$("body").on("click", ".btnPlus", function(){
 		var count = parseInt($(this).parent("div").find("input[type=text]").val());
+		
+		
 		count=count+1;
 		
 		$(this).parent("div").find("input[type=text]").val(count);
+		
+		var total = 0;
+		$(this).closest(".peopleCount").find("input").each(function(){
+			total += parseInt($(this).val());
+			
+		});
+		$(".people").val(total);
+		
 	});
 	
 	$("body").on("click", ".btnMinus", function(){
 		var count = parseInt($(this).parent("div").find("input[type=text]").val());
 		count=count-1;
+		
 		if(count < 0) {
 			return false;
 		}
 		$(this).parent("div").find("input[type=text]").val(count);
+		
+		var total = 0;
+		$(this).closest(".peopleCount").find("input").each(function(){
+			total += parseInt($(this).val());
+			
+		});
+		$(".people").val(total);
+		
 	});
 	
 });
-$(function(){
-
-
-	
-});
-
-// 성인 + 아동
 
 
 // 검색
@@ -76,6 +92,7 @@ function searchList(){
 	var f = document.campList;
 	f.submit();
 }
+
 
 </script>
 <style type="text/css">
@@ -120,20 +137,25 @@ function searchList(){
 		            <input type="text" id="checkOut" name="endDate" value="${endDate}" readonly="readonly" placeholder="체크아웃" class="form-control font-size-h5 font-weight-bolder">
 		            <input type="text" name="addr1"  value="${addr1}" placeholder="지역" class="form-control font-size-h5 font-weight-bolder">
 		            <input type="text" name="campName" value="${campName}" placeholder="캠핑장명" class="form-control font-size-h5 font-weight-bolder">
-		            
-		            <div>
-		            	<span style="margin-right: 50px;">성인</span>
-			            <button type="button" class="btnMinus">-</button>
-			            <input type="text" name="adult" id="adult" readonly="readonly" value="1" style="border: none; padding: 0; text-align: center;">
-			            <button type="button" class="btnPlus">+</button>
+		            <div class="peopleCount">
+			            <div>
+			            	<span style="margin-right: 50px;">성인</span>
+				            <button type="button" class="btnMinus">-</button>
+				            <input type="text" name="adult" id="adult" readonly="readonly" value="1" style="border: none; padding: 0; text-align: center;">
+				            <button type="button" class="btnPlus">+</button>
+						</div>
+						<div>
+							<span style="margin-right: 50px;">아동</span>
+				            <button type="button" class="btnMinus">-</button>
+				            <input type="text" name="kid" id="kid" readonly="readonly" value="0" style="border: none; padding: 0; text-align: center;">
+				            <button type="button" class="btnPlus">+</button>
+						</div>
 					</div>
 					<div>
-						<span style="margin-right: 50px;">아동</span>
-			            <button type="button" class="btnMinus">-</button>
-			            <input type="text" name="kid"  id="adult" readonly="readonly" value="0" style="border: none; padding: 0; text-align: center;">
-			            <button type="button" class="btnPlus">+</button>
+					
+						<input type="hidden" class="people" name="people" value="${people}" readonly="readonly">
 					</div>
-		            <div><button class="btn btn-primary btn-lg disabled" id="submitButton" type="button" style="width: 100%" onclick="searchList();">숙소 검색</button></div>
+		            <div><button class="btn btn-primary btn-lg" id="submitButton" type="button" style="width: 100%" onclick="searchList();">숙소 검색</button></div>
 		                <div class="d-flex align-items-center mt-lg-5 mb-4">
 		                    <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
 		                    <div class="ms-3">

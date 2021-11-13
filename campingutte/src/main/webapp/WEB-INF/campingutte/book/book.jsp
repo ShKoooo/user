@@ -37,49 +37,124 @@
         
         // 수량 계산
         $(function(){
+        	$(document).ready(function(){
+        		var qty1 = parseInt($(this).parent("td").find(".quantity1").text());
+        		if(isNaN(qty1)) { 
+        			qty1=1;
+        		}
+ 				var price1 = parseInt($(this).closest("tr").find(".price1").attr("data-num"));
+ 				if(isNaN(price1)) { 
+        			price1=30000;
+        		}
+ 				var total=0;
+ 				
+ 				total = qty1 * price1;
+ 				$(".optionPrice1").text(total);
+        		
+        	});
         	
-	        $("body").on("click", ".btnPlus", function(){
-				var qty = parseInt($(this).parent("td").find(".quantity").text());
-				var essQty = parseInt($(this).parent("td").find(".essentialQuantity").text());
-	        	var price = $(this).closest("tr").find(".price").attr("data-num");
-	        	
-	        	
-				qty = qty+1;
-				essQty = essQty+1;
+        	$("body").on("click", ".btnPlus1", function(){
+ 				var qty1 = parseInt($(this).parent("td").find(".quantity1").text());
+ 				var price1 = parseInt($(this).closest("tr").find(".price1").attr("data-num"));
+				var total;
 				
-				amount(price, qty);
+ 				qty1 = qty1+1;
+ 				
+ 				$(this).parent("td").find(".quantity1").text(qty1);
+ 				total = qty1 * price1;
+
+ 				$(".optionPrice1").text(total);
+ 			});
+        	
+	        $("body").on("click", ".btnPlus2", function(){
+				var qty2 = parseInt($(this).parent("td").find(".quantity2").text());
+				var price2 = parseInt($(this).closest("tr").find(".price2").attr("data-num"));
+
+				var total=0;
+
+				qty2 = qty2+1;
 				
-				$(this).parent("td").find(".quantity").text(qty);
-				$(this).parent("td").find(".essentialQuantity").text(essQty);
+				$(this).parent("td").find(".quantity2").text(qty2);
+				total = qty2 * price2;
+
+				$(".optionPrice2").text(total);
 			});
 	        
-			$("body").on("click", ".btnMinus", function(){
-				var qty = parseInt($(this).parent("td").find(".quantity").text());
-				var essQty = parseInt($(this).parent("td").find(".essentialQuantity").text());
-				
-				essQty = essQty-1;
-				qty = qty-1;
-				
-				if(qty < 0){
-					return false;
-				}
-				if(essQty < 1) {
-					return false;
-				}
-				
-				$(this).parent("td").find(".quantity").text(qty);
-				$(this).parent("td").find(".essentialQuantity").text(essQty);
+	        $("body").on("click", ".btnPlus3", function(){
+	        	var qty3 = parseInt($(this).parent("td").find(".quantity3").text());
+	 			var price3 = parseInt($(this).closest("tr").find(".price3").attr("data-num"));
+	 			
+	 			var total = 0;
+	 			
+	 			qty3 = qty3+1;
+	 			
+	 			$(this).parent("td").find(".quantity3").text(qty3);
+	 			total = qty3 * price3;
+	 			
+				$(".optionPrice3").text(total);
 			});
 			
+        	$("body").on("click", ".btnMinus1", function(){
+ 				var qty1 = parseInt($(this).parent("td").find(".quantity1").text());
+ 				var price1 = parseInt($(this).closest("tr").find(".price1").attr("data-num"));
+				var total;
+				
+ 				qty1 = qty1-1;
+ 				if(qty1<1){
+ 					return false;
+ 				}
+ 				
+ 				$(this).parent("td").find(".quantity1").text(qty1);
+ 				total = qty1 * price1;
+
+ 				$(".optionPrice1").text(total);
+ 			});
+        	
+	        $("body").on("click", ".btnMinus2", function(){
+				var qty2 = parseInt($(this).parent("td").find(".quantity2").text());
+				var price2 = parseInt($(this).closest("tr").find(".price2").attr("data-num"));
+
+				var total=0;
+
+				qty2 = qty2-1;
+ 				if(qty2<0){
+ 					return false;
+ 				}
+				
+				$(this).parent("td").find(".quantity2").text(qty2);
+				total = qty2 * price2;
+
+				$(".optionPrice2").text(total);
+			});
+	        
+	        $("body").on("click", ".btnMinus3", function(){
+	        	var qty3 = parseInt($(this).parent("td").find(".quantity3").text());
+	 			var price3 = parseInt($(this).closest("tr").find(".price3").attr("data-num"));
+	 			
+	 			var total = 0;
+	 			
+	 			qty3 = qty3-1;
+ 				if(qty3<0){
+ 					return false;
+ 				}
+	 			
+	 			$(this).parent("td").find(".quantity3").text(qty3);
+	 			total = qty3 * price3;
+	 			
+				$(".optionPrice3").text(total);
+			});
         });
         
-        // 금액 계산
-        function amount(price, qty) {
-        	var a = qty * price;
-        	$(".optionQty").text(qty);
-        	$(".optionPrice").text(a);
-        }
-</script>
+        $(function(){
+        	var total = parseInt($(".optionPrice3").text()) + 
+        				parseInt($(".optionPrice2").text()) +
+        				parseInt($(".optionPrice1").text());
+        	
+        	$(".totalPrice").text(parseInt(total));
+        });
+       
+        
+	</script>
 <style type="text/css">
 #accordion > ul > li {
 	list-style: disc;
@@ -118,44 +193,44 @@
                         	<tbody>
                         		<tr>
                         			<td>
-                        				<span class="optName" style="font-size: 20px;" >장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;" data-num="30000">30000원(필수)</span><br>
+                        				<span class="optName1" style="font-size: 20px;" >세트1 - </span>
+                        				<span class="price1" style="font-size: 20px;" data-num="30000">30000원(필수)</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
                         			</td>
                         			<td id="count">
-                        				<button class="btnMinus" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
-                        				<span class="essentialQuantity">1</span>
-                        				<button class="btnPlus" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
+                        				<button class="btnMinus1" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
+                        				<span class="quantity1" data-num="1" >1</span>
+                        				<button class="btnPlus1" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
                         			</td>
                         		</tr>
                         		<tr>
                         			<td>
-                        				<span class="optName" style="font-size: 20px;">장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;" data-num="20000">20000원</span><br>
+                        				<span class="optName2" style="font-size: 20px;">세트2 - </span>
+                        				<span class="price2" style="font-size: 20px;" data-num="20000">20000원</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
                         			</td>
                         			<td id="count">
-                        				<button class="btnMinus" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
-                        				<span class="quantity">0</span>
-                        				<button class="btnPlus" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
+                        				<button class="btnMinus2" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
+                        				<span class="quantity2">0</span>
+                        				<button class="btnPlus2" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
                         			</td>
                         		</tr>
                         		<tr>
                         			<td>
-                        				<span class="optName" style="font-size: 20px;">장작세트 - </span>
-                        				<span class="price" style="font-size: 20px;" data-num="10000">10000원</span><br>
+                        				<span class="optName3" style="font-size: 20px;">세트3 - </span>
+                        				<span class="price3" style="font-size: 20px;" data-num="10000">10000원</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
                         			</td>
                         			<td id="count">
-                        				<button class="btnMinus" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
-                        				<span class="quantity">0</span>
-                        				<button class="btnPlus" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
+                        				<button class="btnMinus3" style="border: none; background: none;"><i class="fas fa-minus"></i></button>
+                        				<span class="quantity3">0</span>
+                        				<button class="btnPlus3" style="border: none; background: none;"><i class="fas fa-plus"></i></button>
                         			</td>
                         		</tr>
                         	</tbody>
@@ -327,6 +402,7 @@
 								<h5> 결제금액 정보 </h5>
 								<hr>
 								<table>
+								 <tbody id="productList">
 									<tr>
 										<td>[객실요금]</td>
 									</tr>
@@ -344,22 +420,30 @@
 										<td>[옵션]</td>
 									</tr>
 									<tr>
-										<td>
-											<span>지금결제: </span>
-											<span class="optionName"></span>
-											<span> * </span>
-											<span class="optionQty">0</span>
-											<span>개 = </span>
-											<span class="optionPrice">0</span>
-											<span>원</span>
+										<td class="optionCalculate">
+											<span>필수 옵션 : </span>
+											<br>
+											<span class="optionPrice1"></span>원
+											<br>
+											
+											<span>선택 옵션 : </span>
+											<br>
+											<span class="optionPrice2"></span>원
+											<br>
+											<span class="optionPrice3"></span>원
+
 										</td>
+										
+									</tr>
+									</tbody>
+									<tfoot>
+									<tr>
 										<td>
 											<span>총 금액 : </span>
-											<span>0</span>
-											<span>원</span>
+											<span class="totalPrice">0</span>원
 										</td>
 									</tr>
-									
+									</tfoot>
 									
 								</table>
 		
