@@ -5,6 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="resource/css/styles.css">
+<script src="resource/js/scripts.js"></script>
+
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -47,6 +53,7 @@
 
 .table th, .table td {
 	padding: 10px 0;
+	text-align: center;
 }
 
 .table tr {
@@ -106,6 +113,9 @@ function deleteBoard(roomNo) {
 </script>
 </head>
 <body>
+<!-- header(메뉴바) 부분 -->
+<jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
+
 
 <div class="body-container">
 	<div class="body-title">
@@ -138,6 +148,7 @@ function deleteBoard(roomNo) {
 	</form> 
 </div>
 
-
+<!-- footer 부분 -->
+<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 </body>
 </html>

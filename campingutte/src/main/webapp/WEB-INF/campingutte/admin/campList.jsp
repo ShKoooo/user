@@ -55,6 +55,7 @@
 
 .table th, .table td {
 	padding: 10px 0;
+	text-align: center;
 }
 
 .table tr {

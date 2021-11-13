@@ -357,7 +357,7 @@ $(function(){
 			<tr class="campDetail">
 				<td>설명</td>
 				<td>
-					<textarea name="campDetail" class="boxTA"></textarea>
+					<textarea name="campDetail" class="boxTA">${dto.campDetail}</textarea>
 				</td>
 			</tr>
 			
@@ -381,10 +381,10 @@ $(function(){
 				<td>
 					<select name="selectType" class="selectField" onchange="changeType();">
 						<option value="">선택</option>
-						<option value="1.캠핑장">1.캠핑장</option>
-						<option value="2.글램핑">2.글램핑</option>
-						<option value="3.캠핑카">3.캠핑카</option>
-						<option value="direct">직접입력</option>
+						<c:forEach var="dto" items="${list}">
+						<option value="">${dto.typeNo}.${dto.typeName}</option>
+						</c:forEach>	
+						<option value="direct">직접입력</option>					
 					</select>
 					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeNo}" style="width: 20%;" readonly="readonly"> 
 				</td>

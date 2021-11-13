@@ -319,8 +319,12 @@ $(function(){
 			
 			<tr class="roomNo">
 				<td>객실번호</td>
-				
+				<c:if test="${mode=='roomUpdate'}">
+				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}" readonly="readonly"></td>
+				</c:if>
+				<c:if test="${mode=='roomWrite'}">
 				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}"></td>
+				</c:if>
 			</tr>
 			
 			<tr class="roomName">
