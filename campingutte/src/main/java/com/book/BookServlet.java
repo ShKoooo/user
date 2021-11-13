@@ -23,6 +23,7 @@ import com.util.MyUtil;
 @WebServlet("/book/*")
 public class BookServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
+	private boolean standalone = true; // 세션독립여부 true -> 세션 미사용/ false -> 세션 사용
 
 	@Override
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -302,14 +303,14 @@ public class BookServlet extends MyServlet{
 			return;
 		}
 		// 예약 세션이 넘어오지 않았을 때 --> 캠핑장 리스트로 리다이렉트 (매우 중요)
-		/*
-		// 잠시 주석처리
-		if (bookInfo == null) { 
-			resp.sendRedirect(cp+"/book/campList.do");
+		
+		if (!standalone) {
+			if (bookInfo == null) { 
+				resp.sendRedirect(cp+"/book/campList.do");
 				// 캠핑장 리스트로 리다이렉트
-			return;
+				return;
+			}
 		}
-		*/
 		
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
@@ -326,16 +327,33 @@ public class BookServlet extends MyServlet{
 			String campNo = req.getParameter("campNo");
 			
 			// String condition = req.getParameter("condition");
-			String keywordSrtDate = req.getParameter("srtDate")==null?"":req.getParameter("srtDate");
-			String keywordEndDate = req.getParameter("endDate")==null?"":req.getParameter("endDate");
-			String keywordAddr1 = req.getParameter("addr1")==null?"":req.getParameter("addr1");
-			String keywordPeople = req.getParameter("people")==null?"":req.getParameter("people");
-			String keywordCampName = req.getParameter("campName")==null?"":req.getParameter("campName");
-			keywordSrtDate = URLDecoder.decode(keywordSrtDate, "utf-8");
-			keywordEndDate = URLDecoder.decode(keywordEndDate, "utf-8");
-			keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
-			keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
-			keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");
+			
+			String keywordSrtDate = "";
+			String keywordEndDate = "";
+			String keywordAddr1 = "";
+			String keywordPeople = "";
+			String keywordCampName = "";
+			
+			if (standalone) {
+				keywordSrtDate = req.getParameter("srtDate")==null?"":req.getParameter("srtDate");
+				keywordEndDate = req.getParameter("endDate")==null?"":req.getParameter("endDate");
+				keywordAddr1 = req.getParameter("addr1")==null?"":req.getParameter("addr1");
+				keywordPeople = req.getParameter("people")==null?"":req.getParameter("people");
+				keywordCampName = req.getParameter("campName")==null?"":req.getParameter("campName");
+				
+				keywordSrtDate = URLDecoder.decode(keywordSrtDate, "utf-8");
+				keywordEndDate = URLDecoder.decode(keywordEndDate, "utf-8");
+				keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
+				keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
+				keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");
+			} else {
+				keywordSrtDate = bookInfo.getSrtDate();
+				keywordEndDate = bookInfo.getEndDate();
+				keywordAddr1 = bookInfo.getAddr1();
+				keywordPeople = bookInfo.getPeople();
+				keywordCampName = bookInfo.getCampName();
+			}
+			
 			/*
 			// 아래 세션 안먹히면 이거로 바꿈.
 			*/
@@ -343,14 +361,6 @@ public class BookServlet extends MyServlet{
 			// 세션 (bookSessionInfo)에서 가져오기
 			// BookSessionInfo bookInfo = (BookSessionInfo)session.getAttribute("searchNbook");
 
-			/*
-			// 잠시 주석처리
-			String keywordSrtDate = bookInfo.getSrtDate();
-			String keywordEndDate = bookInfo.getEndDate();
-			String keywordAddr1 = bookInfo.getAddr1();
-			String keywordPeople = bookInfo.getPeople();
-			String keywordCampName = bookInfo.getCampName();
-			*/
 			// 위에서 null일때 캠핑장리스트로 리다이렉트했으므로 널 판별 여부 확인 불필요
 				// 필요시 ==null?"":bookInfo.getXXX(); 추가
 			
@@ -373,7 +383,10 @@ public class BookServlet extends MyServlet{
 				}
 			}
 			
-			campNo = "123";
+			if (standalone) {
+				campNo = "123";				
+			}
+			
 			// 게시물 가져오기
 			CampSiteDTO dto = dao.readCamp(campNo); // 그림 가져오기 포함
 			if (dto == null) { // 게시글 없으면
@@ -419,11 +432,14 @@ public class BookServlet extends MyServlet{
 			return;
 		}
 		// 예약 세션이 넘어오지 않았을 때 --> 캠핑장 리스트로 리다이렉트 (매우 중요)
-		if (bookInfo == null) {
-			resp.sendRedirect(cp+"/book/campList.do");
+		if (!standalone) {
+			if (bookInfo == null) {
+				resp.sendRedirect(cp+"/book/campList.do");
 				// 캠핑장 리스트로 리다이렉트
-			return;
+				return;
+			}			
 		}
+		
 		// GET 방식 거부
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp+"/book/campArticle.do");
@@ -436,6 +452,9 @@ public class BookServlet extends MyServlet{
 		try {
 			// int num = Integer.parseInt(req.getParameter("num"));
 			String campNo = req.getParameter("campNo");
+			if (standalone) {
+				campNo = "123";
+			}
 			String roomPageNo = req.getParameter("roomPageNo"); // 객실 페이징 처리 (객실은 한 페이지당 5개씩)
 			int current_page = 1;
 			if (roomPageNo  != null) {
@@ -444,23 +463,30 @@ public class BookServlet extends MyServlet{
 			
 			/*
 			// 세션으로 대체
-			String keywordSrtDate = req.getParameter("srtDate");
-			String keywordEndDate = req.getParameter("endDate");
-			// String keywordAddr1 = req.getParameter("addr1");
-			String keywordPeople = req.getParameter("people");
-			// String keywordCampName = req.getParameter("campName");
-			
-			keywordSrtDate = URLDecoder.decode(keywordSrtDate, "utf-8");
-			keywordEndDate = URLDecoder.decode(keywordEndDate, "utf-8");
-			// keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
-			keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
-			// keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");
 			*/
 			
-			String keywordSrtDate = bookInfo.getSrtDate();
-			String keywordEndDate = bookInfo.getEndDate();
-			String keywordPeople = bookInfo.getPeople();
+			String keywordSrtDate="";
+			String keywordEndDate="";
+			String keywordPeople="";
 			
+			if (standalone) {
+				keywordSrtDate = req.getParameter("srtDate");
+				keywordEndDate = req.getParameter("endDate");
+				// String keywordAddr1 = req.getParameter("addr1");
+				keywordPeople = req.getParameter("people");
+				// String keywordCampName = req.getParameter("campName");
+				
+				keywordSrtDate = URLDecoder.decode(keywordSrtDate, "utf-8");
+				keywordEndDate = URLDecoder.decode(keywordEndDate, "utf-8");
+				// keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
+				keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
+				// keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");				
+			} else {
+				keywordSrtDate = bookInfo.getSrtDate();
+				keywordEndDate = bookInfo.getEndDate();
+				keywordPeople = bookInfo.getPeople();				
+			}
+
 			String [] keyword = 
 				{keywordSrtDate,keywordEndDate,keywordPeople}; // [0,1,2]
 			
