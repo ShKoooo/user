@@ -389,8 +389,8 @@ $(function(){
 						<option value="direct">직접입력</option>
 						 -->
 						 <!-- 수정중 -->
-						<c:forEach var="dto" items="${list}">
-						<option value="">${dto.typeNo}.${dto.typeName}</option>
+						<c:forEach var="list" items="${listCampType}">
+						<option value="">${list.typeNo}.${list.typeName}</option>
 						</c:forEach>	
 						<option value="direct">직접입력</option>
 					</select>

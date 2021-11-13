@@ -276,11 +276,20 @@ public class GoodServlet extends MyUploadServlet {
 			}
 
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
-
+			
+			// 안되면 지우기(캠핑장유형 셀렉트 위해 넣어놨다)
+			List<CampSiteDTO> listCampType = dao.listCampType(campNo);
+			
+			
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("listCampSiteImage", listCampSiteImage);
-
+			
+			
+			// 안되면 지우기(캠핑장유형 셀렉트 위해 넣어놨다)
+			req.setAttribute("listCampType", listCampType);
+			
+			
 			req.setAttribute("mode", "campUpdate");
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/campWrite.jsp");

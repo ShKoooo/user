@@ -311,14 +311,14 @@ $(function(){
 				<!-- 수정중 -->
 				<c:if test="${mode=='roomWrite'}">
 					<td>
-						<c:if test="${not empty dto.campNo}">
+						
 			            	<select name="" class="">
 			                	<option value="" selected>캠핑장 선택</option>
 			                    <c:forEach var="vo" items="${list}">
 			                    	<option value="${vo.campNo}">${vo.campName}</option>
 			                    </c:forEach>
 			                </select>
-			           	</c:if>
+			          
 						<input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.campNo}" style="width: 20%;" readonly="readonly">
 					<td>
 				</c:if>

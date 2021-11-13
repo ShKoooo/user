@@ -582,5 +582,55 @@ public class CampSiteDAO {
 			
 			return result;
 		}
+
 		
+		
+		// 안되면 지우기
+		// 캠핑장 유형 셀렉트를 위한 리스트
+		public List<CampSiteDTO> listCampType(String campNo) {
+			List<CampSiteDTO> list = new ArrayList<CampSiteDTO>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+
+			try {
+				sql = "SELECT campNo, campName, s.typeNo, typeName "
+						+ " FROM campSite s JOIN campType t ON s.typeNo = t.typeNo "
+						+ " WHERE campNo = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1, campNo);
+
+				rs = pstmt.executeQuery();
+				while (rs.next()) {
+					CampSiteDTO dto = new CampSiteDTO();
+
+					dto.setCampNo(rs.getString("campNo"));
+					dto.setCampName(rs.getString("campName"));
+					dto.setTypeNo(rs.getString("typeNo"));
+					dto.setTypeName(rs.getString("typeName"));
+
+					list.add(dto);
+				}
+
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e2) {
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e2) {
+					}
+				}
+			}
+
+			return list;
+		} 
 }
