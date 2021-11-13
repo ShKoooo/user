@@ -29,6 +29,30 @@ public class ReviewDAO {
 		return result;
 	}
 	
+	public int dataCountReview(String campNo) {
+		int result = 0;
+		
+		// TODO
+		
+		return result;
+	}
+	
+	public List<ReviewDTO> listReview (String campNo, int start, int end) {
+		List<ReviewDTO> list = new ArrayList<ReviewDTO>();
+		
+		// TODO
+		
+		return list;
+	}
+	
+	public int deleteReview(String reviewNo, String memberId) {
+		int result = 0;
+		
+		// TODO
+		
+		return result;
+	}
+	
 	// 데이터 개수
 	public int dataCount() {
 		int result = 0;

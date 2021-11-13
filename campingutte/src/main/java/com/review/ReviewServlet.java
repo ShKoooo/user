@@ -1,12 +1,15 @@
 package com.review;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import com.member.SessionInfo;
 import com.util.MyServlet;
@@ -55,10 +58,10 @@ public class ReviewServlet extends MyServlet {
 	// AJAX - Text
 	protected void listMyBookReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ReviewDAO dao = new ReviewDAO();
-		MyUtil util = new MyUtil();
+		// MyUtil util = new MyUtil();
 		
 		try {
-			// 하나만 받아오므로 페이징처리 필요없음.
+			// 하나만 받아오므로 페이징처리 필요없음. (MyUtil도 필요없음)
 			
 			String bookNo = req.getParameter("bookNoR"); // 파라미터값에 유의
 					
@@ -98,21 +101,100 @@ public class ReviewServlet extends MyServlet {
 			dto.setReviewComment(req.getParameter("comment"));
 			dto.setReviewStar(req.getParameter("star"));
 			
-			// dao.insertReview(dto);
+			dao.insertReview(dto);
+			
+			state = "true";
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
 	}
 	
 	// 캠핑장에서의 리뷰 리스트 (참고: BoardServlet - listReply)	
+	// AJAX - Text
 	protected void listCampReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ReviewDAO dao = new ReviewDAO();
+		MyUtil util = new MyUtil();
 		
+		try {
+			String campNo = req.getParameter("campNo");
+			String pageNo = req.getParameter("rPageNo");
+			int current_page = 1;
+			
+			if (pageNo != null) {
+				current_page = Integer.parseInt(pageNo);
+			}
+			
+			int rows = 5;
+			int total_page = 0;
+			int reviewCount = 0;
+			
+			reviewCount = dao.dataCountReview(campNo);
+			total_page = util.pageCount(rows, reviewCount);
+			
+			if (current_page>total_page) {
+				current_page = total_page;
+			} else if (current_page<1) {
+				current_page = 1;
+			}
+			
+			int start = (current_page-1) * rows + 1;
+			int end = current_page * rows;
+			
+			List<ReviewDTO> listReview = dao.listReview(campNo,start,end);
+			
+			for (ReviewDTO dto : listReview) {
+				dto.setReviewComment(dto.getReviewComment().replaceAll("\n", "<br>"));
+			}
+			
+			String paging = util.pagingMethod(current_page, total_page, "listPage");
+				// "listPage" : 호출할 자바 스크립트 함수명
+			
+			req.setAttribute("listReview", listReview);
+			req.setAttribute("rPageNo", current_page);
+			req.setAttribute("reviewCount", reviewCount);
+			req.setAttribute("rTotal_page", total_page);
+			req.setAttribute("rPaging", paging);
+			
+			forward(req, resp, "/WEB-INF/campingutte/review/listCampReview.jsp");
+			return;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendError(405);
 	}
 	
 	// 캠핑장에서의 리뷰 삭제 (참고: BoardServlet - deleteReview)
 	// 해당 작성한 사람 또는 어드민만 (--> jsp에서 차단)
+	// AJAX - JSON
 	protected void deleteReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ReviewDAO dao = new ReviewDAO();
 		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		String state ="false";
+		
+		try {
+			String reviewNo = req.getParameter("reviewNo");
+			dao.deleteReview(reviewNo, info.getMemberId());
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
 	}
 }
