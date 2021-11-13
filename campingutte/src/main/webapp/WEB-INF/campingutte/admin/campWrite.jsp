@@ -390,7 +390,7 @@ $(function(){
 						 -->
 						 <!-- 수정중 -->
 						<c:forEach var="dto" items="${listCampType}">
-						<option value="">${dto.typeNo}.${dto.typeName}</option>
+						<option value="${dto.typeNo}">${dto.typeNo}.${dto.typeName}</option>
 						</c:forEach>	
 						<option value="direct">직접입력</option>
 					</select>

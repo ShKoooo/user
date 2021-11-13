@@ -312,7 +312,7 @@ $(function(){
 				<c:if test="${mode=='roomWrite'}">
 					<td>
 						
-			            	<select name="" class="">
+			            	<select name="selectType" class="selectField">
 			                	<option value="" selected>캠핑장 선택</option>
 			                    <c:forEach var="vo" items="${list}">
 			                    	<option value="${vo.campNo}">${vo.campName}</option>

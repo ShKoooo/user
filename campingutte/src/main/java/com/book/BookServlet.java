@@ -302,11 +302,14 @@ public class BookServlet extends MyServlet{
 			return;
 		}
 		// 예약 세션이 넘어오지 않았을 때 --> 캠핑장 리스트로 리다이렉트 (매우 중요)
-		if (bookInfo == null) {
+		/*
+		// 잠시 주석처리
+		if (bookInfo == null) { 
 			resp.sendRedirect(cp+"/book/campList.do");
 				// 캠핑장 리스트로 리다이렉트
 			return;
 		}
+		*/
 		
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
@@ -323,8 +326,6 @@ public class BookServlet extends MyServlet{
 			String campNo = req.getParameter("campNo");
 			
 			// String condition = req.getParameter("condition");
-			/*
-			// 아래 세션 안먹히면 이거로 바꿈.
 			String keywordSrtDate = req.getParameter("srtDate")==null?"":req.getParameter("srtDate");
 			String keywordEndDate = req.getParameter("endDate")==null?"":req.getParameter("endDate");
 			String keywordAddr1 = req.getParameter("addr1")==null?"":req.getParameter("addr1");
@@ -335,15 +336,21 @@ public class BookServlet extends MyServlet{
 			keywordAddr1 = URLDecoder.decode(keywordAddr1, "utf-8");
 			keywordPeople = URLDecoder.decode(keywordPeople, "utf-8");
 			keywordCampName = URLDecoder.decode(keywordCampName, "utf-8");
+			/*
+			// 아래 세션 안먹히면 이거로 바꿈.
 			*/
 			
 			// 세션 (bookSessionInfo)에서 가져오기
 			// BookSessionInfo bookInfo = (BookSessionInfo)session.getAttribute("searchNbook");
+
+			/*
+			// 잠시 주석처리
 			String keywordSrtDate = bookInfo.getSrtDate();
 			String keywordEndDate = bookInfo.getEndDate();
 			String keywordAddr1 = bookInfo.getAddr1();
 			String keywordPeople = bookInfo.getPeople();
 			String keywordCampName = bookInfo.getCampName();
+			*/
 			// 위에서 null일때 캠핑장리스트로 리다이렉트했으므로 널 판별 여부 확인 불필요
 				// 필요시 ==null?"":bookInfo.getXXX(); 추가
 			
@@ -366,11 +373,11 @@ public class BookServlet extends MyServlet{
 				}
 			}
 			
-			
+			campNo = "123";
 			// 게시물 가져오기
 			CampSiteDTO dto = dao.readCamp(campNo); // 그림 가져오기 포함
 			if (dto == null) { // 게시글 없으면
-				resp.sendRedirect(cp+"/book/campList.do"+query);
+				resp.sendRedirect(cp+"/book/campList.do?"+query);
 				return;
 			}
 			dto.setCampDetail(util.htmlSymbols(dto.getCampDetail()));

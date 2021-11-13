@@ -60,7 +60,7 @@
                                 <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
                                 <!-- Post content-->
                                 <section class="mb-5">
-                                    <p class="fs-5 mb-4">캠핑장 소개 ${dto.campContent}</p>
+                                    <p class="fs-5 mb-4">캠핑장 소개 ${dto.campDetail}</p>
                                     <p class="fs-5 mb-4">부대시설 : ${dto.campAdd}</p>
                                     <p class="fs-5 mb-4">캠핑장 전화번호 : ${dto.campTel}</p>
                                     <!-- 

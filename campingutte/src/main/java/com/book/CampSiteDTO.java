@@ -12,6 +12,7 @@ public class CampSiteDTO {
 	private String campDetail;
 	private String typeNo;
 	private String typeName;
+	private String campAdd;
 	private List<CampsiteImageDTO> images;
 	// 캠핑장 이미지? (따로?) 
 	
@@ -74,5 +75,11 @@ public class CampSiteDTO {
 	}
 	public void setImages(List<CampsiteImageDTO> images) {
 		this.images = images;
+	}
+	public String getCampAdd() {
+		return campAdd;
+	}
+	public void setCampAdd(String campAdd) {
+		this.campAdd = campAdd;
 	}
 }
