@@ -431,6 +431,7 @@ public class BookServlet extends MyServlet{
 			resp.sendRedirect(cp+"/member/login.do");
 			return;
 		}
+		
 		// 예약 세션이 넘어오지 않았을 때 --> 캠핑장 리스트로 리다이렉트 (매우 중요)
 		if (!standalone) {
 			if (bookInfo == null) {
