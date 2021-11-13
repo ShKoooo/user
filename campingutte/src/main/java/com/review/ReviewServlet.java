@@ -1,6 +1,7 @@
 package com.review;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,73 +30,89 @@ public class ReviewServlet extends MyServlet {
 		}
 		
 		// uri에 따른 작업 구분
-		if (uri.indexOf("list.do") != -1) {
-			// 리뷰 리스트
-			list(req,resp);
-		} else if (uri.indexOf("write.do") != -1) {
-			// 리뷰 작성 (글쓰기 폼)
-			writeForm(req,resp);
-		} else if (uri.indexOf("write_ok.do") != -1) {
-			// 리뷰 작성 완료 (Submit)
-			writeSubmit(req,resp);
-		} else if (uri.indexOf("article.do") != -1) {
-			// 리뷰 글보기
-			article(req,resp);
-		} else if (uri.indexOf("update.do") != -1) {
-			// 리뷰 수정 폼
-			updateForm(req,resp);
-		} else if (uri.indexOf("update_ok.do") != -1) {
-			// 리뷰 수정 (Submit)
-			updateSubmit(req,resp);
-		} else if (uri.indexOf("delete.do") != -1) {
-			// 리뷰 삭제
-			delete(req,resp);
-		}	
+		if (uri.indexOf("listMyBookReview.do") != -1) {
+			// 예약 글보기에서 리뷰 리스트 (참고: BoardServlet - listReply)
+				// 해당 예약번호에 해당하는 한개의 리뷰만 가져오기
+				// AJAX - Text
+			listMyBookReview(req, resp);
+		} else if (uri.indexOf("insertReview.do") != -1) {
+			// 리뷰 작성 (참고: BoardServlet - insertReply)
+				// AJAX - JSON
+			insertReview(req, resp);
+		} else if (uri.indexOf("listCampReview.do")!= -1) {
+			// 캠핑장에서의 리뷰 리스트 (참고: BoardServlet - listReply)	
+				// 해당 캠핑장의 모든 리뷰 가져오기
+				// AJAX - Text
+			listCampReview(req, resp);
+		} else if (uri.indexOf("deleteReview.do")!= -1) {
+			// 캠핑장에서의 리뷰 삭제 (참고: BoardServlet - deleteReview)
+				// AJAX - JSON
+			deleteReview(req, resp);
+		}
 	}
 	
-	protected void list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	// 예약 글보기에서 리뷰 리스트 (참고: BoardServlet - listReply)
+	// AJAX - Text
+	protected void listMyBookReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ReviewDAO dao = new ReviewDAO();
 		MyUtil util = new MyUtil();
 		
-		String cp = req.getContextPath();
-		
 		try {
-			String page = req.getParameter("page");
+			// 하나만 받아오므로 페이징처리 필요없음.
 			
-			int current_page = 1;
-			if (page != null) {
-				current_page = Integer.parseInt(page);
+			String bookNo = req.getParameter("bookNoR"); // 파라미터값에 유의
+					
+			List<ReviewDTO> listReview = dao.listReview1(bookNo);
+			
+			for(ReviewDTO dto : listReview) {
+				dto.setReviewComment(dto.getReviewComment().replaceAll("\n", "<br>"));
 			}
 			
-			// 데이터 개수
-			int dataCount;
-			dataCount = dao.dataCount();
+			req.setAttribute("listReview", listReview);
+			
+			forward(req, resp, "/WEB-INF/campingutte/review/listMyBookReview.jsp");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		resp.sendError(405);
+	}
+	
+	// 리뷰 작성 (참고: BoardServlet - insertReply)
+	// AJAX : JSON
+	protected void insertReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		ReviewDAO dao = new ReviewDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		String state = "false";
+		
+		try {
+			ReviewDTO dto = new ReviewDTO();
+			
+			String bookNo = req.getParameter("bookNoR");
+			dto.setReviewNo(bookNo+info.getMemberId());
+			dto.setBookNo(bookNo);
+			dto.setMemberId(info.getMemberId());
+			dto.setReviewComment(req.getParameter("comment"));
+			dto.setReviewStar(req.getParameter("star"));
+			
+			// dao.insertReview(dto);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 	
-	protected void writeForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-			
-	}
-	
-	protected void writeSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	// 캠핑장에서의 리뷰 리스트 (참고: BoardServlet - listReply)	
+	protected void listCampReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 	}
 	
-	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
-	
-	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
-	
-	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	}
-	
-	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	// 캠핑장에서의 리뷰 삭제 (참고: BoardServlet - deleteReview)
+	// 해당 작성한 사람 또는 어드민만 (--> jsp에서 차단)
+	protected void deleteReview(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
 	}
 }
