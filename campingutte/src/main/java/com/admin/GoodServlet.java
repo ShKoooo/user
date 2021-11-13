@@ -270,7 +270,7 @@ public class GoodServlet extends MyUploadServlet {
 			}
 
 			// 관리자가 아니면 메인으로
-			if (! info.getMemberId().equals("admin")) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
+			if (! info.getMemberId().equals("admin")) {
 				resp.sendRedirect(cp + "/main.do");
 				return;
 			}
@@ -317,9 +317,8 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setCampTel(req.getParameter("campTel"));
 			dto.setCampDetail(req.getParameter("campDetail"));
 			dto.setTypeNo(req.getParameter("typeNo"));
-			dto.setCampAdd(req.getParameter("campAdd"));
-			
-//			dto.setTypeName(req.getParameter("typeName"));
+			dto.setCampAdd(req.getParameter("campAdd"));	
+			dto.setTypeName(req.getParameter("typeName"));
 			
 			
 			// 이미지 첨부
@@ -354,8 +353,6 @@ public class GoodServlet extends MyUploadServlet {
 		String page = req.getParameter("page");
 
 		try {
-			MemberDTO mdto = new MemberDTO();
-			
 			String typeNo = req.getParameter("typeNo");
 			CampSiteDTO dto = dao.readCampSite(typeNo); // 같은 스트링이니까 찾아지지 않을까..되는지 봐야한다.
 			
@@ -365,8 +362,7 @@ public class GoodServlet extends MyUploadServlet {
 			}
 
 			// 게시물을 올린 사용자가 아니면(관리자가 아니면)
-			// if (! mdto.getMemberId().equals(info.getMemberId())) {
-			if (! mdto.getMemberId().equals("admin")) {	
+			if (! info.getMemberId().equals("admin")) {	
 				//resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
 				resp.sendRedirect(cp + "/main.do"); // 관리자아니면 여기 접근하면 안되니까 메인으로..? 
 				return;
@@ -401,7 +397,7 @@ public class GoodServlet extends MyUploadServlet {
 			
 			// 이게 될까...1
 			String roomNo = req.getParameter("roomNo");
-			RoomDTO rdto = rdao.readRoom(roomNo);
+//			RoomDTO rdto = rdao.readRoom(roomNo);
 			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
@@ -754,8 +750,6 @@ public class GoodServlet extends MyUploadServlet {
 		String page = req.getParameter("page");
 
 		try {
-			// MemberDTO mdto = new MemberDTO();
-			
 			String roomNo = req.getParameter("roomNo");
 			RoomDTO dto = dao.readRoom(roomNo);
 			

@@ -55,7 +55,6 @@
 
 .table th, .table td {
 	padding: 10px 0;
-	text-align: center;
 }
 
 .table tr {
@@ -102,13 +101,16 @@
 	opacity: .65;
 }
 
+th {	/* 테이블 안 글씨 가운데 정렬 */ 
+	text-align: center;
+}
+
 </style>
 
 
 <script type="text/javascript">
 function deleteBoard(campNo) {
     if(confirm("게시글을 삭제 하시겠습니까 ? ")) {
-	    //var query = "campNo="+campNo+"&page=${page}";
 	    var query = "campNo="+campNo+"&page=${page}";
 	    var url = "${pageContext.request.contextPath}/admin/campDelete.do?" + query;
 	    location.href = url;
@@ -118,7 +120,7 @@ function deleteBoard(campNo) {
 
 </script>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <!-- header(메뉴바) 부분 -->
 <jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
 

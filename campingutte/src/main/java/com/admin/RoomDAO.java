@@ -319,8 +319,9 @@ public class RoomDAO {
 		try {
 			sb.append(" SELECT * FROM ( ");
 			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
-			sb.append("         SELECT roomNo, roomName, stdPers, stdPrice ");
-			sb.append("         FROM room ");
+			sb.append("         SELECT r.campNo, campName, roomNo, roomName, stdPers, stdPrice ");
+			sb.append("         FROM room r ");
+			sb.append("         LEFT OUTER JOIN campSite s ON r.campNo = s.campNo ");
 			sb.append("         ORDER BY roomNo DESC "); // roomNo가 int형이 아닌데 어쩌지
 			sb.append("     ) tb WHERE ROWNUM <= ? ");
 			sb.append(" ) WHERE rnum >= ? ");
@@ -333,7 +334,9 @@ public class RoomDAO {
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				RoomDTO dto = new RoomDTO();
-
+				
+				dto.setCampNo(rs.getString("campNo"));
+				dto.setCampName(rs.getString("campName"));
 				dto.setRoomNo(rs.getString("roomNo"));
 				dto.setRoomName(rs.getString("roomName"));
 				dto.setStdPers(rs.getInt("stdPers"));

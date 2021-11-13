@@ -308,23 +308,30 @@ $(function(){
 			
 			<tr class="campNo">
 				<td>캠핑장번호</td>
+				<!-- 수정중 -->
+				<c:if test="${mode=='roomWrite'}">
+					<td>
+						<c:if test="${not empty dto.campNo}">
+			            	<select name="" class="">
+			                	<option value="" selected>캠핑장 선택</option>
+			                    <c:forEach var="vo" items="${list}">
+			                    	<option value="${vo.campNo}">${vo.campName}</option>
+			                    </c:forEach>
+			                </select>
+			           	</c:if>
+						<input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.campNo}" style="width: 20%;" readonly="readonly">
+					<td>
+				</c:if>
+				
 				<c:if test="${mode=='roomUpdate'}">
 					<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장번호 입력해주세요" value="${dto.campNo}" readonly="readonly"></td>
-				</c:if>
-				<c:if test="${mode=='roomWrite'}">
-					<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장번호 입력해주세요" value="${dto.campNo}"></td>
 				</c:if>
 			</tr>
 			
 			
 			<tr class="roomNo">
 				<td>객실번호</td>
-				<c:if test="${mode=='roomUpdate'}">
-				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}" readonly="readonly"></td>
-				</c:if>
-				<c:if test="${mode=='roomWrite'}">
 				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}"></td>
-				</c:if>
 			</tr>
 			
 			<tr class="roomName">

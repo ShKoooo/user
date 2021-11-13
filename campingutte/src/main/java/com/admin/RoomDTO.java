@@ -13,6 +13,8 @@ public class RoomDTO {
 	private String imgName; // 이미지 파일명
 	private String[] imageFiles; // 이미지 파일 받을 배열
 	
+	private String campName;
+	
 	public String getRoomNo() {
 		return roomNo;
 	}
@@ -80,4 +82,11 @@ public class RoomDTO {
 		this.imageFiles = imageFiles;
 	}
 	
+	public String getCampName() {
+		return campName;
+	}
+	public void setCampName(String campName) {
+		this.campName = campName;
+	}
+
 }

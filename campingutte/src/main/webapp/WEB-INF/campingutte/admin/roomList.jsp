@@ -5,11 +5,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="resource/css/styles.css">
-<script src="resource/js/scripts.js"></script>
+
 
 <link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
+
 
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -53,7 +53,6 @@
 
 .table th, .table td {
 	padding: 10px 0;
-	text-align: center;
 }
 
 .table tr {
@@ -99,6 +98,10 @@
 	opacity: .65;
 }
 
+th {	/* 테이블 안 글씨 가운데 정렬 */ 
+	text-align: center;
+}
+
 </style>
 <script type="text/javascript">
 
@@ -112,10 +115,9 @@ function deleteBoard(roomNo) {
 
 </script>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <!-- header(메뉴바) 부분 -->
 <jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
-
 
 <div class="body-container">
 	<div class="body-title">
@@ -125,15 +127,19 @@ function deleteBoard(roomNo) {
 	<form name="roomList" method="post">
 		<table class="table">
 			<tr>
+				<th width="150">캠핑장번호</th>
+				<th width="150">캠핑장명</th>
 				<th width="150">객실번호</th>
 				<th width="150">객실이름</th>
 				<th width="150">기준인원</th>
 				<th width="200">1박당 객실 요금</th>
-				<th>변경</th>
+				<th style="width: 180px;">변경</th>
 			</tr>
 			
 			<c:forEach var="dto" items="${list}">
 				<tr>
+					<td>${dto.campNo}</td>
+					<td>${dto.campName}</td>
 					<td>${dto.roomNo}</td>
 					<td>${dto.roomName}</td>
 					<td>${dto.stdPers}</td>
