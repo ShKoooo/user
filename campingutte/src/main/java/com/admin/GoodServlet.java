@@ -451,13 +451,9 @@ public class GoodServlet extends MyUploadServlet {
 		String page = req.getParameter("page");
 
 		try {
-			MemberDTO mdto = new MemberDTO();
-			
 			String campNo = req.getParameter("campNo");
 			CampSiteDTO dto = dao.readCampSite(campNo);
 			
-			// 얘 되나 보자☆★☆★☆★☆★☆★☆★☆★
-//			int imgNum = dto.getImgNum(); // 이미지 번호는 시퀀스라서 파라미터로 못가져와서 dto로 해보는데...제발됐으면...ㅎ
 			int imgNum = Integer.parseInt(req.getParameter("imgNum"));
 
 			if (dto == null) {
@@ -465,7 +461,7 @@ public class GoodServlet extends MyUploadServlet {
 				return;
 			}
 
-			if (! info.getMemberId().equals(mdto.getMemberId())) {
+			if (! info.getMemberId().equals("admin")) {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
 				return;
 			}
@@ -663,15 +659,13 @@ public class GoodServlet extends MyUploadServlet {
 		// 객실 정보 수정 폼
 		RoomDAO dao = new RoomDAO();
 		
-//		HttpSession session = req.getSession();
-//		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
 		String cp = req.getContextPath();
 		String page = req.getParameter("page");
 		
 		try {
-//			MemberDTO mdto = new MemberDTO();
-			
 			String roomNo = req.getParameter("roomNo");
 			RoomDTO dto = dao.readRoom(roomNo);
 
@@ -680,11 +674,11 @@ public class GoodServlet extends MyUploadServlet {
 				return;
 			}
 
-//			// 관리자가 아니면 메인으로
-//			if (! mdto.getMemberId().equals(info.getMemberId())) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
-//				resp.sendRedirect(cp + "/main.do");
-//				return;
-//			}
+			// 관리자가 아니면 메인으로
+			if (! info.getMemberId().equals("admin")) { // 잘되나 봐야함 -> 안됨. 나중에 지울것임.
+				resp.sendRedirect(cp + "/main.do");
+				return;
+			}
 
 			List<RoomDTO> listRoomImage = dao.listRoomImgFile(roomNo);
 
@@ -805,13 +799,9 @@ public class GoodServlet extends MyUploadServlet {
 		String page = req.getParameter("page");
 
 		try {
-			MemberDTO mdto = new MemberDTO();
-			
 			String roomNo = req.getParameter("roomNo");
 			RoomDTO dto = dao.readRoom(roomNo);
 			
-			// 얘 되나 보자☆★☆★☆★☆★☆★☆★☆★
-//			int imgNum = dto.getImgNum(); // 이미지 번호는 시퀀스라서 파라미터로 못가져와서 dto로 해보는데...제발됐으면...ㅎ
 			int imgNum = Integer.parseInt(req.getParameter("imgNum"));
 
 			if (dto == null) {
@@ -819,7 +809,7 @@ public class GoodServlet extends MyUploadServlet {
 				return;
 			}
 
-			if (! info.getMemberId().equals(mdto.getMemberId())) {
+			if (! info.getMemberId().equals("admin")) {
 				resp.sendRedirect(cp + "/admin/roomList.do?page=" + page);
 				return;
 			}
@@ -840,7 +830,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("listRoomImage", listRoomImage);
 			req.setAttribute("page", page);
 
-			req.setAttribute("mode", "roomUpdate"); // 업데이트? 룸업데이트?
+			req.setAttribute("mode", "roomUpdate");
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
 			return;
