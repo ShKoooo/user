@@ -278,7 +278,7 @@ public class GoodServlet extends MyUploadServlet {
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
 			
 			// 안되면 지우기(캠핑장유형 셀렉트 위해 넣어놨다)
-			List<CampSiteDTO> listCampType = dao.listCampType(campNo);
+			List<CampTypeDTO> listCampType = dao.listCampType();
 			
 			
 			req.setAttribute("dto", dto);
@@ -287,6 +287,7 @@ public class GoodServlet extends MyUploadServlet {
 			
 			
 			// 안되면 지우기(캠핑장유형 셀렉트 위해 넣어놨다)
+			System.out.println("1");
 			req.setAttribute("listCampType", listCampType);
 			
 			

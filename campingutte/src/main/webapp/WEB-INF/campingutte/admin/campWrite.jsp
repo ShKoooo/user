@@ -381,7 +381,7 @@ $(function(){
 				<td>유형선택</td>
 				<td>
 					<select name="selectType" class="selectField" onchange="changeType();">
-						<option value="">선택</option>
+						<option value="">선택1</option>
 						<!-- 
 						<option value="1.캠핑장">1.캠핑장</option>
 						<option value="2.글램핑">2.글램핑</option>
@@ -389,8 +389,8 @@ $(function(){
 						<option value="direct">직접입력</option>
 						 -->
 						 <!-- 수정중 -->
-						<c:forEach var="list" items="${listCampType}">
-						<option value="">${list.typeNo}.${list.typeName}</option>
+						<c:forEach var="dto" items="${listCampType}">
+						<option value="">${dto.typeNo}.${dto.typeName}</option>
 						</c:forEach>	
 						<option value="direct">직접입력</option>
 					</select>

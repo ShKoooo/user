@@ -583,15 +583,59 @@ public class CampSiteDAO {
 			return result;
 		}
 
+		// 
+		public List<CampTypeDTO> listCampType() {
+			List<CampTypeDTO> list = new ArrayList<CampTypeDTO>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				sql = "SELECT typeNo, typeName FROM campType";
+				pstmt = conn.prepareStatement(sql);
+				
+				rs = pstmt.executeQuery();
+				
+				while (rs.next()) {
+					CampTypeDTO dto = new CampTypeDTO();
+					
+					dto.setTypeNo(rs.getString("typeNo"));
+					dto.setTypeName(rs.getString("typeName"));
+					
+					System.out.println(rs.getString("typeNo")+" : "+rs.getString("typeName"));
+					
+					list.add(dto);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (rs != null) {
+					try {
+						rs.close();
+					} catch (SQLException e2) {
+					}
+				}
+				if (pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e2) {
+					}
+				}
+			}
+			
+			return list;
+		}
 		
 		
 		// 안되면 지우기
 		// 캠핑장 유형 셀렉트를 위한 리스트
-		public List<CampSiteDTO> listCampType(String campNo) {
+		public List<CampSiteDTO> listCampType1(String campNo) {
 			List<CampSiteDTO> list = new ArrayList<CampSiteDTO>();
 			PreparedStatement pstmt = null;
 			ResultSet rs = null;
 			String sql;
+			
+			int test1= 0;
 
 			try {
 				sql = "SELECT campNo, campName, s.typeNo, typeName "
@@ -603,7 +647,7 @@ public class CampSiteDAO {
 				pstmt.setString(1, campNo);
 
 				rs = pstmt.executeQuery();
-				while (rs.next()) {
+				while (rs.next()) { // 여기를 안들어가요 지금.
 					CampSiteDTO dto = new CampSiteDTO();
 
 					dto.setCampNo(rs.getString("campNo"));
@@ -612,7 +656,11 @@ public class CampSiteDAO {
 					dto.setTypeName(rs.getString("typeName"));
 
 					list.add(dto);
+					
+					test1++;
 				}
+				
+				System.out.println(test1);
 
 			} catch (SQLException e) {
 				e.printStackTrace();
