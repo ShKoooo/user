@@ -128,13 +128,13 @@ function searchList(){
 		
 		<!-- Page Content-->
 		<section class="py-5">
-			<form name="campList" method="post">
+			<form name="campList" action="${pageContext.request.contextPath}/book/campList.do" method="post">
 
 		    <div class="container px-5 my-5">
 		        <div class="row gx-5">
 		            <div class="col-lg-3">
-		            <input type="text" id="checkIn" name="srtDate" value="${srtDate}" readonly="readonly" placeholder="체크인" class="form-control font-size-h5 font-weight-bolder">
-		            <input type="text" id="checkOut" name="endDate" value="${endDate}" readonly="readonly" placeholder="체크아웃" class="form-control font-size-h5 font-weight-bolder">
+		            <input type="text" id="checkIn" name="srtDate" value="${srtDate}" readonly="readonly" placeholder="체크인" class="form-control font-size-h5 font-weight-bolder" required="required">
+		            <input type="text" id="checkOut" name="endDate" value="${endDate}" readonly="readonly" placeholder="체크아웃" class="form-control font-size-h5 font-weight-bolder" required="required">
 		            <input type="text" name="addr1"  value="${addr1}" placeholder="지역" class="form-control font-size-h5 font-weight-bolder">
 		            <input type="text" name="campName" value="${campName}" placeholder="캠핑장명" class="form-control font-size-h5 font-weight-bolder">
 		            <div class="peopleCount">
@@ -187,8 +187,14 @@ function searchList(){
 			                    
 			                   	<c:forEach var="dto" items="${list}">
 									<tr>
-										<td>${dto.campNo}</td>
+										<td>이미지</td>
+										<td>캠핑장 이름</td>
+										<td>지역</td>
+									</tr>
+									<tr>
+										<td>${dto.images}</td>
 										<td>${dto.campName}</td>
+										<td>${dto.campAddr1}</td>
 									</tr>
 									
 								</c:forEach>
