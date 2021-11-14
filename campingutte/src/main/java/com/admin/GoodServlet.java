@@ -413,7 +413,7 @@ public class GoodServlet extends MyUploadServlet {
 
 		try {
 			String typeNo = req.getParameter("typeNo");
-			CampSiteDTO dto = dao.readCampSite(typeNo);
+			CampSiteDTO dto = dao.readCampType(typeNo);
 			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/admin/campTypeList.do?page=" + page);

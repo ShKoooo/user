@@ -600,5 +600,48 @@ public class CampSiteDAO {
 			
 			return list;
 		}
-		 
+
+		
+		public CampSiteDTO readCampType(String typeNo) {
+			CampSiteDTO dto = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			String sql;
+			
+			try {
+				sql = "SELECT typeNo, typeName FROM campType WHERE typeNo = ?";
+				
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setString(1, typeNo);
+				
+				rs = pstmt.executeQuery();
+				
+				// 또는 while
+				while(rs.next()) {
+					dto = new CampSiteDTO();
+					
+					dto.setTypeNo(rs.getString("typeNo"));
+					dto.setTypeName(rs.getString("typeName"));
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if(rs != null) {
+					try {
+						rs.close();
+					} catch (Exception e2) {
+					}
+				}
+				
+				if(pstmt != null) {
+					try {
+						pstmt.close();
+					} catch (Exception e2) {
+					}
+				}
+			}
+
+			return dto;
+		}
 }
