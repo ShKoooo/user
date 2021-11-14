@@ -114,18 +114,15 @@ public class GoodServlet extends MyUploadServlet {
 			dataCount = dao.dataCount();
 			
 			// 전체 페이지 수
-			int rows = 5;
+			int rows = 3;
 			int total_page = util.pageCount(rows, dataCount);
 			if (current_page > total_page) {
 				current_page = total_page;
 			}
 
-			int start = (current_page - 1) * rows + 1;
-			int end = current_page * rows;
-
-			// 게시물 가져오기
-			List<CampSiteDTO> list = null;
-			list = dao.listCampSite(start, end);
+			// 캠핑장 유형 목록 가져오기
+			List<CampTypeDTO> listCampType = null;
+			listCampType = dao.listCampType();
 
 			// 페이징 처리
 			String listUrl = cp + "/admin/campTypeList.do";
@@ -135,7 +132,7 @@ public class GoodServlet extends MyUploadServlet {
 			String paging = util.paging(current_page, total_page, listUrl);
 
 			// 포워딩할 JSP에 전달할 속성
-			req.setAttribute("list", list);
+			req.setAttribute("listCampType", listCampType);
 			req.setAttribute("page", current_page);
 			req.setAttribute("total_page", total_page);
 			req.setAttribute("dataCount", dataCount);
@@ -419,14 +416,13 @@ public class GoodServlet extends MyUploadServlet {
 			CampSiteDTO dto = dao.readCampSite(typeNo);
 			
 			if (dto == null) {
-				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
+				resp.sendRedirect(cp + "/admin/campTypeList.do?page=" + page);
 				return;
 			}
 
 			// 게시물을 올린 사용자가 아니면(관리자가 아니면)
 			if (! info.getMemberId().equals("admin")) {	
-				//resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
-				resp.sendRedirect(cp + "/main.do"); // 관리자아니면 여기 접근하면 안되니까 메인으로..? 
+				resp.sendRedirect(cp + "/main.do"); // 관리자아니면 여기 접근하면 안되니 메인으로 
 				return;
 			}
 
@@ -437,7 +433,7 @@ public class GoodServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
+		resp.sendRedirect(cp + "/admin/campTypeList.do?page=" + page);
 	}
 	
 	

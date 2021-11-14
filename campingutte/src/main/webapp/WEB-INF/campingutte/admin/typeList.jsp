@@ -103,15 +103,15 @@ th {	/* 테이블 안 글씨 가운데 정렬 */
 
 </style>
 <script type="text/javascript">
-<c:if test="${sessionScope.member.memberId=='admin'}">
-function deleteBoard() {
+
+function deleteBoard(typeNo) {
     if(confirm("캠핑장 유형을 삭제 하시겠습니까 ? ")) {
-	    var query = "num=${dto.num}&page=${page}";
-	    var url = "${pageContext.request.contextPath}/admin/typeDelete.do" + query;
+	    var query = "typeNo="+typeNo+"&page=${page}";
+	    var url = "${pageContext.request.contextPath}/admin/campTypeDelete.do?" + query;
     	location.href = url;
     }
 }
-</c:if>
+
 
 </script>
 </head>
@@ -135,12 +135,12 @@ function deleteBoard() {
 				<th>변경</th>
 			</tr>
 			
-		<c:forEach var="dto" items="${list}">
+		<c:forEach var="dto" items="${listCampType}">
 			<tr>
 				<td>${dto.typeNo}</td>
 				<td>${dto.typeName}</td>
 				<td>
-					<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+					<button type="button" class="btn" onclick="deleteBoard('${dto.typeNo}');">삭제</button>
 				</td>
 			</tr>
 		</c:forEach>
