@@ -693,9 +693,12 @@ public class BookDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT bookNo, bookName, bookTel, bookSrtdate, bookEnddate,"
-				+ " bookRequest, totalPrice, memberId, bookDate, people, "
-				+ " roomNo, bookEmail"
+			sql = "SELECT bookNo, bookName, bookTel,"
+				+ " TO_CHAR(bookSrtdate,'YYYY-MM-DD') bookSrtdate, "
+				+ " TO_CHAR(bookEnddate,'YYYY-MM-DD') bookEnddate,"
+				+ " bookRequest, totalPrice, memberId, "
+				+ " TO_CHAR(bookDate,'YYYY-MM-DD') bookDate, "
+				+ " people, roomNo, bookEmail"
 				+ " FROM book"
 				+ " WHERE bookNo = ?";
 			

@@ -91,6 +91,57 @@
 	opacity: .65;
 }
 
+
+/* review */
+
+.reply {
+	clear: both; padding: 20px 0 10px;
+}
+.reply .bold {
+	font-weight: 600;
+}
+
+.reply .form-header {
+	padding-bottom: 7px;
+}
+.reply-form  td {
+	padding: 2px 0 2px;
+}
+.reply-form textarea {
+	width: 100%; height: 75px;
+}
+.reply-form button {
+	padding: 8px 25px;
+}
+
+.reply .reply-info {
+	padding-top: 25px; padding-bottom: 7px;
+}
+.reply .reply-info  .reply-count {
+	color: #3EA9CD; font-weight: 700;
+}
+
+.reply .reply-list tr td {
+	padding: 7px 5px;
+}
+.reply .reply-list .bold {
+	font-weight: 600;
+}
+
+.reply .deleteReply, .reply .deleteReplyAnswer {
+	cursor: pointer;
+}
+.reply .notifyReply {
+	cursor: pointer;
+}
+
+.reply-list .list-header {
+	border: 1px solid #ccc; background: #eee;
+}
+.reply-list td {
+	padding-left: 7px; padding-right: 7px;
+}
+
 </style>
 
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
@@ -111,23 +162,87 @@
 	      
 	<table class="table table-border table-article">
 		<tr>
-			<td colspan="2" align="center">
+			<td> <%-- colspan="2" align="center" --%>
+				<b>예약번호</b>
+			</td>
+			<td>
 				${dto.bookNo}
 			</td>
-		</tr>
-		
-		<tr>
-			<td width="50%">
-				이름 : ${dto.bookName}
+			<td>
+				<b>예약일자</b> 			
 			</td>
-			<td align="right">
+			<td>
 				${dto.bookDate}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>전화번호</b> 
+			</td>
+			<td>
+				${dto.bookTel }
+			</td>
+			<td>
+				<b>이메일</b> 
+			</td>
+			<td>
+				${dto.bookEmail}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>예약자명</b> 
+			</td>
+			<td>
+				${dto.bookName}
+			</td>
+			<td>
+				<b>아이디</b> 	
+			</td>
+			<td>
+				${dto.memberId}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>객실번호</b> 
+			</td>
+			<td>
+				${dto.roomNo}
+			</td>
+			<td>
+				<b>숙박인원</b> 
+			</td>
+			<td>
+				${dto.people} (명)
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>체크인</b> 
+			</td>
+			<td>
+				${dto.bookSrtdate}
+			</td>
+			<td>
+				<b>체크아웃</b> 
+			</td>
+			<td>
+				${dto.bookEnddate}
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<b>결제금액</b> 
+			</td>
+			<td colspan="3">
+				${dto.totalPrice} (원)
 			</td>
 		</tr>
 		
 		<tr style="border-bottom: none;">
-			<td colspan="2" valign="top" height="200">
-				${dto.bookRequest}
+			<td colspan="4" valign="top" height="200">
+				<b>요청사항</b><br>${dto.bookRequest}
 			</td>
 		</tr>
 		
@@ -158,7 +273,42 @@
 				<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/book/bookList.do?${query}';">리스트</button>
 			</td>
 		</tr>
-	</table>       
+	</table>
+	
+	<div class="reply">
+			<form name="replyForm" method="post">
+				<div class='form-header'>
+					<span class="bold">리뷰쓰기</span><span> - 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+				</div>
+				
+				<table class="table reply-form">
+					<tr>
+						<td>
+							<b>별점</b>&nbsp;&nbsp;
+							<select name="star">
+								<option value="1">★</option>
+								<option value="2">★★</option>
+								<option value="3">★★★</option>
+								<option value="4">★★★★</option>
+								<option value="5">★★★★★</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<textarea class='boxTA' name="content"></textarea>
+						</td>
+					</tr>
+					<tr>
+					   <td align='right'>
+					        <button type='button' class='btn btnSendReply'>리뷰 등록</button>
+					    </td>
+					 </tr>
+				</table>
+			</form>
+			
+			<div id="listReply"></div>
+		</div>
 </div>
 
 </main>
