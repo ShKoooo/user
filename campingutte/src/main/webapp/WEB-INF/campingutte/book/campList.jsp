@@ -93,7 +93,6 @@ function searchList(){
 	f.submit();
 }
 
-
 </script>
 <style type="text/css">
 
@@ -118,9 +117,28 @@ function searchList(){
 	border: none;
 }
 
-.campsiteList {
-	box-shadow: 
+
+.campsite-list {
+	display: flex;
+	width: 800px;
+	margin: 10px 0;
+	border: 1px solid black;
+	border-radius: 10px;
 }
+ 
+.campsite-list > img {
+	width: 300px;
+	height: 200px;
+}
+
+.campsite-list1 {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 20px;
+}
+
+
 </style>
 <title>검색리스트</title>
 
@@ -160,14 +178,9 @@ function searchList(){
 						<input type="hidden" class="people" name="people" value="${people}" readonly="readonly">
 					</div>
 		            <div><button class="btn btn-primary btn-lg" id="submitButton" type="button" style="width: 100%" onclick="searchList();">숙소 검색</button></div>
-		                <div class="d-flex align-items-center mt-lg-5 mb-4">
-		                    <img class="img-fluid rounded-circle" src="https://dummyimage.com/50x50/ced4da/6c757d.jpg" alt="..." />
-		                    <div class="ms-3">
-		                        <div class="fw-bold">Valerie Luna</div>
-		                        <div class="text-muted">News, Business</div>
-		                    </div>
-		                </div>
+		                
 		            </div>
+		            
 		            <div class="col-lg-9">
 		                <!-- Post content-->
 		                <article>
@@ -179,45 +192,30 @@ function searchList(){
 		                        
 		                        <div class="text-muted fst-italic mb-2">January 1, 2021</div>
 		                        <hr>
-		                        <!-- Post categories-->
-		                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Web Design</a>
-		                        <a class="badge bg-secondary text-decoration-none link-light" href="#!">Freebies</a>
+		                       
 		                    </header>
-		                    <!-- Preview image figure-->
-		                    <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+
 		                    <!-- Post content-->
 		                    
-			                    <table>
-			                    <tr>
-									<td>이미지</td>
-									<td>캠핑장 이름</td>
-									<td>지역</td>
-								</tr>
+			                    
+							<div class="list-container">
 			                   	<c:forEach var="dto" items="${list}">
-									
-									<tr class="campsiteList" onclick="location.href='${articleUrl}&num=${dto.campNo}';">
-										<td>
+									<div class="campsite-list"onclick="location.href='${articleUrl}&campNo=${dto.campNo}';" >
 											<c:forEach var="vo" items="${dto.images}" varStatus="status">
 												<c:if test="${status.index==0}">
 												  <figure class="mb-4"><img src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"></figure>
 												</c:if>
 											</c:forEach>
-										</td>
-										<td>${dto.campName}</td>
-										<td>${dto.campAddr1}</td>
-									</tr>
-									
+											<div class="campsite-list1">
+													<p>캠핑장 : ${dto.campName}</p>
+													<p>지역 : ${dto.campAddr1}</p>
+											</div>
+									</div>
 								</c:forEach>
-								</table>
+							</div>
+		
 
-		                    <section class="mb-5">
-		                        <p class="fs-5 mb-4">Science is an enterprise that should be cherished as an activity of the free human mind. Because it transforms who we are, how we live, and it gives us an understanding of our place in the universe.</p>
-		                        <p class="fs-5 mb-4">The universe is large and old, and the ingredients for life as we know it are everywhere, so there's no reason to think that Earth would be unique in that regard. Whether of not the life became intelligent is a different question, and we'll see if we find that.</p>
-		                        <p class="fs-5 mb-4">If you get asteroids about a kilometer in size, those are large enough and carry enough energy into our system to disrupt transportation, communication, the food chains, and that can be a really bad day on Earth.</p>
-		                        <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>
-		                        <p class="fs-5 mb-4">For me, the most fascinating interface is Twitter. I have odd cosmic thoughts every day and I realized I could hold them to myself or share them with people who might be interested.</p>
-		                        <p class="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
-		                    </section>
+		                    
 		                </article>
 
 		            </div>
