@@ -905,7 +905,7 @@ public class BookDAO {
 			sb.append(" 			roomNo, bookEmail");
 			sb.append(" 		FROM book");
 			if (!memberId.equalsIgnoreCase("admin")) {
-				sb.append("		WHERE memberId = "+memberId);
+				sb.append("		WHERE memberId = ?");
 			}
 			sb.append("     ) tb WHERE ROWNUM <= ? ");
 			sb.append(" ) WHERE rnum >= ? ");
@@ -919,8 +919,14 @@ public class BookDAO {
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			pstmt.setInt(1, end);
-			pstmt.setInt(2, start);
+			if (!memberId.equalsIgnoreCase("admin")) {
+				pstmt.setString(1, memberId);
+				pstmt.setInt(2, end);
+				pstmt.setInt(3, start);
+			} else {
+				pstmt.setInt(1, end);
+				pstmt.setInt(2, start);
+			}
 			
 			rs = pstmt.executeQuery();
 			
