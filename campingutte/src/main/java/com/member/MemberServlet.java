@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.cs.BoardDAO;
 import com.util.MyServlet;
+import com.util.MyUtil;
 
 @WebServlet("/member/*")
 public class MemberServlet extends MyServlet{
@@ -37,6 +39,8 @@ public class MemberServlet extends MyServlet{
 			pwdForm(req, resp);
 		} else if (uri.indexOf("pwd_ok.do") != -1) {
 			pwdSubmit(req, resp);
+		} else if (uri.indexOf("mypage.do") != -1) {
+			myPageView(req, resp);
 		}
 	}
 	
@@ -215,7 +219,7 @@ public class MemberServlet extends MyServlet{
 		}
 		req.setAttribute("mode", mode);
 		
-		forward(req, resp, "WEB-INF/views/member/update.jsp");
+		forward(req, resp, "/WEB-INF/campingutte/member/update.jsp");
 		
 		}
 	
@@ -252,14 +256,14 @@ public class MemberServlet extends MyServlet{
 				}
 			req.setAttribute("mode", mode);
 			req.setAttribute("message", "패스워드가 일치하지 않습니다.");
-			forward(req, resp, "/WEB-INF/views/member/update.jsp");
+			forward(req, resp, "/WEB-INF/campingutte/member/update.jsp");
 			return;
 			}
 			
 			req.setAttribute("title", "회원정보 수정");
 			req.setAttribute("dto", dto);
 			req.setAttribute("mode", "update");
-			forward(req, resp, "/WEB-INF/views/member/member.jsp");
+			forward(req, resp, "/WEB-INF/campingutte/member/signup.jsp");
 			return;
 			
 			
@@ -269,6 +273,21 @@ public class MemberServlet extends MyServlet{
 
 		resp.sendRedirect(cp + "/");
 			
+	}
+	
+	
+	private void myPageView(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		BoardDAO dao = new BoardDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
+
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		
+		forward(req, resp, "/WEB-INF/campingutte/member/mypage.jsp");
+		
 	}
 		
 }

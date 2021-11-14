@@ -119,7 +119,7 @@ function sendOk() {
 					</tr>
 					<tr align="center"> 
 					    <td>
-							<button type="button" onclick="sendOk();" class="btnConfirm">로그인</button>
+							<button type="button" onclick="sendOk();" class="btnConfirm">확인</button>
 							<input type="hidden" name="mode" value="${mode}">
 					    </td>
 					</tr>
