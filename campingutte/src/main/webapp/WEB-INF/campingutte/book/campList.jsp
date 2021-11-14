@@ -117,6 +117,10 @@ function searchList(){
 .btnMinus {
 	border: none;
 }
+
+.campsiteList {
+	box-shadow: 
+}
 </style>
 <title>검색리스트</title>
 
@@ -184,14 +188,14 @@ function searchList(){
 		                    <!-- Post content-->
 		                    
 			                    <table>
-			                    
+			                    <tr>
+									<td>이미지</td>
+									<td>캠핑장 이름</td>
+									<td>지역</td>
+								</tr>
 			                   	<c:forEach var="dto" items="${list}">
-									<tr>
-										<td>이미지</td>
-										<td>캠핑장 이름</td>
-										<td>지역</td>
-									</tr>
-									<tr>
+									
+									<tr class="campsiteList" onclick="location.href='${articleUrl}&num=${dto.campNo}';">
 										<td>${dto.images}</td>
 										<td>${dto.campName}</td>
 										<td>${dto.campAddr1}</td>
