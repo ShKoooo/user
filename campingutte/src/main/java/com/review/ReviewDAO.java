@@ -65,8 +65,35 @@ public class ReviewDAO {
 	// 리뷰 DB에 입력
 	public int insertReview(ReviewDTO dto) {
 		int result = 0;
+
+		PreparedStatement pstmt = null;
+		String sql;
 		
-		// TODO
+		try {
+			sql = "INSERT INTO review"
+				+ " (reviewNo, reviewComment, reviewDate, memberId, bookNo, reviewStar)"
+				+ " VALUES (?,?,SYSDATE,?,?,?)";
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, dto.getReviewNo());
+			pstmt.setString(2, dto.getReviewComment());
+			pstmt.setString(3, dto.getMemberId());
+			pstmt.setString(4, dto.getBookNo());
+			pstmt.setString(5, dto.getReviewStar());
+		
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
 		
 		return result;
 	}
@@ -74,7 +101,43 @@ public class ReviewDAO {
 	public int dataCountReview(String campNo) {
 		int result = 0;
 		
-		// TODO
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append("SELECT NVL(COUNT(*),0) cnt");
+			sb.append("	FROM review WHERE bookNo IN (");
+			sb.append("		SELECT bookNo FROM book WHERE roomNo IN (");
+			sb.append("			SELECT roomNo FROM room WHERE campNo = ?");
+			sb.append("		)");
+			sb.append("	)");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setString(1, campNo);
+			
+			rs = pstmt.executeQuery();
+			
+			if (rs.next()) {
+				result = rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+			
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
 		
 		return result;
 	}
@@ -88,11 +151,22 @@ public class ReviewDAO {
 		StringBuilder sb = new StringBuilder();
 		
 		try {
-			sb.append("");
+			sb.append("SELECT * FROM (");
+			sb.append("	SELECT ROWNUM rnum, tb.* FROM(");
+			sb.append("		SELECT reviewNo, reviewComment, reviewDate, memberId, bookNo, reviewStar");
+			sb.append("		FROM review WHERE bookNo IN (");
+			sb.append("			SELECT bookNo FROM book WHERE roomNo IN (");
+			sb.append("				SELECT roomNo FROM room WHERE campNo = ?");
+			sb.append("			)");
+			sb.append("		)");
+			sb.append("	) tb WHERE ROWNUM <= ? ");
+			sb.append(") WHERE rnum >= ?");
 			
 			pstmt = conn.prepareStatement(sb.toString());
 			
-			// TODO
+			pstmt.setString(1, campNo);
+			pstmt.setInt(2, end);
+			pstmt.setInt(3, start);
 			
 			rs = pstmt.executeQuery();
 			
@@ -133,7 +207,33 @@ public class ReviewDAO {
 	public int deleteReview(String reviewNo, String memberId) {
 		int result = 0;
 		
-		// TODO
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "DELETE FROM review WHERE reviewNo = ?";							
+			if (!memberId.equalsIgnoreCase("admin")) {
+				sql += " AND memberId = ?";
+			}
+			
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setString(1, reviewNo);
+			if (!memberId.equalsIgnoreCase("admin")) {
+				pstmt.setString(2, memberId);
+			}
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
 		
 		return result;
 	}
