@@ -917,6 +917,10 @@ public class BookDAO {
 			*/
 			
 			pstmt = conn.prepareStatement(sb.toString());
+			
+			pstmt.setInt(1, end);
+			pstmt.setInt(2, start);
+			
 			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {

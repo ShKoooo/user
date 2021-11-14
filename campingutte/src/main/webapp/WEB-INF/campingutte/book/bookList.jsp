@@ -6,10 +6,20 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>예약 목록</title>
+<jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 <body>
+
+<%-- /book/bookList.do --%>
+<header>
+	<jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
+</header>
+
+<main>
+되나?
+</main>
 
 </body>
 </html>
