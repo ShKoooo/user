@@ -3,6 +3,7 @@ package com.book;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -203,6 +204,8 @@ public class BookServlet extends MyServlet{
 			String [] keyword = 
 				{keywordSrtDate,keywordEndDate,keywordAddr1,keywordPeople,keywordCampName};
 			
+			System.out.println("키워드: "+Arrays.toString(keyword));
+			
 			if (keywordSrtDate.length() == 0 
 				&& keywordEndDate.length() == 0
 				&& keywordAddr1.length() == 0
@@ -237,6 +240,8 @@ public class BookServlet extends MyServlet{
 					// dao.listCamp에 그림 가져오기 포함
 					// CampSiteDTO 내부에 CampsiteImageDTO 객체 가지고 있음.
 			}
+			
+			System.out.println("list is Empty? : "+list.isEmpty());
 			
 			// 리스트 글번호 만들기
 			int listNum, n = 0;
