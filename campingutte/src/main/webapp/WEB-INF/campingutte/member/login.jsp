@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>캠핑어때 회원가입</title>
+<title>캠핑어때 로그인 </title>
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 <link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />

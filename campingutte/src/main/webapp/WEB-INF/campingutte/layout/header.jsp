@@ -72,7 +72,7 @@
 	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/admin/adminmain.do">관리페이지</a></li>
 	                            </c:if>
 	               
-	                            <li class="nav-item"><a class="nav-link" href="pricing.html">마이페이지</a></li>
+	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/member/mypage.do">마이페이지</a></li>
 	                            
 	                            
 	                            <li class="nav-item dropdown">

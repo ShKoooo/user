@@ -48,6 +48,8 @@ public class BoardServlet extends MyServlet {
 			faq(req, resp);
 		} else if (uri.indexOf("insertReply.do") != -1) {
 			insertReply(req, resp);
+		} else if (uri.indexOf("help.do") != -1) {
+			callPage(req, resp);
 		}
 	}
 
@@ -343,6 +345,12 @@ public class BoardServlet extends MyServlet {
 	
 		forward(req, resp, "/WEB-INF/campingutte/cs/faq.jsp");
 	}
+	
+	private void callPage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		forward(req, resp, "/WEB-INF/campingutte/cs/help.jsp");
+	}
+	
 	
 	private void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO dao = new BoardDAO();

@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.cs.BoardDAO;
 import com.util.MyServlet;
-import com.util.MyUtil;
 
 @WebServlet("/member/*")
 public class MemberServlet extends MyServlet{
@@ -277,17 +275,50 @@ public class MemberServlet extends MyServlet{
 	
 	
 	private void myPageView(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		BoardDAO dao = new BoardDAO();
-		MyUtil util = new MyUtil();
-
-		String cp = req.getContextPath();
-
+		MemberDAO dao = new MemberDAO();
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo) session.getAttribute("member");
-		
-		
+
+
+		try {
+			MemberDTO dto = dao.readMember(info.getMemberId());			
+
+			
+			dto.setMemberId(dto.getMemberId());
+			dto.setMemberName(dto.getMemberName());
+			dto.setMemberEmail(dto.getMemberEmail());
+			dto.setMemberTel(dto.getMemberTel());
+			dto.setMemberAddr(dto.getMemberAddr());
+			dto.setMemberAddr2(dto.getMemberAddr2());
+			
+			req.setAttribute("dto", dto);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		forward(req, resp, "/WEB-INF/campingutte/member/mypage.jsp");
-		
-	}
-		
+	}	
 }
+
+
+
+/*
+req.setAttribute("memberId", memberId);
+req.setAttribute("memberPwd", memberPwd);
+req.setAttribute("memberName", memberName);
+req.setAttribute("memberBirth", memberBirth);
+req.setAttribute("memberEmail", memberEmail);
+req.setAttribute("memberTel", memberTel);
+req.setAttribute("memberAddr", memberAddr);
+req.setAttribute("memberAddr2", memberAddr2);
+
+
+dto.setMemberId(req.getParameter("memberId"));
+dto.setMemberPwd(req.getParameter("memberPwd"));
+dto.setMemberName(req.getParameter("memberName"));
+dto.setMemberBirth(req.getParameter("memberBirth"));
+dto.setMemberEmail(req.getParameter("memberEmail"));
+dto.setMemberTel(req.getParameter("memberTel"));
+dto.setMemberAddr(req.getParameter("memberAddr"));
+dto.setMemberAddr2(req.getParameter("memberAddr2"));
+*/

@@ -79,7 +79,7 @@ public class LoginFilter implements Filter {
 				"/index.jsp", "/main.do",
 				"/member/login_ok.do", "/member/login.do",
 				"/member/signup_ok.do", "/member/signup.do",
-				"/cs/faq.do", "/cs/call/do",
+				"/cs/faq.do", "/cs/help.do",
 				"/resource/**", "/css/**",
 				"/startbootstrap/**"
 		};

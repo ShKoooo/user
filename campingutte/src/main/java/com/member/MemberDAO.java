@@ -113,16 +113,18 @@ public class MemberDAO {
 		String sql;
 		
 		try {
-			sql = "UPDATE member SET memberPwd=?, memberUpdate=SYSDATE MemberBirth=TO_DATE(?,'YYYYMMDD'), MemberEmail=?, MemberTel=?, MemberAddr=?, MemberAddr2=?   WHERE memberId=?";
+			sql = "UPDATE member SET memberPwd=?, memberBirth=TO_DATE(?,'YYYYMMDD'), memberEmail=?, memberName=?, memberTel=?, memberAddr=?, memberAddr2=?, memberUpdate=SYSDATE  WHERE memberId=?";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getMemberPwd());
-			pstmt.setString(2, dto.getMemberId());
-			pstmt.setString(3, dto.getMemberBirth());
-			pstmt.setString(4, dto.getMemberEmail());
+			pstmt.setString(2, dto.getMemberBirth());
+			pstmt.setString(3, dto.getMemberEmail());
+			pstmt.setString(4, dto.getMemberName());
 			pstmt.setString(5, dto.getMemberTel());
 			pstmt.setString(6, dto.getMemberAddr());
 			pstmt.setString(7, dto.getMemberAddr2());
+			pstmt.setString(8, dto.getMemberId());
+			
 			
 			result += pstmt.executeUpdate();
 

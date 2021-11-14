@@ -43,8 +43,16 @@
 }
 
 .tableReplyForm {
-
+	vertical-align: center;
 }
+
+.btnConfirm {
+	width: 100px;
+	heigth: 70px;
+	vertical-align: center;
+	text-align: center;
+}
+
 
 
 </style>
@@ -152,28 +160,23 @@ $(function(){
 			
 		</table>
 		</div>
-		
-		<div class="reply">
-			<form name="replyForm" method="post">
+
+		<div class="body-container">
+			<form name="body-title" method="post">
 				<div>
-					<span style="color: grey;"> 고객센터 답변 </span>
+					<span style="color: grey; font-size: 28px;">  ► 고객센터 답변 </span>
 				</div>
 				
 				<c:if test="${empty rdto}">
 					<table class="table reply-form">
 						<tr>
 							<td>
-								<textarea class='boxTA' name="content" style="width: 55%; vertical-align: center;"></textarea>
+								<textarea class='boxTA' name="content" style="width: 85%; vertical-align: center;"></textarea>
+								<button type='button' class='btn btnSendReply'>답변 올리기 </button>	
 							</td>
 						</tr>
-						<tr>
-						   <td align='right'>
-						        <button type='button' class='btn btnSendReply'>답변 올리기 </button>
-						    </td>
-						 </tr>
 					</table>
 				</c:if>
-			</form>
 			<c:if test="${not empty rdto}">
 				<div id="listReply">
 
@@ -189,12 +192,12 @@ $(function(){
 							<tr>
 								<td colspan='2' valign='top'>${rdto.compReplyContent}</td>
 							</tr>
-					</table>				
+					</table>			
 				</div>
 			</c:if>
+			</form>
 		</div>
-        
-	
+
 </main>
 
 <footer>
