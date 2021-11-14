@@ -330,7 +330,7 @@ function changeType() {
 						<c:forEach var="dto" items="${listCampNo}">
 						<option value="${dto.campNo}">${dto.campNo}.${dto.campName}</option>
 						</c:forEach>	
-						<option value="direct">직접입력</option>
+						
 					</select>
 					<input type="text" maxlength="30" name="campNo" class="boxTF" value="${dto.campName}" style="width: 20%;" readonly="readonly">
 				

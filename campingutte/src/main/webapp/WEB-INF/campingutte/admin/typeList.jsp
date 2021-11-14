@@ -5,6 +5,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+<link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
+<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
+
+<link href="${pageContext.request.contextPath}/resource/css/paginate.css" rel="stylesheet" />
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
@@ -12,7 +18,6 @@
 .body-container {
     margin: 0 auto 15px;
     width: 800px;
-    min-height: 450px;
 }
 .body-container:before, .body-container:after{
 	content: "";
@@ -92,9 +97,13 @@
 	opacity: .65;
 }
 
+th {	/* 테이블 안 글씨 가운데 정렬 */ 
+	text-align: center;
+}
+
 </style>
 <script type="text/javascript">
-<c:if test="${sessionScope.member.userId=='admin'}">
+<c:if test="${sessionScope.member.memberId=='admin'}">
 function deleteBoard() {
     if(confirm("캠핑장 유형을 삭제 하시겠습니까 ? ")) {
 	    var query = "num=${dto.num}&page=${page}";
@@ -106,7 +115,9 @@ function deleteBoard() {
 
 </script>
 </head>
-<body>
+<body class="d-flex flex-column h-100">
+<!-- header(메뉴바) 부분 -->
+<jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
 
 <div class="body-container">
 	<div class="body-title">
@@ -114,6 +125,9 @@ function deleteBoard() {
 	</div>
 	
 	<form name="typeList" method="post">
+	
+		<p style="text-align: right; margin: 1px">${dataCount}개(${page}/${total_page} 페이지)</p>
+	
 		<table class="table">
 			<tr>
 				<th width="250">유형번호</th>
@@ -131,8 +145,16 @@ function deleteBoard() {
 			</tr>
 		</c:forEach>
 		</table>
+		
+		<div class="page-box">
+			${dataCount == 0 ? "등록된 캠핑장이 없습니다." : paging}
+		</div>
+		
 	</form> 
 </div>
+
+<!-- footer 부분 -->
+<jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 
 </body>
 </html>

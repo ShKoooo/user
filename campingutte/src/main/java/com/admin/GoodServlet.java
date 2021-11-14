@@ -37,19 +37,21 @@ public class GoodServlet extends MyUploadServlet {
 		if (info == null) { // 로그인 되지 않은 경우
 			resp.sendRedirect(cp + "/member/login.do");
 			return;
-		} else if(! info.getMemberId().equals("admin")) { // 일단 관리자 아니면 못들어오게 하려고 넣긴했는데 나중에 보고 수정하든 지우든 할듯. 왜냐면 관리자아니면 메뉴도 안보이게 할까 생각중이라
+		} else if(! info.getMemberId().equals("admin")) {
 			resp.sendRedirect(cp + "/main/main.do");
 			return;
 		}
 		
 		// 이미지를 저장할 경로(pathname).
 		String root = session.getServletContext().getRealPath("/");
-		pathname = root + "uploads" + File.separator + "admin"; // 이미지 실제 경로. 여기에 저장되야 이미지를 볼수 있음 (즉 얘는 그림저장하는 경로)
+		pathname = root + "uploads" + File.separator + "admin"; // 이미지 실제 경로. 여기에 저장되야 이미지를 볼수 있다.
 		
 		
 		// uri에 따른 작업 구분
 		if(uri.indexOf("campList.do") != -1) { // 캠핑장 리스트(관리자가 봄)
 			campList(req, resp);
+		} else if(uri.indexOf("campTypeList.do") != -1) { // 캠핑장 유형 리스트
+			campTypeList(req, resp);
 		} else if(uri.indexOf("campTypeWrite.do") != -1) { // 캠핑장 유형 등록
 			campTypeWriteForm(req, resp);
 		} else if(uri.indexOf("campTypeWrite_ok.do") != -1) { // 캠핑장 유형 등록
@@ -93,7 +95,61 @@ public class GoodServlet extends MyUploadServlet {
 		
 	}
 	
-	// 등록한 유형 리스트..? (없어도 될거같아서 일단 보류)
+	// 등록한 유형 리스트
+	private void campTypeList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		CampSiteDAO dao = new CampSiteDAO();
+		MyUtil util = new MyUtil();
+
+		String cp = req.getContextPath();
+		
+		try {
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null) {
+				current_page = Integer.parseInt(page);
+			}
+			
+			// 전체 데이터 개수
+			int dataCount;
+			dataCount = dao.dataCount();
+			
+			// 전체 페이지 수
+			int rows = 5;
+			int total_page = util.pageCount(rows, dataCount);
+			if (current_page > total_page) {
+				current_page = total_page;
+			}
+
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+
+			// 게시물 가져오기
+			List<CampSiteDTO> list = null;
+			list = dao.listCampSite(start, end);
+
+			// 페이징 처리
+			String listUrl = cp + "/admin/campTypeList.do";
+//			String articleUrl = cp + "/admin/campArticle.do?page=" + current_page;
+
+			
+			String paging = util.paging(current_page, total_page, listUrl);
+
+			// 포워딩할 JSP에 전달할 속성
+			req.setAttribute("list", list);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("dataCount", dataCount);
+//			req.setAttribute("articleUrl", articleUrl);
+			req.setAttribute("paging", paging);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		// JSP로 포워딩
+		forward(req, resp, "/WEB-INF/campingutte/admin/typeList.jsp");
+	}
+	
 	
 	// 등록한 캠핑장 리스트
 	private void campList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -234,8 +290,6 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setTypeNo(req.getParameter("typeNo")); // 셀렉트 옵션으로 받기
 			dto.setCampAdd(req.getParameter("campAdd"));
 			
-//			dto.setTypeName(req.getParameter("typeName")); // 잘 되면 지우기
-			
 			// 이미지 첨부
 			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
 			if (map != null) {
@@ -243,7 +297,7 @@ public class GoodServlet extends MyUploadServlet {
 				dto.setImageFiles(saveFiles);
 			}
 			
-//			dao.insertCampType(dto); // 잘 되면 지우기 
+ 
 			dao.insertCampSite(dto);
 			dao.insertCampSiteImage(dto);
 
@@ -317,7 +371,6 @@ public class GoodServlet extends MyUploadServlet {
 		try {
 			CampSiteDTO dto = new CampSiteDTO();
 
-			// 우선 입력한거 다 수정 가능하게 해둠
 			// 등록받을 파라미터들 (name으로 받아옴)
 			dto.setCampNo(req.getParameter("campNo"));
 			dto.setCampName(req.getParameter("campName"));
@@ -337,7 +390,7 @@ public class GoodServlet extends MyUploadServlet {
 				dto.setImageFiles(saveFiles);
 			}
 			
-//			dao.updateCampType(dto);
+
 			dao.updateCampSite(dto);
 			dao.updateCampSiteImage(dto);
 			
@@ -363,7 +416,7 @@ public class GoodServlet extends MyUploadServlet {
 
 		try {
 			String typeNo = req.getParameter("typeNo");
-			CampSiteDTO dto = dao.readCampSite(typeNo); // 같은 스트링이니까 찾아지지 않을까..되는지 봐야한다.
+			CampSiteDTO dto = dao.readCampSite(typeNo);
 			
 			if (dto == null) {
 				resp.sendRedirect(cp + "/admin/campList.do?page=" + page);
@@ -404,7 +457,7 @@ public class GoodServlet extends MyUploadServlet {
 			String campNo = req.getParameter("campNo");
 			CampSiteDTO dto = dao.readCampSite(campNo);
 			
-			// 이게 될까...1
+
 			String roomNo = req.getParameter("roomNo");
 //			RoomDTO rdto = rdao.readRoom(roomNo);
 			
@@ -427,7 +480,7 @@ public class GoodServlet extends MyUploadServlet {
 			}
 			
 			
-			// 이게 될까...2
+
 			// 객실 이미지 파일 지우기
 			List<RoomDTO> listRoomImage = rdao.listRoomImgFile(roomNo);
 			for (RoomDTO vo : listRoomImage) {
@@ -487,7 +540,7 @@ public class GoodServlet extends MyUploadServlet {
 			req.setAttribute("listCampSiteImage", listCampSiteImage);
 			req.setAttribute("page", page);
 
-			req.setAttribute("mode", "campUpdate"); // 캠프업데이트? 업데이트?
+			req.setAttribute("mode", "campUpdate");
 
 			forward(req, resp, "/WEB-INF/campingutte/admin/campWrite.jsp");
 			return;
@@ -728,7 +781,7 @@ public class GoodServlet extends MyUploadServlet {
 		try {
 			RoomDTO dto = new RoomDTO();
 
-			// 우선 입력한거 다 수정 가능하게 해둠
+			
 			// 등록받을 파라미터들 (name으로 받아옴)
 			dto.setRoomNo(req.getParameter("roomNo"));
 			dto.setStdPers(Integer.parseInt(req.getParameter("stdPers")));
@@ -900,7 +953,7 @@ public class GoodServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 
-		resp.sendRedirect(cp + "/admin/campDetail.do?" + query); // 경로 어디로 하지..?
+		resp.sendRedirect(cp + "/admin/campDetail.do?" + query); // 경로 어디로?
 //		resp.sendRedirect(cp + "/main.do");		
 	}
 	

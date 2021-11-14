@@ -237,6 +237,7 @@ function changeType() {
         f.typeNo.readOnly = false;
         f.typeNo.focus();
     }
+    
 }
 
 
@@ -390,7 +391,7 @@ $(function(){
 						<c:forEach var="dto" items="${listCampType}">
 						<option value="${dto.typeNo}">${dto.typeNo}.${dto.typeName}</option>
 						</c:forEach>	
-						<option value="direct">직접입력</option>
+						
 					</select>
 					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeName}" style="width: 20%;" readonly="readonly"> 
 				</td>
