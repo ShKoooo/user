@@ -131,32 +131,6 @@ function sendOk() {
     f.submit();
 }
 
-
-
-/*
-function changeType() {
-    var f = document.typeWriteForm;
-	    
-    var str = f.selectType.value;
-    var str_data = str.split(".");
-    var no = str_data[0];
-    var name = str_data[1];
-    if(str!="direct") {
-        f.typeNo.value = no; 
-        f.typeNo.readOnly = true;
-        f.typeName.value = name; 
-        f.typeName.readOnly = true; 
-    }
-    else {
-    	f.typeNo.value = ""; 
-        f.typeNo.readOnly = false;
-        f.typeName.value = ""; 
-        f.typeName.readOnly = false; 
-        f.typeNo.focus();
-    }
-}
-*/
-
 </script>
 </head>
 <body>
@@ -170,20 +144,6 @@ function changeType() {
 		<table  class="table table-form">
 			<tr>
 				<td>
-					<!-- 
-					<select name="selectType" class="selectField" onchange="changeType();">
-						<option value="">선택</option>
-						<c:forEach var="dto" items="${list}">
-							<option value="${dto.typeNo}.${dto.typeNmae}">${dto.typeNo}.${dto.typeNmae}</option>
-							<!-- 
-							<option value="2.글램핑">2.글램핑</option>
-							<option value="3.캠핑카">3.캠핑카</option>
-							 -->
-					<!-- 
-						</c:forEach>
-						<option value="direct">직접입력</option>
-					</select>
-					 -->
 					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeNo}" style="width: 20%;"> 
 					유형이름 : <input type="text" maxlength="30" name="typeName" class="boxTF" value="${dto.typeName}" style="width: 20%;">
 				</td>
