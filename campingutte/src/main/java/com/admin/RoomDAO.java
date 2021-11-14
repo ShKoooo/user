@@ -262,9 +262,10 @@ public class RoomDAO {
 		
 		try {
 			sql = "SELECT r.roomNo, stdPers, maxPers, stdPrice, extraPrice,"
-					+ " r.campNo, roomDetail, roomName, imgName"
+					+ " r.campNo, roomDetail, roomName, imgName, campName"
 					+ " FROM room r"
 					+ " LEFT OUTER JOIN roomImage i ON r.roomNo = i.roomNo"
+					+ " LEFT OUTER JOIN campSite s ON r.campNo = s.campNo"
 					+ " WHERE r.roomNo = ?";
 			
 			pstmt = conn.prepareStatement(sql);
@@ -285,6 +286,7 @@ public class RoomDAO {
 				dto.setRoomDetail(rs.getString("roomDetail"));
 				dto.setRoomName(rs.getString("roomName"));
 				dto.setImgName(rs.getString("imgName"));
+				dto.setCampName(rs.getString("campName"));
 				
 			}
 
@@ -452,4 +454,45 @@ public class RoomDAO {
 	}
 	
 	
+	// 객실 등록, 수정시 캠핑장번호 셀렉트로 선택
+	public List<RoomDTO> listCampNo() {
+		List<RoomDTO> list = new ArrayList<RoomDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql;
+				
+		try {
+			sql = "SELECT campNo, campName FROM campSite";
+			pstmt = conn.prepareStatement(sql);
+					
+			rs = pstmt.executeQuery();
+					
+			while (rs.next()) {
+				RoomDTO dto = new RoomDTO();
+						
+				dto.setCampNo(rs.getString("campNo"));
+				dto.setCampName(rs.getString("campName"));
+						
+				list.add(dto);
+			}
+	
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e2) {
+				}
+			}
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e2) {
+				}
+			}
+		}
+				
+		return list;
+	}
 }

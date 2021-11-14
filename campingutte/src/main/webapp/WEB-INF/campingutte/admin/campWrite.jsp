@@ -148,9 +148,7 @@
 function sendOk() {
     var f = document.campWriteForm;
 	var str;
-	
-	
-	
+
     str = f.campName.value.trim();
     if(!str) {
         alert("캠핑장 이름을 입력하세요. ");
@@ -192,6 +190,13 @@ function sendOk() {
         f.campAdd.focus();
         return;
     }
+    
+    str = f.selectType.value;
+	if(! str) {
+		alert("캠핑장 유형을 선택하세요.");
+		f.selectType.focus();
+		return;
+	}
     
     var mode = "${mode}";
     if( (mode === "write") && (!f.selectFile.value) ) {
@@ -381,20 +386,13 @@ $(function(){
 				<td>유형선택</td>
 				<td>
 					<select name="selectType" class="selectField" onchange="changeType();">
-						<option value="">선택1</option>
-						<!-- 
-						<option value="1.캠핑장">1.캠핑장</option>
-						<option value="2.글램핑">2.글램핑</option>
-						<option value="3.캠핑카">3.캠핑카</option>
-						<option value="direct">직접입력</option>
-						 -->
-						 <!-- 수정중 -->
+						<option value="">캠핑장유형 선택</option>
 						<c:forEach var="dto" items="${listCampType}">
 						<option value="${dto.typeNo}">${dto.typeNo}.${dto.typeName}</option>
 						</c:forEach>	
 						<option value="direct">직접입력</option>
 					</select>
-					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeNo}" style="width: 20%;" readonly="readonly"> 
+					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeName}" style="width: 20%;" readonly="readonly"> 
 				</td>
 			</tr>
 			<tr> 

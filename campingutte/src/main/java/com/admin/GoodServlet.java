@@ -192,14 +192,20 @@ public class GoodServlet extends MyUploadServlet {
 	
 	
 	private void campWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 캠핑장 등록 폼 (코딩완료)
+		// 캠핑장 등록 폼
+		
+		// 캠핑장유형 셀렉트 처리
+		CampSiteDAO dao = new CampSiteDAO();
+		List<CampTypeDTO> listCampType = dao.listCampType();
+		req.setAttribute("listCampType", listCampType);
+		
 		req.setAttribute("mode", "campWrite");
 		forward(req, resp, "/WEB-INF/campingutte/admin/campWrite.jsp");
 	}
 	
 	
 	private void campWriteSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 캠핑장 등록 완료 (코딩완료)
+		// 캠핑장 등록 완료
 		CampSiteDAO dao = new CampSiteDAO();
 		
 		// 관리자 정보 확인
@@ -229,7 +235,6 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setCampAdd(req.getParameter("campAdd"));
 			
 //			dto.setTypeName(req.getParameter("typeName")); // 잘 되면 지우기
-			
 			
 			// 이미지 첨부
 			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
@@ -277,19 +282,13 @@ public class GoodServlet extends MyUploadServlet {
 
 			List<CampSiteDTO> listCampSiteImage = dao.listCampImgFile(campNo);
 			
-			// 안되면 지우기(캠핑장유형 셀렉트 위해 넣어놨다)
+			// 캠핑장유형 셀렉트 처리
 			List<CampTypeDTO> listCampType = dao.listCampType();
-			
+			req.setAttribute("listCampType", listCampType);
 			
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("listCampSiteImage", listCampSiteImage);
-			
-			
-			// 안되면 지우기(캠핑장유형 셀렉트 위해 넣어놨다)
-			System.out.println("1");
-			req.setAttribute("listCampType", listCampType);
-			
 			
 			req.setAttribute("mode", "campUpdate");
 
@@ -609,6 +608,12 @@ public class GoodServlet extends MyUploadServlet {
 	
 	private void roomWriteForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 객실 등록 폼
+		
+		// 캠핑장번호 셀렉트 처리
+		RoomDAO dao = new RoomDAO();
+		List<RoomDTO> listCampNo = dao.listCampNo();
+		req.setAttribute("listCampNo", listCampNo);
+		
 		req.setAttribute("mode", "roomWrite");
 		forward(req, resp, "/WEB-INF/campingutte/admin/roomWrite.jsp");
 	}
@@ -642,7 +647,6 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setCampNo(req.getParameter("campNo"));
 			dto.setRoomDetail(req.getParameter("roomDetail"));
 			dto.setRoomName(req.getParameter("roomName"));
-			
 			
 			// 이미지 첨부
 			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
@@ -688,6 +692,11 @@ public class GoodServlet extends MyUploadServlet {
 
 			List<RoomDTO> listRoomImage = dao.listRoomImgFile(roomNo);
 
+			// 캠핑장번호 셀렉트 처리
+			List<RoomDTO> listCampNo = dao.listCampNo();
+			req.setAttribute("listCampNo", listCampNo);
+			
+			
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("listRoomImage", listRoomImage);
@@ -730,7 +739,6 @@ public class GoodServlet extends MyUploadServlet {
 			dto.setRoomDetail(req.getParameter("roomDetail"));
 			dto.setRoomName(req.getParameter("roomName"));
 			
-			
 			// 이미지 첨부
 			Map<String, String[]> map = doFileUpload(req.getParts(), pathname);
 			if (map != null) {
@@ -738,8 +746,10 @@ public class GoodServlet extends MyUploadServlet {
 				dto.setImageFiles(saveFiles);
 			}
 			
+			
 			dao.updateRoom(dto);
 			dao.updateRoomImage(dto);
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();

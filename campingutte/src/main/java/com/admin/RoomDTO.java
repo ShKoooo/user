@@ -13,7 +13,7 @@ public class RoomDTO {
 	private String imgName; // 이미지 파일명
 	private String[] imageFiles; // 이미지 파일 받을 배열
 	
-	private String campName;
+	private String campName; // 캠핑장 이름
 	
 	public String getRoomNo() {
 		return roomNo;
