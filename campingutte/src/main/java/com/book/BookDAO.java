@@ -853,6 +853,7 @@ public class BookDAO {
 		
 		try {
 			sql = "SELECT NVL(COUNT(*),0) FROM book";
+			
 			if (!memberId.equalsIgnoreCase("admin")) {
 				sql += " WHERE memberId = ?";
 			}
@@ -900,8 +901,9 @@ public class BookDAO {
 		try {
 			sb.append("SELECT * FROM ( ");
 			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
-			sb.append("			SELECT bookNo, bookName, bookTel, bookSrtdate, bookEnddate,");
-			sb.append(" 			bookRequest, totalPrice, memberId, bookDate, people,");
+			sb.append("			SELECT bookNo, bookName, bookTel, ");
+			sb.append("				TO_CHAR(bookSrtdate,'YYYY-MM-DD') bookSrtdate, TO_CHAR(bookEnddate,'YYYY-MM-DD') bookEnddate, ");
+			sb.append(" 			bookRequest, totalPrice, memberId, TO_CHAR(bookDate,'YYYY-MM-DD') bookDate, people,");
 			sb.append(" 			roomNo, bookEmail");
 			sb.append(" 		FROM book");
 			if (!memberId.equalsIgnoreCase("admin")) {

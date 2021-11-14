@@ -835,6 +835,7 @@ public class BookServlet extends MyServlet{
 				return;
 			}
 			dataCount = dao.bookCount(memberInfo.getMemberId());
+			System.out.println(dataCount);
 			
 			// 전체 페이지 수
 			int rows = 10;
@@ -871,7 +872,7 @@ public class BookServlet extends MyServlet{
 			req.setAttribute("list", list);
 			req.setAttribute("page", current_page);
 			req.setAttribute("total_page", total_page);
-			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("ldataCount", dataCount);
 			req.setAttribute("articleUrl", articleUrl);
 			req.setAttribute("paging", paging);
 			// req.setAttribute("condition", condition);
