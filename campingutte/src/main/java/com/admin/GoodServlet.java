@@ -91,10 +91,18 @@ public class GoodServlet extends MyUploadServlet {
 			deleteRoomImgFile(req, resp);
 		} else if(uri.indexOf("roomArticle.do") != -1) { // 객실상세 글보기(클라이언트)
 			roomArticle(req, resp);
+		} else if(uri.indexOf("adminmain.do") != -1) { // 캠핑장 유형 리스트
+			adminmain(req, resp);
 		}
+		
 		
 	}
 	
+	private void adminmain(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 관리자 메인 페이지
+		forward(req, resp, "/WEB-INF/campingutte/admin/adminmain.jsp");
+	}
+
 	// 등록한 유형 리스트
 	private void campTypeList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		CampSiteDAO dao = new CampSiteDAO();

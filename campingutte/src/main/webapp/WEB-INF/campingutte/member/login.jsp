@@ -12,6 +12,8 @@
 <link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
 <style type="text/css">
+
+
 main .container {
 	margin: 80px auto 50px;
 	width: 380px;
@@ -19,8 +21,9 @@ main .container {
 	min-height: 200px; 
 }
 
-.home{
-	background-image: none;
+main, td {
+	
+	color: black;
 }
 
 .title-body {
@@ -55,6 +58,12 @@ main .container {
 .msg-box {
 	text-align: center; color: blue;
 }
+
+ td {
+	border: none;
+}
+
+
 </style>
 <script type="text/javascript">
 function inputsFocus( id ) {
@@ -94,7 +103,7 @@ function sendLogin() {
 <main>
 	<div class="search">
 	<div class="container">
-		<div class="title-body" style="color: black;">
+		<div class="title-body" >
 			<h3> 캠핑어때 로그인 </h3>
 		</div>
 	
@@ -121,9 +130,9 @@ function sendLogin() {
 					</tr>
 					<tr align="center">
 					    <td style="padding-right: 17px;">
-							<span onclick="location.href='#'" style="color: black">아이디 찾기</span>&nbsp;|&nbsp; 
-							<span onclick="location.href='#'" style="color: black">비밀번호 찾기</span>&nbsp;|&nbsp;
-							<span onclick="location.href='${pageContext.request.contextPath}/member/member.do'" style="color: black">회원가입</span>
+							<span onclick="location.href='#'" >아이디 찾기</span>&nbsp;|&nbsp; 
+							<span onclick="location.href='#'" >비밀번호 찾기</span>&nbsp;|&nbsp;
+							<span onclick="location.href='${pageContext.request.contextPath}/member/member.do'">회원가입</span>
 					    </td>
 					</tr>
 				</table>
