@@ -62,6 +62,71 @@
     min-height: 450px;
 }
 
+/* paginate */
+
+.page-box {
+	clear: both;
+	padding: 20px 0;
+	text-align: center;
+}
+.paginate {
+	clear: both;
+	text-align: center;
+	white-space: nowrap;
+	font-size: 14px;	
+}
+.paginate a {
+	border: 1px solid #ccc;
+	color: #000;
+	font-weight: 600;
+	text-decoration: none;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate a:hover, .paginate a:active {
+	color: #6771ff;
+}
+.paginate span {
+	border: 1px solid #e28d8d;
+	color: #cb3536;
+	font-weight: 600;
+	padding: 3px 7px;
+	margin-left: 3px;
+	vertical-align: middle;
+}
+.paginate :first-child {
+	margin-left: 0;
+}
+
+/* button */
+
+.btn {
+	color: #333;
+	border: 1px solid #333;
+	background-color: #fff;
+	padding: 4px 10px;
+	border-radius: 4px;
+	font-weight: 500;
+	cursor:pointer;
+	font-size: 14px;
+	font-family: "맑은 고딕", 나눔고딕, 돋움, sans-serif;
+	vertical-align: baseline;
+}
+.btn:hover, .btn:active, .btn:focus {
+	background-color: #e6e6e6;
+	border-color: #adadad;
+	color:#333;
+}
+.btn[disabled], fieldset[disabled] .btn {
+	pointer-events: none;
+	cursor: not-allowed;
+	filter: alpha(opacity=65);
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	opacity: .65;
+}
+
 </style>
 
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>

@@ -835,7 +835,6 @@ public class BookServlet extends MyServlet{
 				return;
 			}
 			dataCount = dao.bookCount(memberInfo.getMemberId());
-			System.out.println(dataCount);
 			
 			// 전체 페이지 수
 			int rows = 10;
@@ -855,7 +854,7 @@ public class BookServlet extends MyServlet{
 			// 리스트 글번호 만들기
 			int listNum, n = 0;
 			for (BookDTO dto : list) {
-				listNum = dataCount = (start+n-1);
+				listNum = dataCount - (start+n-1);
 				dto.setBookArticleNo(listNum);
 				n++;
 			}
