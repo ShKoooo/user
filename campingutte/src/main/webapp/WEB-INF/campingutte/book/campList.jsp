@@ -203,7 +203,7 @@ function searchList(){
 									<div class="campsite-list"onclick="location.href='${articleUrl}&campNo=${dto.campNo}';" >
 											<c:forEach var="vo" items="${dto.images}" varStatus="status">
 												<c:if test="${status.index==0}">
-												  <figure class="mb-4"><img src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"></figure>
+												  <img src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}">
 												</c:if>
 											</c:forEach>
 											<div class="campsite-list1">
