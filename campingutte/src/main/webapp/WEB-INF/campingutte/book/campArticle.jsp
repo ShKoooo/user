@@ -21,6 +21,110 @@
 		<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
+     <style type="text/css">
+	  .room-list {
+		  	display: flex;
+			width: 800px;
+	  		margin: 10px 0;
+			border: 1px solid black;
+			border-radius: 10px;
+	  }
+	  
+	  .room-list > img {
+			width: 300px;
+			height: 200px;
+		}
+		
+		.room-list1 {
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			margin-left: 20px;
+		}
+		
+  </style>
+  
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>	
+  <script type="text/javascript">
+    function ajaxFun(url, method, query, dataType, fn) {
+    	$.ajax({
+    		type:method,
+    		url:url,
+    		data:query,
+    		dataType:dataType,
+    		success:function(data) {
+    			fn(data);
+    		},
+    		beforeSend:function(jqXHR) {
+    			jqXHR.setRequestHeader("AJAX", true);
+    		},
+    		error:function(jqXHR) {
+    			if(jqXHR.status === 403) {
+    				login();
+    				return false;
+    			} else if(jqXHR.status === 405) {
+    				alert("접근을 허용하지 않습니다.");
+    				return false;
+    			}
+    	    	
+    			console.log(jqXHR.responseText);
+    		}
+    	});
+    }
+    
+
+    $(function(){
+    	listPage(1);
+    });
+
+    function listPage(page) {
+    	var url = "${pageContext.request.contextPath}/book/roomList.do";
+    	var query = "campNo=${dto.campNo}&roomPageNo="+page;
+    	var selector = "#roomList";
+    	
+    	var fn = function(data){
+    		$(selector).html(data);
+    	};
+    	ajaxFun(url, "post", query, "html", fn);
+    }
+    
+    function listReview(page) {
+    	var url = "${pageContext.request.contextPath}/review/listCampReview.do";
+    	var query = "campNo=${dto.campNo}&rPageNo="+page;
+    	var selector = "#listCampReview";
+    	
+    	var fn = function(data){
+    		$(selector).html(data);
+    	};
+    	ajaxFun(url, "post", query, "html", fn);
+    	
+    }
+    
+
+    // 리뷰삭제
+    $(function(){
+    	$("body").on("click", ".deleteReview", function() {
+    		if(! confirm("게시글을 삭제 하시겠습니까 ? ")) {
+    			return false;
+    		}
+    		var reviewNum = $(this).attr("data-reviewNo");
+    		var pageNo = $(this).attr("data-pageNo");
+    		
+    		var url = "${pageContext.request.contextPath}/review/deleteReview.do";
+    		var query = "reviewNo=" + reviewNo;
+    		
+    		var fn = function(data) {
+    			listPage(rpageNo);
+    		};
+    		
+    		ajaxFun(url, "post", query, "json", fn);
+    		
+    	});
+    });
+    
+    
+   </script>
+    
     </head>
     <body class="d-flex flex-column">
         <main class="flex-shrink-0">
@@ -69,39 +173,20 @@
                                     <p class="fs-5 mb-4">Venus has a runaway greenhouse effect. I kind of want to know what happened there because we're twirling knobs here on Earth without knowing the consequences of it. Mars once had running water. It's bone dry today. Something bad happened there as well.</p>
                                 	 -->
                                 </section>
-                  			 </article>
-                  				<hr>
-                            <!--객실목록 -->
-                            <c:forEach var="dto" items="${listRoom}">
-                             <div class="container px-5">
-                    			<h3 class="fw-bolder fs-5 mb-4">객실목록</h3>
-                    			<div class="card border-0 shadow rounded-3 overflow-hidden">
-                        		<div class="card-body p-0">
-                         	    <div class="row gx-0">
-                                <div class="col-lg-6 col-xl-7"><div class="bg-featured-blog" style="background-image: url('https://dummyimage.com/700x350/343a40/6c757d')"></div></div>
-                                <div class="col-lg-6 col-xl-5 py-lg-5">
-                                    <div class="p-4 p-md-5">
-                                        <div class="badge bg-primary bg-gradient rounded-pill mb-2">예약가능</div>
-                                        <div class="h2 fw-bolder">객실이름 : </div>
-                                        <p>기준인원/최대인원</p>
-                                        <a class="stretched-link text-decoration-none" href="#!">
-                                            예약하기
-                                            <i class="bi bi-arrow-right"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            </article>
+                            
+                  
+                            <!-- Comments section-->
+                            
+                         
                         </div>
                     </div>
+                    <div id="roomList"></div>
+                    
+                    <div id="listCampReview"></div>
                 </div>
-              </c:forEach>           
-                         </div>
-                    </div>
-                </div>
-            </section>         
-                 
+            </section>
         </main>
-       
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

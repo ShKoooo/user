@@ -470,7 +470,7 @@ public class BookServlet extends MyServlet{
 			String keywordEndDate="";
 			String keywordPeople="";
 			
-			if (standalone) {
+			if (!standalone) {
 				keywordSrtDate = req.getParameter("srtDate");
 				keywordEndDate = req.getParameter("endDate");
 				// String keywordAddr1 = req.getParameter("addr1");
