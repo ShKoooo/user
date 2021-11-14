@@ -43,7 +43,7 @@
 						<c:if test="${not empty sessionScope.member}">					
 							<a href="${pageContext.request.contextPath}/member/logout.do">로그아웃</a>
 							<span style="color: white;">&nbsp;|&nbsp;</span>
-							<a href="#">정보수정</a>
+							<a href="${pageContext.request.contextPath}/member/update.do?mode=update">정보수정</a>
 						</c:if>
 								
 					</div>
@@ -80,8 +80,8 @@
 	                                <a class="nav-link dropdown-toggle" id="navbarDropdownPortfolio" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">고객센터</a>
 	                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownPortfolio">
 	                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/cs/faq.do">자주하는 질문</a></li>
-	                                    <li><a class="dropdown-item" href="portfolio-item.html">1:1 상담</a></li>
-	                                    <li><a class="dropdown-item" href="portfolio-item.html">고객센터 안내</a></li>
+	                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/cs/list.do">1:1 상담</a></li>
+	                                    <li><a class="dropdown-item" href="${pageContext.request.contextPath}/cs/help.do">고객센터 안내</a></li>
 	                                </ul>
 	                            </li>
 	                        </ul>

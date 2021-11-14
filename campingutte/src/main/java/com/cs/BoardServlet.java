@@ -1,6 +1,7 @@
 package com.cs;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
@@ -10,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import org.json.JSONObject;
 
 import com.member.SessionInfo;
 import com.util.MyServlet;
@@ -24,15 +27,6 @@ public class BoardServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 
 		String uri = req.getRequestURI();
-
-		// 세션 정보
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		if (info == null) {
-			forward(req, resp, "/WEB-INF/campingutte/member/login.jsp");
-			return;
-		}
 
 		
 		// uri에 따른 작업 구분
@@ -52,6 +46,8 @@ public class BoardServlet extends MyServlet {
 			delete(req, resp);
 		} else if (uri.indexOf("faq.do") != -1) {
 			faq(req, resp);
+		} else if (uri.indexOf("insertReply.do") != -1) {
+			insertReply(req, resp);
 		}
 	}
 
@@ -61,6 +57,14 @@ public class BoardServlet extends MyServlet {
 		MyUtil util = new MyUtil();
 
 		String cp = req.getContextPath();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo)session.getAttribute("member");
+		
+		if (info == null) { // 로그인 x
+			resp.sendRedirect(cp+"/member/login.do");
+			return;
+		}
 		
 		try {
 			String page = req.getParameter("page");
@@ -82,12 +86,14 @@ public class BoardServlet extends MyServlet {
 				keyword = URLDecoder.decode(keyword, "utf-8");
 			}
 
-			// 전체 데이터 개수
+			// 전체 데이터 개수 --> dataCount (+memberId)
 			int dataCount;
 			if (keyword.length() == 0) {
-				dataCount = dao.dataCount();
+				dataCount = dao.dataCount(info.getMemberId());
+				System.out.println("no");
 			} else {
-				dataCount = dao.dataCount(condition, keyword);
+				dataCount = dao.dataCount(info.getMemberId(),condition, keyword);
+				System.out.println("yes");
 			}
 			
 			// 전체 페이지 수
@@ -100,12 +106,13 @@ public class BoardServlet extends MyServlet {
 			int start = (current_page - 1) * rows + 1;
 			int end = current_page * rows;
 
+			System.out.println(info.getMemberId());
 			// 게시물 가져오기
 			List<BoardDTO> list = null;
 			if (keyword.length() == 0) {
-				list = dao.listBoard(start, end);
+				list = dao.listBoard(info.getMemberId(),start, end);
 			} else {
-				list = dao.listBoard(start, end, condition, keyword);
+				list = dao.listBoard(info.getMemberId(),start, end, condition, keyword);
 			}
 
 			// 리스트 글번호 만들기
@@ -167,8 +174,8 @@ public class BoardServlet extends MyServlet {
 		try {
 			BoardDTO dto = new BoardDTO();
 			dto.setMemberId(info.getMemberId());
-			dto.setCommSubject(req.getParameter("commSubject"));
-			dto.setCommContent(req.getParameter("commContent"));
+			dto.setCompSubject(req.getParameter("compSubject"));
+			dto.setCompContent(req.getParameter("compContent"));
 
 			dao.insertBoard(dto);
 		} catch (Exception e) {
@@ -187,7 +194,7 @@ public class BoardServlet extends MyServlet {
 		String query = "page=" + page;
 
 		try {
-			int commNo = Integer.parseInt(req.getParameter("commNo"));
+			int compNo = Integer.parseInt(req.getParameter("compNo"));
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");
 			if (condition == null) {
@@ -200,17 +207,20 @@ public class BoardServlet extends MyServlet {
 			}
 
 			// 조회수 증가
-			dao.updateHitCount(commNo);
+			//dao.updateHitCount(compNo);
 
 			// 게시물 가져오기
-			BoardDTO dto = dao.readBoard(commNo);
+			BoardDTO dto = dao.readBoard(compNo);
 			if (dto == null) {
 				resp.sendRedirect(cp + "/cs/list.do?" + query);
 				return;
 			}
+			
+			ReplyDTO rdto = dao.readReply(compNo);
 
 			// JSP로 전달할 속성
 			req.setAttribute("dto", dto);
+			req.setAttribute("rdto", rdto);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
 
@@ -279,9 +289,9 @@ public class BoardServlet extends MyServlet {
 		
 		try {
 			BoardDTO dto = new BoardDTO();
-			dto.setCommNo(Integer.parseInt(req.getParameter("commNo")));
-			dto.setCommSubject(req.getParameter("commSubject"));
-			dto.setCommContent(req.getParameter("commContent"));
+			dto.setCompNo(Integer.parseInt(req.getParameter("compNo")));
+			dto.setCompSubject(req.getParameter("compSubject"));
+			dto.setCompContent(req.getParameter("compContent"));
 
 			dto.setMemberId(info.getMemberId());
 
@@ -332,6 +342,37 @@ public class BoardServlet extends MyServlet {
 	private void faq(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	
 		forward(req, resp, "/WEB-INF/campingutte/cs/faq.jsp");
+	}
+	
+	private void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		BoardDAO dao = new BoardDAO();
+		
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		
+		String state = "false";
+		try {
+			ReplyDTO dto = new ReplyDTO();
+
+			int compNo = Integer.parseInt(req.getParameter("compNo"));
+			dto.setCompNo(compNo);
+			dto.setMemberId(info.getMemberId());
+			dto.setCompReplyContent(req.getParameter("compReplyContent"));
+		
+			
+			dao.insertReply(dto);
+			
+			state = "true";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		JSONObject job = new JSONObject();
+		job.put("state", state);
+
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out = resp.getWriter();
+		out.print(job.toString());
 	}
 	
 }

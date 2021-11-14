@@ -2,13 +2,13 @@ package com.cs;
 
 public class BoardDTO {
 	private int listNum;
-	private int commNo;
+	private int compNo;
 	private String memberId;
 	private String memberName;
-	private String commSubject;
-	private String commContent;
-	private String commDate;
-	private int commHitCount;
+	private String compSubject;
+	private String compContent;
+	private String compDate;
+	private int compHitCount;
 	private int replyCount;
 	
 	
@@ -24,11 +24,11 @@ public class BoardDTO {
 	public void setListNum(int listNum) {
 		this.listNum = listNum;
 	}
-	public int getCommNo() {
-		return commNo;
+	public int getCompNo() {
+		return compNo;
 	}
-	public void setCommNo(int commNum) {
-		this.commNo = commNum;
+	public void setCompNo(int compNum) {
+		this.compNo = compNum;
 	}
 	public String getMemberId() {
 		return memberId;
@@ -42,29 +42,29 @@ public class BoardDTO {
 	public void setMemberName(String memberName) {
 		this.memberName = memberName;
 	}
-	public String getCommSubject() {
-		return commSubject;
+	public String getCompSubject() {
+		return compSubject;
 	}
-	public void setCommSubject(String commSubject) {
-		this.commSubject = commSubject;
+	public void setCompSubject(String compSubject) {
+		this.compSubject = compSubject;
 	}
-	public String getCommContent() {
-		return commContent;
+	public String getCompContent() {
+		return compContent;
 	}
-	public void setCommContent(String commContent) {
-		this.commContent = commContent;
+	public void setCompContent(String compContent) {
+		this.compContent = compContent;
 	}
-	public String getCommDate() {
-		return commDate;
+	public String getCompDate() {
+		return compDate;
 	}
-	public void setCommDate(String commDate) {
-		this.commDate = commDate;
+	public void setCompDate(String compDate) {
+		this.compDate = compDate;
 	}
-	public int getCommHitCount() {
-		return commHitCount;
+	public int getCompHitCount() {
+		return compHitCount;
 	}
-	public void setCommHitCount(int commHitCount) {
-		this.commHitCount = commHitCount;
+	public void setCompHitCount(int compHitCount) {
+		this.compHitCount = compHitCount;
 	}
 
 	

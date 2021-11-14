@@ -94,8 +94,8 @@ function sendLogin() {
 <main>
 	<div class="search">
 	<div class="container">
-		<div class="title-body">
-			<span class="article-title">회원 로그인</span>
+		<div class="title-body" style="color: black;">
+			<h3> 캠핑어때 로그인 </h3>
 		</div>
 	
 		<div class="form-body">

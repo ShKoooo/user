@@ -208,7 +208,7 @@ function memberOk() {
 							<option value="경기도" ${dto.memberAddr=="경기도" ? "selected='selected'" : ""}>경기도</option>
 							<option value="경상도" ${dto.memberAddr=="경상도" ? "selected='selected'" : ""}>경상도</option>
 							<option value="충청도" ${dto.memberAddr=="충청도" ? "selected='selected'" : ""}>충청도</option>
-							<option value="제주도" ${dto.memberAddr=="제주도" ? "selected='selected'" : ""}>제주도</option>
+							<option value="제주도" ${dto.memberAddr=="제주도" ? "selected=t'selected'" : ""}>제주도</option>
 						</select>
 						<input type="text" name="memberAddr2" id="memberAddr2" maxlength="50" class="boxTF" value="${dto.memberAddr2}" style="width: 96%;">
 				</td>

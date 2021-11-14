@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+// import com.cs.ReplyDTO;
 import com.util.DBConn;
 
 public class BoardDAO {
@@ -19,13 +20,13 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "INSERT INTO community(commNo, memberId, commSubject, commContent, commHitCount, commDate) "
-					+ " VALUES (comm_seq.NEXTVAL, ?, ?, ?, 0, SYSDATE)";
+			sql = "INSERT INTO SERVCENTER(compNo, memberId, compSubject, compContent, compHitCount, compDate) "
+					+ " VALUES (serv_seq.NEXTVAL, ?, ?, ?, 0, SYSDATE)";
 			pstmt = conn.prepareStatement(sql);
 			
 			pstmt.setString(1, dto.getMemberId());
-			pstmt.setString(2, dto.getCommSubject());
-			pstmt.setString(3, dto.getCommContent());
+			pstmt.setString(2, dto.getCompSubject());
+			pstmt.setString(3, dto.getCompContent());
 
 			result = pstmt.executeUpdate();
 
@@ -44,15 +45,21 @@ public class BoardDAO {
 	}
 	
 	// 데이터 개수
-	public int dataCount() {
+	public int dataCount(String memberId) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) FROM servCenter";
+			sql = "SELECT COUNT(*) FROM SERVCENTER";
+			if (!memberId.equalsIgnoreCase("admin")) {
+				sql += " WHERE memberId = ?";
+			}
 			pstmt = conn.prepareStatement(sql);
+			if (!memberId.equalsIgnoreCase("admin")) {
+				pstmt.setString(1, memberId);
+			}
 
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -81,21 +88,24 @@ public class BoardDAO {
 	}
 
 	// 검색에서의 데이터 개수
-	public int dataCount(String condition, String keyword) {
+	public int dataCount(String memberId, String condition, String keyword) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			sql = "SELECT COUNT(*) FROM servCenter b JOIN member m ON b.memberId = m.memberId ";
+			sql = "SELECT COUNT(*) FROM SERVCENTER b JOIN member m ON b.memberId = m.memberId ";
 			if(condition.equals("all")) {
-				sql += "  WHERE INSTR(commSubject, ?) >= 1 OR INSTR(commContent, ?) >= 1 ";
-			} else if(condition.equals("commDate")) {
+				sql += "  WHERE INSTR(compSubject, ?) >= 1 OR INSTR(compContent, ?) >= 1 ";
+			} else if(condition.equals("compDate")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-				sql += "  WHERE TO_CHAR(commDate, 'YYYYMMDD') = ? ";
+				sql += "  WHERE TO_CHAR(compDate, 'YYYYMMDD') = ? ";
 			} else {
 				sql += "  WHERE INSTR(" + condition + ", ?) >= 1";
+			}
+			if (!memberId.equalsIgnoreCase("admin")) {
+				sql += " AND b.memberId = ?";
 			}
 
 			pstmt = conn.prepareStatement(sql);
@@ -103,6 +113,13 @@ public class BoardDAO {
 			pstmt.setString(1, keyword);
 			if (condition.equals("all")) {
 				pstmt.setString(2, keyword);
+				if (!memberId.equalsIgnoreCase("admin")) {
+					pstmt.setString(3, memberId);
+				}
+			} else {
+				if (!memberId.equalsIgnoreCase("admin")) {
+					pstmt.setString(2, memberId);
+				}
 			}
 
 			rs = pstmt.executeQuery();
@@ -131,24 +148,44 @@ public class BoardDAO {
 		return result;
 	}
 
+	
+	// CS의 게시물 보기는 관리자랑 ID가 일치하는 본인만 볼 수 있게 해야한다.
+	// 1:1 고객센터에 공지사항을 띄우자!
+	
 	// 게시물 리스트
-	public List<BoardDTO> listBoard(int start, int end) {
+	public List<BoardDTO> listBoard(String memberId, int start, int end) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuilder sb = new StringBuilder();
 
 		try {
+/*
 			sb.append(" SELECT * FROM ( ");
 			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
-			sb.append("         SELECT commNo, b.memberId, memberName, commSubject, commHitCount, ");
-			sb.append("               TO_CHAR(commDate, 'YYYY-MM-DD') commDate");
-			sb.append("         FROM servCenter b ");
+			sb.append("         SELECT compNo, b.memberId, memberName, compSubject, compHitCount, ");
+			sb.append("               TO_CHAR(compDate, 'YYYY-MM-DD') compDate");
+			sb.append("         FROM SERVCENTER b ");
 			sb.append("         JOIN member m ON b.memberId = m.memberId ");
-			sb.append("         ORDER BY commNo DESC ");
+			sb.append("         ORDER BY compNo DESC ");
+			sb.append("     ) tb WHERE ROWNUM <= ? ");
+			sb.append(" ) WHERE rnum >= ? ");
+*/
+
+			sb.append(" SELECT * FROM ( ");
+			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
+			sb.append("         SELECT compNo, b.memberId, memberName, compSubject, compHitCount, ");
+			sb.append("               TO_CHAR(compDate, 'YYYY-MM-DD') compDate");
+			sb.append("         FROM SERVCENTER b ");
+			sb.append("         JOIN member m ON b.memberId = m.memberId ");
+				if (!memberId.equalsIgnoreCase("admin")) {
+					sb.append(" and m.memberId = '"+memberId+"'");
+				}			
+			sb.append("         ORDER BY compNo DESC ");
 			sb.append("     ) tb WHERE ROWNUM <= ? ");
 			sb.append(" ) WHERE rnum >= ? ");
 
+			
 			pstmt = conn.prepareStatement(sb.toString());
 			
 			pstmt.setInt(1, end);
@@ -158,12 +195,12 @@ public class BoardDAO {
 			while (rs.next()) {
 				BoardDTO dto = new BoardDTO();
 
-				dto.setCommNo(rs.getInt("commNo"));
+				dto.setCompNo(rs.getInt("compNo"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setMemberName(rs.getString("memberName"));
-				dto.setCommSubject(rs.getString("commSubject"));
-				dto.setCommHitCount(rs.getInt("commHitCount"));
-				dto.setCommDate(rs.getString("commDate"));
+				dto.setCompSubject(rs.getString("compSubject"));
+				dto.setCompHitCount(rs.getInt("compHitCount"));
+				dto.setCompDate(rs.getString("compDate"));
 				
 				list.add(dto);
 			}
@@ -188,7 +225,7 @@ public class BoardDAO {
 		return list;
 	}
 
-	public List<BoardDTO> listBoard(int start, int end, String condition, String keyword) {
+	public List<BoardDTO> listBoard(String memberId,int start, int end, String condition, String keyword) {
 		List<BoardDTO> list = new ArrayList<BoardDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -197,19 +234,32 @@ public class BoardDAO {
 		try {
 			sb.append(" SELECT * FROM ( ");
 			sb.append("     SELECT ROWNUM rnum, tb.* FROM ( ");
-			sb.append("         SELECT commNo, b.memberId, memberName, commSubject, commHitCount, ");
-			sb.append("               TO_CHAR(commDate, 'YYYY-MM-DD') commDate ");
-			sb.append("         FROM servCenter b ");
+			sb.append("         SELECT compNo, b.memberId, memberName, compSubject, compHitCount, ");
+			sb.append("               TO_CHAR(compDate, 'YYYY-MM-DD') compDate ");
+			sb.append("         FROM SERVCENTER b ");
 			sb.append("         JOIN member m ON b.memberId = m.memberId ");
 			if (condition.equals("all")) {
-				sb.append("     WHERE INSTR(commSubject, ?) >= 1 OR INSTR(commContent, ?) >= 1 ");
-			} else if (condition.equals("commDate")) {
+				sb.append("     WHERE INSTR(compSubject, ?) >= 1 OR INSTR(compContent, ?) >= 1 ");
+			} else if (condition.equals("compDate")) {
 				keyword = keyword.replaceAll("(\\-|\\/|\\.)", "");
-				sb.append("     WHERE TO_CHAR(commDate, 'YYYYMMDD') = ?");
+				sb.append("     WHERE TO_CHAR(compDate, 'YYYYMMDD') = ?");
 			} else {
 				sb.append("     WHERE INSTR(" + condition + ", ?) >= 1 ");
 			}
-			sb.append("         ORDER BY commNo DESC ");
+			/*
+			sb.append(" WHERE memberId = ?");
+			{
+				if( id == admin && id equals("admin")) {
+					
+				}
+			}
+			 */
+			
+			if (!memberId.equalsIgnoreCase("admin")) {
+				sb.append(" and memberId = "+memberId);
+			}
+			
+			sb.append("         ORDER BY compNo DESC ");
 			sb.append("     ) tb WHERE ROWNUM <= ? ");
 			sb.append(" ) WHERE rnum >= ? ");
 
@@ -229,12 +279,12 @@ public class BoardDAO {
 			while (rs.next()) {
 				BoardDTO dto = new BoardDTO();
 
-				dto.setCommNo(rs.getInt("commNo"));
+				dto.setCompNo(rs.getInt("compNo"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setMemberName(rs.getString("memberName"));
-				dto.setCommSubject(rs.getString("commSubject"));
-				dto.setCommHitCount(rs.getInt("commHitCount"));
-				dto.setCommDate(rs.getString("commDate"));
+				dto.setCompSubject(rs.getString("compSubject"));
+				dto.setCompHitCount(rs.getInt("compHitCount"));
+				dto.setCompDate(rs.getString("compDate"));
 
 				list.add(dto);
 			}
@@ -257,18 +307,18 @@ public class BoardDAO {
 
 		return list;
 	}
-
+	
 	// 조회수 증가하기
-	public int updateHitCount(int commNo) throws SQLException {
+	public int updateHitCount(int compNo) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
-			sql = "UPDATE community SET commHitCount=commHitCount+1 WHERE commNo=?";
+			sql = "UPDATE SERVCENTER SET compHitCount=compHitCount+1 WHERE compNo=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, commNo);
+			pstmt.setInt(1, compNo);
 			
 			result = pstmt.executeUpdate();
 		} catch (SQLException e) {
@@ -286,36 +336,35 @@ public class BoardDAO {
 		return result;
 	}
 
+
 	// 해당 게시물 보기
-	public BoardDTO readBoard(int commNo) {
+	public BoardDTO readBoard(int compNo) {
 		BoardDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String sql;
 
 		try {
-			// OriginalSql = SELECT commNo, b.memberId, memberName, commSubject, commContent, commDate, commHitCount,
-			// FROM servCenter b  JOIN member m ON b.memberId=m.memberId  WHERE b.commNo = ? , Error Msg = ORA-00936:
-			sql = "SELECT commNo, b.memberId, memberName, commSubject, commContent, commDate, commHitCount " 
-					+ " FROM servCenter b "
+			sql = "SELECT compNo, b.memberId, memberName, compSubject, compContent, compDate, compHitCount " 
+					+ " FROM SERVCENTER b "
 					+ " JOIN member m ON b.memberId=m.memberId "
-					+ " WHERE b.commNo = ? ";
+					+ " WHERE b.compNo = ? ";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setInt(1, commNo);
+			pstmt.setInt(1, compNo);
 
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
 				dto = new BoardDTO();
 				
-				dto.setCommNo(rs.getInt("commNo"));
+				dto.setCompNo(rs.getInt("compNo"));
 				dto.setMemberId(rs.getString("memberId"));
 				dto.setMemberName(rs.getString("memberName"));
-				dto.setCommSubject(rs.getString("commSubject"));
-				dto.setCommContent(rs.getString("commContent"));
-				dto.setCommHitCount(rs.getInt("commHitCount"));
-				dto.setCommDate(rs.getString("commDate"));
+				dto.setCompSubject(rs.getString("compSubject"));
+				dto.setCompContent(rs.getString("compContent"));
+				dto.setCompHitCount(rs.getInt("compHitCount"));
+				dto.setCompDate(rs.getString("compDate"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -345,12 +394,12 @@ public class BoardDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE community SET commSubject=?, commContent=? WHERE commNo=? AND memberId=?";
+			sql = "UPDATE SERVCENTER SET compSubject=?, compContent=? WHERE compNo=? AND memberId=?";
 			pstmt = conn.prepareStatement(sql);
 			
-			pstmt.setString(1, dto.getCommSubject());
-			pstmt.setString(2, dto.getCommContent());
-			pstmt.setInt(3, dto.getCommNo());
+			pstmt.setString(1, dto.getCompSubject());
+			pstmt.setString(2, dto.getCompContent());
+			pstmt.setInt(3, dto.getCompNo());
 			pstmt.setString(4, dto.getMemberId());
 			
 			result = pstmt.executeUpdate();
@@ -370,25 +419,25 @@ public class BoardDAO {
 	}
 
 	// 게시물 삭제
-	public int deleteBoard(int commNo, String memberId) throws SQLException {
+	public int deleteBoard(int compNo, String memberId) throws SQLException {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
 			if (memberId.equals("admin")) {
-				sql = "DELETE FROM servCenter WHERE commNo=?";
+				sql = "DELETE FROM SERVCENTER WHERE compNo=?";
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setInt(1, commNo);
+				pstmt.setInt(1, compNo);
 				
 				result = pstmt.executeUpdate();
 			} else {
-				sql = "DELETE FROM servCenter WHERE commNo=? AND memberId=?";
+				sql = "DELETE FROM SERVCENTER WHERE compNo=? AND memberId=?";
 				
 				pstmt = conn.prepareStatement(sql);
 				
-				pstmt.setInt(1, commNo);
+				pstmt.setInt(1, compNo);
 				pstmt.setString(2, memberId);
 				
 				result = pstmt.executeUpdate();
@@ -406,4 +455,76 @@ public class BoardDAO {
 		}
 		return result;
 	}
+	
+	public int insertReply(ReplyDTO dto) throws SQLException {
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			sql = "INSERT INTO servReply(compNo, memberId, compReplyContent, compReplyDate) "
+					+ " VALUES (?, ?, ?, SYSDATE)";
+			pstmt = conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, dto.getCompNo());			
+			pstmt.setString(2, dto.getMemberId());
+			pstmt.setString(3, dto.getCompReplyContent());
+			
+			result = pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	
+	public ReplyDTO readReply(int compNo) {
+		ReplyDTO dto = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuilder sb = new StringBuilder();
+		
+		try {
+			sb.append(" SELECT r.memberId, memberName, compNo, compReplyContent, r.compReplyDate ");
+			sb.append(" FROM servReply r ");
+			sb.append(" JOIN member m ON r.memberId = m.memberId ");
+			sb.append("	WHERE compNo = ?");			
+
+		
+			pstmt = conn.prepareStatement(sb.toString());
+			pstmt.setInt(1, compNo);
+
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				dto = new ReplyDTO();
+				
+				dto.setCompNo(rs.getInt("CompNo"));
+				dto.setMemberId(rs.getString("memberId"));
+				dto.setMemberName(rs.getString("memberName"));
+				dto.setCompReplyContent(rs.getString("compReplyContent"));
+				dto.setCompReplyDate(rs.getString("compReplyDate"));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			if(rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+				}
+			}
+			if(pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+				}
+			}
+		}
+		
+		return dto;
+	}
+
 }
