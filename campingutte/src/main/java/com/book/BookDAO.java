@@ -905,7 +905,7 @@ public class BookDAO {
 			sb.append(" 			roomNo, bookEmail");
 			sb.append(" 		FROM book");
 			if (!memberId.equalsIgnoreCase("admin")) {
-				sb.append("WHERE memberId = "+memberId);
+				sb.append("		WHERE memberId = "+memberId);
 			}
 			sb.append("     ) tb WHERE ROWNUM <= ? ");
 			sb.append(" ) WHERE rnum >= ? ");
