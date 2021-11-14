@@ -64,9 +64,9 @@
 	                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
-	                            <li class="nav-item"><a class="nav-link" href="about.html">지역별 검색</a></li>
+	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/campList.do">지역별 검색</a></li>
 	                            <li class="nav-item"><a class="nav-link" href="contact.html">공지사항</a></li>
-	                            <li class="nav-item"><a class="nav-link" href="faq.html">예약하기</a></li>
+	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/campList.do">예약하기</a></li>
 	                            <li class="nav-item"><a class="nav-link" href="pricing.html">마이페이지</a></li>
 	                            <li class="nav-item dropdown">
 	                                <a class="nav-link dropdown-toggle" id="navbarDropdownBlog" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">커뮤니티</a>

@@ -22,6 +22,12 @@
         
 
     </head>
+    <script type="text/javascript">
+    function searchList(){
+    	var f = document.campList;
+    	f.submit();
+    }
+    </script>
     <body class="d-flex flex-column h-100">
     
     <!-- header(메뉴바) 부분 -->
@@ -38,11 +44,13 @@
                         
 				            <div class="ms-xl-4">
 			                    <div class="small text-white-50">오늘은 어디로 가볼까?</div>
+			                    <form name="campList"  action="${pageContext.request.contextPath}/book/campList.do" method="post">
 			                	<div class="input-group mb-2">
-			                    	<input class="form-control" type="text" placeholder="캠핑장 검색" aria-label="Email address..." aria-describedby="button-newsletter" />
+			                    	<input class="form-control" type="text" name="campName" value="${campName}" placeholder="캠핑장 검색" aria-label="Email address..." aria-describedby="button-newsletter" />
 			                        <button class="btn btn-outline-light" id="button-newsletter" type="button">Search</button>
 			          				
 			                    </div>
+			                    </form>
 			                </div>
 			                
                             <!--  
