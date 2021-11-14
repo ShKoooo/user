@@ -601,7 +601,7 @@ public class CampSiteDAO {
 			return list;
 		}
 
-		
+		// 캠핑장 유형 읽기(유형삭제시 사용)
 		public CampSiteDTO readCampType(String typeNo) {
 			CampSiteDTO dto = null;
 			PreparedStatement pstmt = null;
