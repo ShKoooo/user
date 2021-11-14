@@ -476,17 +476,18 @@ public class BookDAO {
 			sb.append("	)");
 			
 			pstmt = conn.prepareStatement(sb.toString());
-			pstmt.setString(1, keyword[1]);
-			pstmt.setString(2, keyword[0]);
+			pstmt.setString(1, CampNo);
+			pstmt.setString(2, keyword[1]);
+			pstmt.setString(3, keyword[0]);
 			
 			if (!keyword[2].equals("")) {
 				if (Integer.parseInt(keyword[2]) > 0) {
-					pstmt.setInt(3, Integer.parseInt(keyword[2]));
+					pstmt.setInt(4, Integer.parseInt(keyword[2]));
 				} else {
-					pstmt.setInt(3, 0);
+					pstmt.setInt(4, 0);
 				}				
 			} else {
-				pstmt.setInt(3, 0);
+				pstmt.setInt(4, 0);
 			}
 			
 			rs = pstmt.executeQuery();
