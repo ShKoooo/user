@@ -85,7 +85,7 @@ function sendLogin() {
 </script>
 
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 
 <header>
 	<jsp:include page="/WEB-INF/campingutte/layout/header.jsp"></jsp:include>
