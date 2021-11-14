@@ -191,10 +191,10 @@ function sendOk() {
         return;
     }
     
-    str = f.selectType.value;
+    str = f.typeNo.value;
 	if(! str) {
 		alert("캠핑장 유형을 선택하세요.");
-		f.selectType.focus();
+		f.typeNo.focus();
 		return;
 	}
     
