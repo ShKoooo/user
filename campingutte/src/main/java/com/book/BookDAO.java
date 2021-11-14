@@ -693,7 +693,7 @@ public class BookDAO {
 		String sql;
 		
 		try {
-			sql = "SELECT bookNo, bookName, bookTel, bookSrtdate, bookEnddate"
+			sql = "SELECT bookNo, bookName, bookTel, bookSrtdate, bookEnddate,"
 				+ " bookRequest, totalPrice, memberId, bookDate, people, "
 				+ " roomNo, bookEmail"
 				+ " FROM book"

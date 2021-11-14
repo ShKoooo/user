@@ -145,7 +145,7 @@
 <!-- Page content-->
     <div class="body-container" style="width: 980px;">
 		<div class="body-title">
-			<h3>예약 목록</h3>
+			<h3>예약 확인</h3>
 		</div>
 		
 		<table class="table">
@@ -168,7 +168,12 @@
 			
 			<c:forEach var="dto" items="${list}">
 				<tr>
-					<td>${dto.bookNo}</td>
+					<%--
+						<td>${dto.bookNo}</td>
+					--%>
+					<td>
+						<a href="${articleUrl}&bookNo=${dto.bookNo}">${dto.bookNo}</a>
+					</td>
 					<td>${dto.bookName}</td>
 					<%--
 						<td class="left">
