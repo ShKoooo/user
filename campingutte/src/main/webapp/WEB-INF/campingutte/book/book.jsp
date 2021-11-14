@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -164,8 +165,7 @@
         	
         	$(".totalPrice").text(total);
         }
-       
-       
+        
 	</script>
 <style type="text/css">
 #accordion > ul > li {
@@ -423,10 +423,21 @@
 									</tr>
 									<tr>
 										<td>
+										<!--
 										<span>객실요금 </span>
-										<span class="roomPrice">0</span>
-										<span> 원</span>
+										  -->
+										<span class="roomPrice">1박 요금 : ${dto.stdPrice}</span>
+										<br>
+										
+										<fmt:parseDate value="${sessionScope.book.srtDate}" var="strPlanDate" pattern="yyyy-MM-dd"/>
+										<fmt:parseNumber value="${strPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="strDate"></fmt:parseNumber>
+										<fmt:parseDate value="${sessionScope.book.endDate}" var="endPlanDate" pattern="yyyy-MM-dd"/>
+										<fmt:parseNumber value="${endPlanDate.time / (1000*60*60*24)}" integerOnly="true" var="endDate"></fmt:parseNumber>
+										
+										<span class="roomPrice">총 객실 요금 : ${dto.stdPrice * (endDate - strDate)}</span>
+										<span>원</span>
 										</td>
+										
 									</tr>
 									<tr>
 										<td>[옵션]</td>

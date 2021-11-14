@@ -45,6 +45,7 @@ function dateCalcul(){
 	var end = $("input[name=endDate]").datepicker('getDate');
 	
 	var day = (end - start)/1000/60/60/24;
+
 }
 
 // 인원수 증가 및 감소

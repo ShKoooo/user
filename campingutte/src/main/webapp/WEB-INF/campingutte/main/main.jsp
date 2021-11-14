@@ -140,7 +140,7 @@
                         <div class="col-lg-8 col-xl-6">
                             <div class="text-center">
                                 <h2 class="fw-bolder">테마별로 떠나는 캠핑</h2>
-                                <p class="lead fw-normal text-muted mb-5">캠핑 소개 문구~~~~~~~~~</p>
+                                <p class="lead fw-normal text-muted mb-5"></p>
                             </div>
                         </div>
                     </div>
