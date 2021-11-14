@@ -133,7 +133,7 @@ function sendOk() {
 
 
 
-
+/*
 function changeType() {
     var f = document.typeWriteForm;
 	    
@@ -155,7 +155,7 @@ function changeType() {
         f.typeNo.focus();
     }
 }
-
+*/
 
 </script>
 </head>
@@ -170,6 +170,7 @@ function changeType() {
 		<table  class="table table-form">
 			<tr>
 				<td>
+					<!-- 
 					<select name="selectType" class="selectField" onchange="changeType();">
 						<option value="">선택</option>
 						<c:forEach var="dto" items="${list}">
@@ -178,11 +179,13 @@ function changeType() {
 							<option value="2.글램핑">2.글램핑</option>
 							<option value="3.캠핑카">3.캠핑카</option>
 							 -->
+					<!-- 
 						</c:forEach>
 						<option value="direct">직접입력</option>
 					</select>
-					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeNo}" style="width: 20%;" readonly="readonly"> 
-					유형이름 : <input type="text" maxlength="30" name="typeName" class="boxTF" value="${dto.typeName}" style="width: 20%;" readonly="readonly">
+					 -->
+					유형번호 : <input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.typeNo}" style="width: 20%;"> 
+					유형이름 : <input type="text" maxlength="30" name="typeName" class="boxTF" value="${dto.typeName}" style="width: 20%;">
 				</td>
 			</tr>
 		</table>
@@ -192,7 +195,7 @@ function changeType() {
 				<td align="center">
 					<button type="button" class="btn" onclick="sendOk();">등록</button>
 					<button type="reset" class="btn">다시입력</button>
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campList.do';">등록 취소</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/admin/campTypeList.do';">등록 취소</button>
 				</td>
 			</tr>
 		</table>
