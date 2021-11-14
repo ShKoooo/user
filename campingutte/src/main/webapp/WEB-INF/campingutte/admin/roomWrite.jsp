@@ -149,13 +149,13 @@
 function sendOk() {
     var f = document.roomWriteForm;
 	var str;
-	
-	str = f.campNo.value.trim();
-    if(!str) {
-        alert("캠핑장 번호를 입력하세요. ");
-        f.campNo.focus();
-        return;
-    }
+
+	str = f.selectType.value;
+	if(! str) {
+		alert("캠핑장 번호를 선택하세요.");
+		f.selectType.focus();
+		return;
+	}
 	
     str = f.roomName.value.trim();
     if(!str) {
@@ -289,7 +289,23 @@ $(function(){
 	
 });
 
-
+function changeType() {
+    var f = document.roomWriteForm;
+	    
+    var str = f.selectType.value;
+    var str_data = str.split(".");
+    var no = str_data[0];
+    
+    if(str!="direct") {
+        f.campNo.value = no; 
+        f.campNo.readOnly = true;
+    }
+    else {
+    	f.campNo.value = ""; 
+        f.campNo.readOnly = false;
+        f.campNo.focus();
+    }
+}
 </script>
 
 </head>
@@ -308,24 +324,16 @@ $(function(){
 			
 			<tr class="campNo">
 				<td>캠핑장번호</td>
-				<!-- 수정중 -->
-				<c:if test="${mode=='roomWrite'}">
-					<td>
-						
-			            	<select name="selectType" class="selectField">
-			                	<option value="" selected>캠핑장 선택</option>
-			                    <c:forEach var="vo" items="${list}">
-			                    	<option value="${vo.campNo}">${vo.campName}</option>
-			                    </c:forEach>
-			                </select>
-			          
-						<input type="text" maxlength="30" name="typeNo" class="boxTF" value="${dto.campNo}" style="width: 20%;" readonly="readonly">
-					<td>
-				</c:if>
-				
-				<c:if test="${mode=='roomUpdate'}">
-					<td><input type="text" name="campNo" class="boxTF" placeholder="캠핑장번호 입력해주세요" value="${dto.campNo}" readonly="readonly"></td>
-				</c:if>
+				<td>
+					<select name="selectType" class="selectField" onchange="changeType();">
+						<option value="">캠핑장번호 선택</option>
+						<c:forEach var="dto" items="${listCampNo}">
+						<option value="${dto.campNo}">${dto.campNo}.${dto.campName}</option>
+						</c:forEach>	
+						<option value="direct">직접입력</option>
+					</select>
+					<input type="text" maxlength="30" name="campNo" class="boxTF" value="${dto.campName}" style="width: 20%;" readonly="readonly">
+				<td>
 			</tr>
 			
 			
