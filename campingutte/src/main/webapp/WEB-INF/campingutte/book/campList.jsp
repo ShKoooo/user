@@ -192,7 +192,6 @@ function searchList(){
 		                        
 		                        <div class="text-muted fst-italic mb-2">January 1, 2021</div>
 		                        <hr>
-		                       
 		                    </header>
 
 		                    <!-- Post content-->
