@@ -85,7 +85,7 @@
     	var fn = function(data){
     		$(selector).html(data);
     	};
-    	ajaxFun(url, "post", query, "html", fn);
+    	ajaxFun(url, "get", query, "html", fn);
     }
     
     function listReview(page) {
@@ -124,7 +124,6 @@
     
     
    </script>
-    
     </head>
     <body class="d-flex flex-column">
         <main class="flex-shrink-0">
@@ -161,7 +160,11 @@
                                 	-->
                                 </header>
                                 <!-- Preview image figure-->
-                                <figure class="mb-4"><img class="img-fluid rounded" src="https://dummyimage.com/900x400/ced4da/6c757d.jpg" alt="..." /></figure>
+                                <c:forEach var="vo" items="${dto.images}" varStatus="status">
+                                	<c:if test="${status.index == 0}">
+                                		<figure class="mb-4"><img class="img-fluid rounded" src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"/></figure>
+                                	</c:if>
+                                </c:forEach>
                                 <!-- Post content-->
                                 <section class="mb-5">
                                     <p class="fs-5 mb-4">캠핑장 소개 ${dto.campDetail}</p>

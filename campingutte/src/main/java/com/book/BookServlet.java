@@ -442,10 +442,12 @@ public class BookServlet extends MyServlet{
 		}
 		
 		// GET 방식 거부
+		/* 
 		if (req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp+"/book/campArticle.do");
 			return;
 		}
+		 */
 		
 		BookDAO dao = new BookDAO();
 		MyUtil util = new MyUtil();
@@ -520,7 +522,7 @@ public class BookServlet extends MyServlet{
 			req.setAttribute("roomTotal_page", roomTotal_page);
 			req.setAttribute("roomPaging", roomPaging);
 			
-			forward(req,resp,"/WEB-INF/campingutte/bbs/roomList.jsp");
+			forward(req,resp,"/WEB-INF/campingutte/book/roomList.jsp");
 			// campArticle,
 			// roomList 
 			

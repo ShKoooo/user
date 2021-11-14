@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
+
 <div class="roomList">
 	<span>객실 ${roomCount}개</span>
 	<span>[목록, ${pageNo}/${roomTotal_page} 페이지]</span>
@@ -24,4 +25,3 @@
 <div class="page-box">
 	${roomPaging}
 </div>
-
