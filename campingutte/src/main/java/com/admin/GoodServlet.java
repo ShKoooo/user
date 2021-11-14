@@ -243,7 +243,7 @@ public class GoodServlet extends MyUploadServlet {
 			e.printStackTrace();
 		}
 		
-		resp.sendRedirect(cp + "/admin/campList.do");
+		resp.sendRedirect(cp + "/admin/campTypeList.do");
 	}	
 	
 	
