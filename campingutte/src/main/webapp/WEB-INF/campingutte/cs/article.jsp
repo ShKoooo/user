@@ -14,12 +14,23 @@
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
 <style type="text/css">
+
+
+.body-container {
+	margin: 50px;
+	width: 90%; 
+	vertical-align: center; 
+}
+
 .table-article tr > td {
-	padding-left: 5px; padding-right: 5px;
+	padding-left: 5px; 
+	padding-right: 5px;
+	vertical-align: center;
 }
 
 .reply {
-	padding-left: 5px; padding-right: 5px;
+	padding-left: 5px; 
+	padding-right: 5px;
 	text-align: center;
 	vertical-align: center;
 
@@ -27,11 +38,13 @@
 
 .replyForm {
 	padding-left: 5px; padding-right: 5px;
-text-align: center;
+	text-align: center;
 	vertical-align: center;
 }
 
-.tableReplyForm 
+.tableReplyForm {
+
+}
 
 
 </style>
@@ -110,7 +123,7 @@ $(function(){
 </header>
 
 <main>
-	<div class="body-container" style="width: 850px; vertical-align: center; margin-left: 50px; margin-top: 60px;">
+	<div class="body-container">
 		<div class="body-title" style="vertical-align: center;">
 			<h3><i class="fas fa-chalkboard" style="vertical-align: center;"></i> 1:1 문의 </h3>
 		</div>
@@ -150,7 +163,7 @@ $(function(){
 					<table class="table reply-form">
 						<tr>
 							<td>
-								<textarea class='boxTA' name="content" style="width: 55%;"></textarea>
+								<textarea class='boxTA' name="content" style="width: 55%; vertical-align: center;"></textarea>
 							</td>
 						</tr>
 						<tr>

@@ -53,6 +53,16 @@
 	text-align: center;
 }
 
+.btn {
+	border-width: 1px;
+	border-color: #aaa;
+	border-style: solid;
+	vertical-align: middle;
+	text-align: center;
+}
+
+
+
 
 </style>
 
@@ -173,7 +183,7 @@ function memberOk() {
 			<tr>
 				<td>이&nbsp;&nbsp;&nbsp;&nbsp;름</td>
 				<td>
-					<input type="text" name="memberName" maxlength="10" class="boxTF" value="${dto.memberName}" style="width: 50%;" ${mode=="update" ? "readonly='readonly' ":""}>
+					<input type="text" name="memberName" maxlength="10" class="boxTF" value="${dto.memberName}" style="width: 50%;">
 				</td>
 			</tr>
 		

@@ -16,7 +16,7 @@
 
 <style type="text/css">
 .table-list tr:first-child{
-	background: white`;
+	background: white;
 }
 .table-list th, .table-list td {
 	text-align: center;

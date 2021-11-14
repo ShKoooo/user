@@ -18,6 +18,11 @@
 	padding-left: 5px; padding-right: 5px;
 }
 
+.body-container {
+	margin: 50px;
+	width: 90%; 
+	vertical-align: center; 
+}
 
 </style>
 
@@ -33,7 +38,7 @@
 </header>
 
 <main>
-	<div class="body-container" style="width: 850px; vertical-align: center; margin-left: 50px; margin-top: 60px;">
+	<div class="body-container" ">
 		<div class="body-title" style="vertical-align: center;">
 			<h3><i class="fas fa-chalkboard" style="vertical-align: center;"></i> 게시판 </h3>
 		</div>
