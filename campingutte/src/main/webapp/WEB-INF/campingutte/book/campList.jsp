@@ -196,7 +196,13 @@ function searchList(){
 			                   	<c:forEach var="dto" items="${list}">
 									
 									<tr class="campsiteList" onclick="location.href='${articleUrl}&num=${dto.campNo}';">
-										<td>${dto.images}</td>
+										<td>
+											<c:forEach var="vo" items="${dto.images}" varStatus="status">
+												<c:if test="${status.index==0}">
+												  <figure class="mb-4"><img src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"></figure>
+												</c:if>
+											</c:forEach>
+										</td>
 										<td>${dto.campName}</td>
 										<td>${dto.campAddr1}</td>
 									</tr>

@@ -37,22 +37,19 @@
         
         // 수량 계산
         $(function(){
-        	$(document).ready(function(){
-        		var qty1 = parseInt($(this).parent("td").find(".quantity1").text());
-        		if(isNaN(qty1)) { 
-        			qty1=1;
-        		}
- 				var price1 = parseInt($(this).closest("tr").find(".price1").attr("data-num"));
- 				if(isNaN(price1)) { 
-        			price1=30000;
-        		}
- 				var total=0;
- 				
- 				total = qty1 * price1;
- 				$(".optionPrice1").text(total);
-        		
-        	});
-        	
+       		var qty1 = parseInt($(".quantity1").text());
+			var price1 = parseInt($(".price1").attr("data-price"));
+
+			var total=0;
+				
+			total = qty1 * price1;
+			$(".optionPrice1").text(total);
+       		
+			totalCalc();
+		});
+       	
+			
+        $(function(){
         	$("body").on("click", ".btnPlus1", function(){
  				var qty1 = parseInt($(this).parent("td").find(".quantity1").text());
  				var price1 = parseInt($(this).closest("tr").find(".price1").attr("data-num"));
@@ -64,6 +61,8 @@
  				total = qty1 * price1;
 
  				$(".optionPrice1").text(total);
+ 				
+ 				totalCalc();
  			});
         	
 	        $("body").on("click", ".btnPlus2", function(){
@@ -78,6 +77,9 @@
 				total = qty2 * price2;
 
 				$(".optionPrice2").text(total);
+				$(".optionSelect").show();
+				
+				totalCalc();
 			});
 	        
 	        $("body").on("click", ".btnPlus3", function(){
@@ -92,6 +94,9 @@
 	 			total = qty3 * price3;
 	 			
 				$(".optionPrice3").text(total);
+				$(".optionSelect").show();
+				
+				totalCalc();
 			});
 			
         	$("body").on("click", ".btnMinus1", function(){
@@ -108,6 +113,8 @@
  				total = qty1 * price1;
 
  				$(".optionPrice1").text(total);
+ 				
+ 				totalCalc();
  			});
         	
 	        $("body").on("click", ".btnMinus2", function(){
@@ -125,6 +132,8 @@
 				total = qty2 * price2;
 
 				$(".optionPrice2").text(total);
+				
+				totalCalc();
 			});
 	        
 	        $("body").on("click", ".btnMinus3", function(){
@@ -142,16 +151,19 @@
 	 			total = qty3 * price3;
 	 			
 				$(".optionPrice3").text(total);
+				
+				totalCalc();
 			});
         });
         
-        $(function(){
-        	var total = parseInt($(".optionPrice3").text()) + 
-        				parseInt($(".optionPrice2").text()) +
-        				parseInt($(".optionPrice1").text());
+        function totalCalc() {
+       
+        	var total = parseInt($(".optionPrice3").text() ? $(".optionPrice3").text() : '0') + 
+        				parseInt($(".optionPrice2").text() ? $(".optionPrice2").text() : '0') +
+        				parseInt($(".optionPrice1").text() ? $(".optionPrice1").text() : '0');
         	
-        	$(".totalPrice").text(parseInt(total));
-        });
+        	$(".totalPrice").text(total);
+        }
        
         
 	</script>
@@ -194,7 +206,7 @@
                         		<tr>
                         			<td>
                         				<span class="optName1" style="font-size: 20px;" >세트1 - </span>
-                        				<span class="price1" style="font-size: 20px;" data-num="30000">30000원(필수)</span><br>
+                        				<span class="price1" style="font-size: 20px;" data-price="30000">30000원(필수)</span><br>
                         				<span style="font-size: 1rem; line-height: 0.1em;">바베큐를 위한 장작세트<br>
 											장작세트구성 장작1박스+석쇄불판+불피워주기 서비스<br>
 											(고기구워먹기 한시간전에 주문요망)</span>
@@ -421,17 +433,20 @@
 									</tr>
 									<tr>
 										<td class="optionCalculate">
-											<span>필수 옵션 : </span>
-											<br>
-											<span class="optionPrice1"></span>원
-											<br>
+											<div>
+												<span>필수 옵션 : </span>
+												<br>
+												<span class="optionPrice1"></span>원
+											</div>
 											
-											<span>선택 옵션 : </span>
-											<br>
-											<span class="optionPrice2"></span>원
-											<br>
-											<span class="optionPrice3"></span>원
-
+											<div class="optionSelect" style="display: none;">
+												<br>
+												<span>선택 옵션 : </span>
+												<br>
+												<span class="optionPrice2"></span>원
+												<br>
+												<span class="optionPrice3"></span>원
+											</div>
 										</td>
 										
 									</tr>
