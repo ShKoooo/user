@@ -333,13 +333,34 @@ function changeType() {
 						<option value="direct">직접입력</option>
 					</select>
 					<input type="text" maxlength="30" name="campNo" class="boxTF" value="${dto.campName}" style="width: 20%;" readonly="readonly">
+				
+				
+			<!--  
+				<c:if test="${mode=='roomUpdate'}">
+					<select name="selectType" class="selectField" onchange="changeType();">
+						<option value="">캠핑장번호 선택</option>
+						<c:forEach var="dto" items="${listCampNo}">
+						<option value="${dto.campNo}">${dto.campNo}.${dto.campName}</option>
+						</c:forEach>	
+						<option value="direct">직접입력</option>
+					</select>
+					<input type="text" maxlength="30" name="campNo" class="boxTF" value="${dto.campName}" style="width: 20%;" readonly="readonly">
+				</c:if>
+			-->	
 				<td>
 			</tr>
 			
 			
 			<tr class="roomNo">
 				<td>객실번호</td>
-				<td><input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}"></td>
+				<td>
+				<c:if test="${mode=='roomWrite'}">
+					<input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}">
+				</c:if>
+				<c:if test="${mode=='roomUpdate'}">
+					<input type="text" name="roomNo" class="boxTF" placeholder="객실번호 입력해주세요" value="${dto.roomNo}" readonly="readonly">
+				</c:if>
+				</td>
 			</tr>
 			
 			<tr class="roomName">

@@ -114,7 +114,7 @@ public class GoodServlet extends MyUploadServlet {
 			dataCount = dao.dataCount();
 			
 			// 전체 페이지 수
-			int rows = 10;
+			int rows = 5;
 			int total_page = util.pageCount(rows, dataCount);
 			if (current_page > total_page) {
 				current_page = total_page;

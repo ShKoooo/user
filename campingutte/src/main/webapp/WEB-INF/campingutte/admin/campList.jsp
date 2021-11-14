@@ -11,6 +11,8 @@
 <link href="${pageContext.request.contextPath}/resource/css/styles.css" rel="stylesheet" />
 <link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
 
+<link href="${pageContext.request.contextPath}/resource/css/paginate.css" rel="stylesheet" />
+
 <meta charset="UTF-8">
 
 <title>Insert title here</title>
@@ -20,7 +22,6 @@
 .body-container {
     margin: 0 auto 15px;
     width: 800px;
-    min-height: 450px;
 }
 .body-container:before, .body-container:after{
 	content: "";
@@ -105,6 +106,7 @@ th {	/* 테이블 안 글씨 가운데 정렬 */
 	text-align: center;
 }
 
+
 </style>
 
 
@@ -130,6 +132,8 @@ function deleteBoard(campNo) {
 	</div>
 	
 	<form name="campList" method="post">
+		<p style="text-align: right; margin: 1px">${dataCount}개(${page}/${total_page} 페이지)</p>
+		
 		<table class="table">
 			<tr>
 				<th width="100">캠핑장번호</th>
@@ -151,6 +155,11 @@ function deleteBoard(campNo) {
 				</tr>
 			</c:forEach>
 		</table>
+		
+		<div class="page-box">
+			${dataCount == 0 ? "등록된 캠핑장이 없습니다." : paging}
+		</div>
+		
 	</form> 
 </div>
 
