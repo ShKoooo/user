@@ -7,6 +7,35 @@
 <head>
 <meta charset="UTF-8">
 <title>예약 목록</title>
+
+<style type="text/css">
+.table-list tr:first-child{
+	background: #eee;
+}
+.table-list th, .table-list td {
+	text-align: center;
+}
+.table-list .left {
+	text-align: left; padding-left: 5px; 
+}
+
+.table-list .num {
+	width: 160px; color: #787878;
+}
+.table-list .subject {
+	color: #787878;
+}
+.table-list .name {
+	width: 100px; color: #787878;
+}
+.table-list .date {
+	width: 220px; color: #787878;
+}
+.table-list .hit {
+	width: 70px; color: #787878;
+}
+</style>
+
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
@@ -34,23 +63,25 @@
 		
 		<table class="table table-border table-list">
 			<tr>
-				<th class="num">번호</th>
-				<th class="subject">제목</th>
-				<th class="name">작성자</th>
-				<th class="date">작성일</th>
-				<th class="hit">조회수</th>
+				<th class="num">예약번호</th>
+				<th class="name">예약자명</th>
+				<th class="date">예약일</th>
+				<th class="date">시작일</th>
+				<th class="date">종료일</th>
 			</tr>
 			
 			<c:forEach var="dto" items="${list}">
 				<tr>
-					<td>${dto.listNum}</td>
-					<td class="left">
-						<a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
-						<c:if test="${dto.replyCount != 0}">(${dto.replyCount})</c:if>
-					</td>
-					<td>${dto.userName}</td>
-					<td>${dto.reg_date}</td>
-					<td>${dto.hitCount}</td>
+					<td>${dto.bookNo}</td>
+					<td>${dto.bookName}</td>
+					<%--
+						<td class="left">
+							<a href="${articleUrl}&num=${dto.num}">${dto.subject}</a>
+						</td>
+					--%>
+					<td>${dto.bookDate}</td>
+					<td>${dto.bookSrtdate}</td>
+					<td>${dto.bookEnddate}</td>
 				</tr>
 			</c:forEach>
 		</table>
@@ -62,7 +93,7 @@
 		<table class="table">
 			<tr>
 				<td width="100">
-					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/bbs/list.do';">새로고침</button>
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/book/bookList.do';">새로고침</button>
 				</td>
 			</tr>
 		</table>	
@@ -70,11 +101,13 @@
 	</div>
 </main>
 
-<footer>
-    <jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
-</footer>
-
-<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
+<%--
+	<footer>
+	    <jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
+	</footer>
+	
+	<jsp:include page="/WEB-INF/campingutte/layout/staticFooter.jsp"/>
+ --%>
 
 </body>
 </html>
