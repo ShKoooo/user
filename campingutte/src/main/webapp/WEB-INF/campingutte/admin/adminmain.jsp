@@ -17,20 +17,11 @@
 <link href="${pageContext.request.contextPath}/resource/css/paginate.css" rel="stylesheet" />
 
 <style type="text/css">
-.adminmain {
-	text-align: center;
-	min-height: 455px;
-}
 
 .admain-title {
 	margin: 30px 0;
 	text-align: center;
 
-}
-
-.adminmain > p > a {
-	
-	color: red;
 }
 
 </style>
@@ -40,15 +31,14 @@
 <div class="admain-title">
 <h3>관리자 - 관리 목록</h3>
 </div>
-
-<div class="adminmain">
-<p><a href="${pageContext.request.contextPath}/admin/campWrite.do">캠핑장 등록하기</a></p>
-<p><a href="${pageContext.request.contextPath}/admin/campList.do">캠핑장 리스트</a></p>
-<p><a href="${pageContext.request.contextPath}/admin/roomWrite.do">객실 등록하기</a></p>
-<p><a href="${pageContext.request.contextPath}/admin/roomList.do">객실 리스트</a></p>
-<p><a href="${pageContext.request.contextPath}/admin/campTypeWrite.do">타입 등록하기</a></p>
-<p><a href="${pageContext.request.contextPath}/admin/campTypeList.do">타입 리스트</a></p>
-</div>
+	<div class="list-group" style="max-width: 540px; margin: 10px auto;">
+	  <a href="${pageContext.request.contextPath}/admin/campWrite.do" class="list-group-item list-group-item-action">캠핑장 등록하기</a>
+	  <a href="${pageContext.request.contextPath}/admin/campList.do" class="list-group-item list-group-item-action">캠핑장 리스트</a>
+	  <a href="${pageContext.request.contextPath}/admin/roomWrite.do" class="list-group-item list-group-item-action">객실 등록하기</a>
+	  <a href="${pageContext.request.contextPath}/admin/roomList.do" class="list-group-item list-group-item-action">객실 리스트</a>
+	  <a href="${pageContext.request.contextPath}/admin/campTypeWrite.do" class="list-group-item list-group-item-action">타입 등록하기</a>
+	  <a href="${pageContext.request.contextPath}/admin/campTypeList.do" class="list-group-item list-group-item-action">타입 리스트</a>
+	</div>
 
 <jsp:include page="/WEB-INF/campingutte/layout/footer.jsp"></jsp:include>
 </body>
