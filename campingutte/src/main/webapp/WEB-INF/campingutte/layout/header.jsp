@@ -65,7 +65,7 @@
 	                        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/">Home</a></li>
 	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/campList.do">지역별 검색</a></li>
-	                            <li class="nav-item"><a class="nav-link" href="contact.html">공지사항</a></li>
+	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/notice/list.do">공지사항</a></li>
 	                            <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/book/campList.do">예약하기</a></li>
 	                            
 	                            <c:if test="${sessionScope.member.memberId=='admin'}">
