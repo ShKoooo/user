@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import com.member.SessionInfo;
 
-@WebFilter("/*")
+//@WebFilter("/*")
 public class LoginFilter implements Filter {
 
 	
