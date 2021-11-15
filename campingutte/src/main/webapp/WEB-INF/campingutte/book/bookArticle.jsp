@@ -213,7 +213,11 @@ $(function() {
 		var bookNoR = "${dto.bookNo}";
 		var $tb = $(this).closest("table");
 		var content = $tb.find("textarea").val().trim();
-		var star = $tb.find("option").val();
+		var star = $("#star option:selected").val();
+		
+		console.log(bookNoR);
+		console.log(content);
+		console.log(star);
 		
 		if (! content) {
 			$tb.find("textarea").focus();
@@ -224,6 +228,9 @@ $(function() {
 		var url = "${pageContext.request.contextPath}/bbs/insertReply.do";
 		var query = "bookNoR="+bookNoR+"&content="+content+"&star="+star;
 		
+		console.log(url);
+		console.log(query);
+		
 		var fn = function(data) {
 			var state = data.state;
 
@@ -232,7 +239,7 @@ $(function() {
 			if (state === "true") {
 				listPage(1); // 1페이지 불러오기 (새로고침?)
 			} else {
-				alert("댓글 추가 실패..");
+				alert("리뷰 등록 실패..");
 			}
 		};
 		
