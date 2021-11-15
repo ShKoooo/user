@@ -247,8 +247,8 @@ public class BoardServlet extends MyServlet {
 		String page = req.getParameter("page");
 
 		try {
-			int boardNum = Integer.parseInt(req.getParameter("boardNum"));
-			BoardDTO dto = dao.readBoard(boardNum);
+			int compNo = Integer.parseInt(req.getParameter("compNo"));
+			BoardDTO dto = dao.readBoard(compNo);
 
 			if (dto == null) {
 				resp.sendRedirect(cp + "/cs/list.do?page=" + page);
@@ -320,7 +320,7 @@ public class BoardServlet extends MyServlet {
 		String query = "page=" + page;
 
 		try {
-			int num = Integer.parseInt(req.getParameter("num"));
+			int compNo = Integer.parseInt(req.getParameter("compNo"));
 			String condition = req.getParameter("condition");
 			String keyword = req.getParameter("keyword");
 			if (condition == null) {
@@ -333,7 +333,7 @@ public class BoardServlet extends MyServlet {
 				query += "&condition=" + condition + "&keyword=" + URLEncoder.encode(keyword, "UTF-8");
 			}
 
-			dao.deleteBoard(num, info.getMemberId());
+			dao.deleteBoard(compNo, info.getMemberId());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

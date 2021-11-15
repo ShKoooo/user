@@ -2,9 +2,11 @@ package com.review;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLDecoder;
 import java.util.List;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,6 +17,7 @@ import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
+@WebServlet("/review/*")
 public class ReviewServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -98,8 +101,11 @@ public class ReviewServlet extends MyServlet {
 			dto.setReviewNo(bookNo+info.getMemberId());
 			dto.setBookNo(bookNo);
 			dto.setMemberId(info.getMemberId());
-			dto.setReviewComment(req.getParameter("comment"));
+			// URLDecoder.decode(req.getParameter("comment"),"utf-8").replaceAll("\n","<br>");
+			dto.setReviewComment(URLDecoder.decode(req.getParameter("comment"),"utf-8").replaceAll("\n","<br>"));
 			dto.setReviewStar(req.getParameter("star"));
+			
+			System.out.println(req.getParameter("comment"));
 			
 			dao.insertReview(dto);
 			

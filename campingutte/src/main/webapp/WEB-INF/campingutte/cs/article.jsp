@@ -2,6 +2,8 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,6 +55,13 @@
 	text-align: center;
 }
 
+.btn {
+	border-width: 1px;
+	border-color: #aaa;
+	border-style: solid;
+	vertical-align: middle;
+	text-align: center;
+}
 
 
 </style>
@@ -88,6 +97,15 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
+<c:if test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
+function deleteBoard() {
+    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
+	    var query = "compNo=${dto.compNo}&${query}";
+	    var url = "${pageContext.request.contextPath}/cs/delete.do?" + query;
+    	location.href = url;
+    }
+}
+</c:if>
 
 
 $(function(){
@@ -138,7 +156,7 @@ $(function(){
         
 		<table class="table table-border table-article" style="vertical-align: center;">
 			<tr>
-				<td colspan="2" align="center">
+				<td colspan="2" align="center" style="font-weight: 800px; font-size: 27px;">
 					${dto.compSubject}
 				</td>
 			</tr>
@@ -157,9 +175,36 @@ $(function(){
 					${dto.compContent}
 				</td>
 			</tr>
-			
 		</table>
-		</div>
+		<table class="table">
+			<tr>
+				<td width="40%">
+					<c:choose>
+						<c:when test="${sessionScope.member.memberId==dto.memberId}">
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/cs/update.do?compNo=${dto.compNo}&page=${page}';">수정</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn" disabled="disabled">수정</button>
+						</c:otherwise>
+					</c:choose>
+			    	
+					<c:choose>
+			    		<c:when test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
+			    			<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<button type="button" class="btn" disabled="disabled">삭제</button>
+			    		</c:otherwise>
+			    	</c:choose>
+				</td>
+				<td align="right">
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/cs/list.do'">리스트</button>
+				</td>
+			</tr>
+		</table>
+	</div>
+		
+	
 
 		<div class="body-container">
 			<form name="body-title" method="post">
@@ -190,7 +235,7 @@ $(function(){
 								</td>
 							</tr>
 							<tr>
-								<td colspan='2' valign='top'>${rdto.compReplyContent}</td>
+								<td colspan='2' valign='top' style="white-space: pre;">${rdto.compReplyContent}</td>
 							</tr>
 					</table>			
 				</div>

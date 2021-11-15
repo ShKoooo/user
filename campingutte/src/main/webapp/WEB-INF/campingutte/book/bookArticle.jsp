@@ -186,6 +186,25 @@ function ajaxFun(url, method, query, dataType, fn) {
 	});
 }
 
+// 리뷰 리스트
+$(function()) {
+	listPage(1);
+}
+
+function listPage(page) {
+	var url = "${pageContext.request.contextPath}/review/listReview.do";
+	var query = "bookNo=${dto.bookNo}&pageNo="+page;
+	var selector = "#listReply";
+	
+	var fn = function(data) {
+		$(selector).html(data);
+	};
+	
+	ajaxFun(url,"get",query,"html",fn);
+}
+
+// TODO
+
 //리뷰 삭제
 $(function() {
 	$("body").on("click",".deleteReply", function() {
@@ -225,8 +244,8 @@ $(function() {
 		}
 		content = encodeURIComponent(content);
 		
-		var url = "${pageContext.request.contextPath}/bbs/insertReply.do";
-		var query = "bookNoR="+bookNoR+"&content="+content+"&star="+star;
+		var url = "${pageContext.request.contextPath}/review/insertReview.do";
+		var query = "bookNoR="+bookNoR+"&comment="+content+"&star="+star;
 		
 		console.log(url);
 		console.log(query);

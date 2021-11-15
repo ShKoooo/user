@@ -13,6 +13,7 @@
 
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
+
 <style type="text/css">
 .table-article tr > td {
 	padding-left: 5px; padding-right: 5px;
@@ -24,9 +25,26 @@
 	vertical-align: center; 
 }
 
+.btn {
+	border-width: 1px;
+	border-color: #aaa;
+	border-style: solid;
+	vertical-align: middle;
+	text-align: center;
+}
+
 </style>
 
 <script type="text/javascript">
+<c:if test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
+function deleteBoard() {
+    if(confirm("게시글을 삭제 하시 겠습니까 ? ")) {
+	    var query = "commNo=${dto.commNo}&${query}";
+	    var url = "${pageContext.request.contextPath}/community/delete.do?" + query;
+    	location.href = url;
+    }
+}
+</c:if>
 
 </script>
 
@@ -38,14 +56,14 @@
 </header>
 
 <main>
-	<div class="body-container" ">
+	<div class="body-container">
 		<div class="body-title" style="vertical-align: center;">
 			<h3><i class="fas fa-chalkboard" style="vertical-align: center;"></i> 게시판 </h3>
 		</div>
-        
+        <hr>
 		<table class="table table-border table-article" style="vertical-align: center;">
 			<tr>
-				<td colspan="2" align="center">
+				<td colspan="2" align="center" style="font-weight: 800px; font-size: 27px;">
 					${dto.commSubject}
 				</td>
 			</tr>
@@ -64,8 +82,34 @@
 					${dto.commContent}
 				</td>
 			</tr>
-			
 		</table>
+		<table class="table">
+			<tr>
+				<td width="50%">
+					<c:choose>
+						<c:when test="${sessionScope.member.memberId==dto.memberId}">
+							<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/community/update.do?commNo=${dto.commNo}&page=${page}';">수정</button>
+						</c:when>
+						<c:otherwise>
+							<button type="button" class="btn" disabled="disabled">수정</button>
+						</c:otherwise>
+					</c:choose>
+			    	
+					<c:choose>
+			    		<c:when test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
+			    			<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+			    		</c:when>
+			    		<c:otherwise>
+			    			<button type="button" class="btn" disabled="disabled">삭제</button>
+			    		</c:otherwise>
+			    	</c:choose>
+				</td>
+				<td align="right">
+					<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/community/list.do'">리스트</button>
+				</td>
+			</tr>
+		</table>
+		
 		</div>
 </main>
 

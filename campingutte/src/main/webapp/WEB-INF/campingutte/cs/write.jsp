@@ -40,7 +40,7 @@
 	border-color: #aaa;
 	border-style: solid;
 	vertical-align: middle;
-	text-align: center;r
+	text-align: center;
 }
 
 
