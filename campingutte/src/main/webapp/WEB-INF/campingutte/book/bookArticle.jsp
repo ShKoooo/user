@@ -384,6 +384,7 @@ $(function() {
 	<table class="table">
 		<tr>
 			<td width="50%">
+			<%--
 				<c:choose>
 					<c:when test="${sessionScope.member.memberId==dto.memberId}">
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/book/bookUpdate.do?bookNo=${dto.bookNo}&page=${page}';">수정</button>
@@ -392,13 +393,14 @@ $(function() {
 						<button type="button" class="btn" disabled="disabled">수정</button>
 					</c:otherwise>
 				</c:choose>
+			 --%>
 		    	
 				<c:choose>
 		    		<c:when test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
-		    			<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+		    			<button type="button" class="btn" onclick="deleteBoard();">예약취소</button>
 		    		</c:when>
 		    		<c:otherwise>
-		    			<button type="button" class="btn" disabled="disabled">삭제</button>
+		    			<button type="button" class="btn" disabled="disabled">예약취소</button>
 		    		</c:otherwise>
 		    	</c:choose>
 			</td>

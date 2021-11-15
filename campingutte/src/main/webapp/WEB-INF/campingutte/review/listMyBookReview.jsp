@@ -22,6 +22,16 @@
 			</td>
 		</tr>
 		<tr>
+			<td colspan='2'>
+				<b>별점</b>&nbsp;&nbsp;
+				<c:if test="${dto.reviewStar=='1'}">★</c:if>
+				<c:if test="${dto.reviewStar=='2'}">★★</c:if>
+				<c:if test="${dto.reviewStar=='3'}">★★★</c:if>
+				<c:if test="${dto.reviewStar=='4'}">★★★★</c:if>
+				<c:if test="${dto.reviewStar=='5'}">★★★★★</c:if>
+			</td>
+		</tr>
+		<tr>	
 			<td colspan='2' valign='top'>${dto.reviewComment}</td>
 		</tr>
 	</c:forEach>	
