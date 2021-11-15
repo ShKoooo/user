@@ -2,14 +2,11 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link rel="icon" href="data:;base64,iVBORw0KGgo=">
-</head>
-<body>
+
+<div class='reply-info'>
+	<span class='reply-count'>리뷰 ${reviewCount}개</span>
+	<span>[목록, ${rPageNo}/${rTotal_page} 페이지]</span>
+</div>
 
 <table class='table reply-list'>
 	<c:forEach var="dto" items="${listReview}">
@@ -45,5 +42,6 @@
 	</c:forEach>	
 </table>
 
-</body>
-</html>
+<div class="page-box">
+	${rPaging}
+</div>	

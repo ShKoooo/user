@@ -21,10 +21,62 @@
 		<link href="${pageContext.request.contextPath}/resource/css/header_footer-layout.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
-     <style type="text/css">
-	 	.btn-warning {
-			width: 100%;
-		}
+  
+  
+  <style type="text/css">
+	.btn-warning {
+		width: 100%;
+	}
+	
+	/* review */
+
+	.reply {
+		clear: both; padding: 20px 0 10px;
+	}
+	.reply .bold {
+		font-weight: 600;
+	}
+	
+	.reply .form-header {
+		padding-bottom: 7px;
+	}
+	.reply-form  td {
+		padding: 2px 0 2px;
+	}
+	.reply-form textarea {
+		width: 100%; height: 75px;
+	}
+	.reply-form button {
+		padding: 8px 25px;
+	}
+	
+	.reply .reply-info {
+		padding-top: 25px; padding-bottom: 7px;
+	}
+	.reply .reply-info  .reply-count {
+		color: #3EA9CD; font-weight: 700;
+	}
+	
+	.reply .reply-list tr td {
+		padding: 7px 5px;
+	}
+	.reply .reply-list .bold {
+		font-weight: 600;
+	}
+	
+	.reply .deleteReply, .reply .deleteReplyAnswer {
+		cursor: pointer;
+	}
+	.reply .notifyReply {
+		cursor: pointer;
+	}
+	
+	.reply-list .list-header {
+		border: 1px solid #ccc; background: #eee;
+	}
+	.reply-list td {
+		padding-left: 7px; padding-right: 7px;
+	}
 	
 		
   </style>
@@ -60,6 +112,7 @@
 
     $(function(){
     	listPage(1);
+    	listReview(1);
     });
 
     function listPage(page) {
