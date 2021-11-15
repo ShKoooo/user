@@ -13,7 +13,7 @@
 				<span>${dto.reviewDate}</span> |
 				<c:choose>
 					<c:when test="${sessionScope.member.memberId == dto.memberId || sessionScope.member.memberId == 'admin'}">
-						<span class='deleteReply' data-replyNum='${dto.reviewNum}' data-pageNo='${pageNo}'>삭제</span>
+						<span class='deleteReply' data-replyNum='${dto.reviewNo}'>삭제</span>
 					</c:when>
 					<c:otherwise>
 						<span class="notifyReply">신고</span>

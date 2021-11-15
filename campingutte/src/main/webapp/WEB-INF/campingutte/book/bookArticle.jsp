@@ -158,6 +158,10 @@
 
 
 <script type="text/javascript">
+function login() {
+	location.href="${pageContext.request.contextPath}/member/login.do";
+}
+
 // AJAX
 
 function ajaxFun(url, method, query, dataType, fn) {
@@ -187,14 +191,18 @@ function ajaxFun(url, method, query, dataType, fn) {
 }
 
 // 리뷰 리스트
-$(function()) {
+$(function() {
+	console.log("=== page = 1 ===");
 	listPage(1);
-}
+});
 
 function listPage(page) {
 	var url = "${pageContext.request.contextPath}/review/listMyBookReview.do";
-	var query = "bookNoR=${dto.bookNo}&pageNo="+page;
+	var query = "bookNoR=${dto.bookNo}";
 	var selector = "#listReply";
+	
+	console.log(url);
+	console.log(query);
 	
 	var fn = function(data) {
 		$(selector).html(data);
