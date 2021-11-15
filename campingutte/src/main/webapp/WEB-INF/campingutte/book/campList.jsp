@@ -195,10 +195,8 @@ function searchList(){
 		                        <hr>
 		                    </header>
 
-		                    <!-- Post content-->
-		                    
-			                    
-							<div class="list-container">
+		                    <!-- 
+		                    <div class="list-container">
 			                   	<c:forEach var="dto" items="${list}">
 									<div class="campsite-list"onclick="location.href='${articleUrl}&campNo=${dto.campNo}';" >
 											<c:forEach var="vo" items="${dto.images}" varStatus="status">
@@ -210,6 +208,29 @@ function searchList(){
 													<p>캠핑장 : ${dto.campName}</p>
 													<p>지역 : ${dto.campAddr1}</p>
 											</div>
+									</div>
+								</c:forEach>
+							</div> 
+							-->
+		                    
+			                    
+							<div class="card mb-3" >
+			                   	<c:forEach var="dto" items="${list}">
+									<div class="row g-0" onclick="location.href='${articleUrl}&campNo=${dto.campNo}';" >
+										<div class="col-md-4">
+											<c:forEach var="vo" items="${dto.images}" varStatus="status">
+												<c:if test="${status.index==0}">
+												  <img class="img-fluid rounded-start" src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}">
+												</c:if>
+											</c:forEach>
+										</div>
+										<div class="col-md-8">
+											<div class="card-body">
+												<h5 class="card-title">캠핑장 : ${dto.campName}</h5>
+												<p class="card-text">지역 : ${dto.campAddr1}</p>
+												<button type="button" class="btn btn-danger" style="width: 100%">둘러보기</button>
+											</div>
+										</div>
 									</div>
 								</c:forEach>
 							</div>

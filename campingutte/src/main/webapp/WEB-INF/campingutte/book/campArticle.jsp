@@ -22,13 +22,10 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
      <style type="text/css">
-	  .campimg {
-	  	width: 
-	  }
-		.btn-warning {
+	 	.btn-warning {
 			width: 100%;
-			
 		}
+	
 		
   </style>
   
@@ -140,7 +137,7 @@
                                 <!-- Preview image figure-->
                                 <c:forEach var="vo" items="${dto.images}" varStatus="status">
                                 	<c:if test="${status.index == 0}">
-                                		<figure class="mb-4"><img class="img-fluid rounded campImg" src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"/></figure>
+                                		<figure class="mb-4"><img class="img-fluid rounded" src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"/></figure>
                                 	</c:if>
                                 </c:forEach>
                                 <!-- Post content-->
