@@ -35,14 +35,7 @@
         <title>예약하기</title>
         
         <script type="text/javascript">
-        // 약관 아코디언
-		$(function(){
-			// $("#accordion").accordion();
-			
-			// 처음에 활성화되지 않고 활성화된 것 누르면 닫히도록
-			$("#accordion").accordion({active:false, collapsible:true});
-		});
-		
+        
         
         // 수량 계산
         $(function(){
@@ -174,7 +167,7 @@
         	$(".totalPrice").text(total);
         }
         
-        function submitCheck(){
+        function submitBook(){
         	var f = document.submitCheck;
         	f.submit();
         }
@@ -277,7 +270,7 @@
                                 <!-- To make this form functional, sign up at-->
                                 <!-- https://startbootstrap.com/solution/contact-forms-->
                                 <!-- to get an API token!-->
-                                <form id="contactForm" data-sb-form-api-token="API_TOKEN">
+                               
                                     <!-- Name input-->
                                     <p>1. ***취소/환불 규정 및 예약변경 불가 안내*** 1. 이용일(방문일) 8일 이내에 예약 취소 시 (예약 후 바로 취소해도) 취소 수수료 발생합니다.<br> 
                                     2. 우천 및 개인사정으로 날짜변경 불가능하며, 취소 후 재예약해야 합니다. 취소/환불 규정 확인하셨나요? (필수)</p>
@@ -317,21 +310,21 @@
                                     <!-- Name input-->
                                     <p>예약자 명 (필수)</p>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="name" type="text" placeholder="" data-sb-validations="required" />
+                                        <input class="form-control"  id="name" type="text" placeholder="" data-sb-validations="required" />
                                         <label for="name">이름을 입력해주세요</label>
                                         <div class="invalid-feedback" data-sb-feedback="name:required">이름을 입력해주세요.</div>
                                     </div>
                                     <!-- Phone number input-->
                                     <p>휴대폰 번호 (필수)</p>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
+                                        <input class="form-control"   id="phone" type="tel" placeholder="(123) 456-7890" data-sb-validations="required" />
                                         <label for="phone">Phone number</label>
                                         <div class="invalid-feedback" data-sb-feedback="phone:required">전화번호를 입력해주세요.</div>
                                     </div>
                                     <!-- Email address input-->
                                     <p>이메일 (선택)</p>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="email" type="email" placeholder="name@example.com" />
+                                        <input class="form-control"  id="email" type="email" placeholder="name@example.com" />
                                         <label for="email">Email address</label>
                                         <div class="invalid-feedback">선택사항입니다.</div>
                                         <div class="invalid-feedback" data-sb-feedback="email:email">Email is not valid.</div>
@@ -340,7 +333,7 @@
                                     <!-- Message input-->
                                     <p>예약요청사항 (선택)</p>
                                     <div class="form-floating mb-3">
-                                        <textarea class="form-control" id="message" placeholder="Enter your message here..." style="height: 10rem"></textarea>
+                                        <textarea class="form-control"   id="message" placeholder="Enter your message here..." style="height: 10rem"></textarea>
                                         <label for="message">Message</label>
                                         <div class="invalid-feedback"></div>
                                     </div>
@@ -543,19 +536,12 @@
 		
 									
 									
-							
-                                    <!-- Submit error message-->
-                                    <!---->
-                                    <!-- This is what your users will see when there is-->
-                                    <!-- an error submitting the form-->
-                                    <div class="d-none" id="submitErrorMessage"><div class="text-center text-danger mb-3">Error sending message!</div></div>
-                                    <!-- Submit Button-->
+						
                                     
                                     
-                                    
-                                </form>
-                                <form name="submitCheck" action="${pageContext.request.contextPath}/book/confirm.do" method="post">
-                                <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="button" onclick="submitCheck();">예약 완료</button></div>
+                               
+                                <form name="submitCheck" action="${pageContext.request.contextPath}/book/book_ok.do" method="post">
+                                <button type="button" class="btn btn-primary btn-lg"  onclick="submitBook();">예약 완료</button>
                                 </form>
                             </div>
                         </div>

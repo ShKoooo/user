@@ -53,7 +53,7 @@
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="fas fa-calendar-check"></i></div>
-                            <h3 class="fw-bolder">[더시크릿]데일리카라반피크닉WithCampOnStyle</h3>
+                            <h3 class="fw-bolder">${sessionScope.book.campNameReal}</h3>
                             <p class="lead fw-normal text-muted mb-0" style="text-align: left; display: inline;">
                             11/08(월) ~ 11/09(화)&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
                             &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<p style="text-align: right; display: inline;"><img class="logoicon" src="/campingutte/resource/images/tent_icon_color.png" style="width: 30px; height: 30px;">캠핑가기 1 일 전</p>
