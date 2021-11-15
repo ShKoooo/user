@@ -62,9 +62,7 @@
 			</p>
 		</div>
 		<div class="content">
-				<img src="/WEB-INF/campingutte/cs/cshelp.png">
-				<img src="cshelp.png">
-				<img src="map.jpg">
+				<img src="/campingutte/resource/images/cshelp.png">
 		</div>
 		<div class="content-grey">
 				<p style="font-size: 50px; color: orange;">

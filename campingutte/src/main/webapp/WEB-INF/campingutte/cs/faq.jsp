@@ -51,7 +51,7 @@
   overflow: hidden;
   	color: #353535;
 	font-size: 20px;
-	margin-top: -70px;
+	margin-top: 0px;
 	margin-bottom: 30px;
 }
 
