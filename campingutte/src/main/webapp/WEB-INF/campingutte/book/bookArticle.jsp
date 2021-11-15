@@ -148,7 +148,7 @@
 <c:if test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
 	function deleteBoard() {
 	    if(confirm("예약을 취소 하시겠습니까 ? ")) {
-		    var query = "bookNoNo=${dto.bookNo}&${query}";
+		    var query = "bookNo=${dto.bookNo}&${query}";
 		    var url = "${pageContext.request.contextPath}/book/bookDelete.do?" + query;
 	    	location.href = url;
 	    }
@@ -189,7 +189,7 @@ function ajaxFun(url, method, query, dataType, fn) {
 //리뷰 삭제
 $(function() {
 	$("body").on("click",".deleteReply", function() {
-		if (!confirm("게시글을 삭제하시겠습니까?")) {
+		if (!confirm("리뷰를 삭제하시겠습니까?")) {
 			return false;
 		}
 		
@@ -201,6 +201,39 @@ $(function() {
 		
 		var fn = function(data) {
 			listPage(pageNo);
+		};
+		
+		ajaxFun(url,"post",query,"json",fn);
+	});
+});
+
+// 리뷰 등록
+$(function() {
+	$(".btnSendReply").click(function() {
+		var bookNoR = "${dto.bookNo}";
+		var $tb = $(this).closest("table");
+		var content = $tb.find("textarea").val().trim();
+		var star = $tb.find("option").val();
+		
+		if (! content) {
+			$tb.find("textarea").focus();
+			return false;
+		}
+		content = encodeURIComponent(content);
+		
+		var url = "${pageContext.request.contextPath}/bbs/insertReply.do";
+		var query = "bookNoR="+bookNoR+"&content="+content+"&star="+star;
+		
+		var fn = function(data) {
+			var state = data.state;
+
+			$tb.find("textarea").val("");
+			
+			if (state === "true") {
+				listPage(1); // 1페이지 불러오기 (새로고침?)
+			} else {
+				alert("댓글 추가 실패..");
+			}
 		};
 		
 		ajaxFun(url,"post",query,"json",fn);
@@ -351,7 +384,7 @@ $(function() {
 					<tr>
 						<td>
 							<b>별점</b>&nbsp;&nbsp;
-							<select name="star">
+							<select id="star" name="star">
 								<option value="1">★</option>
 								<option value="2">★★</option>
 								<option value="3">★★★</option>

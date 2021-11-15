@@ -24,7 +24,7 @@ import com.util.MyUtil;
 @WebServlet("/book/*")
 public class BookServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
-	private boolean standalone = true; // 세션독립여부 true -> 세션 미사용/ false -> 세션 사용
+	private boolean standalone = false; // 세션독립여부 true -> 세션 미사용/ false -> 세션 사용
 
 	@Override
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -400,6 +400,11 @@ public class BookServlet extends MyServlet{
 			}
 			dto.setCampDetail(util.htmlSymbols(dto.getCampDetail()));
 			
+			// bookInfo 세션 // JP 요청 (21-11-15-13:00)
+			bookInfo.setCampNameReal(dto.getCampName());
+			
+			session.setAttribute("book", bookInfo);
+			
 			// 그림 가져오기
 			// campImgList = dao.readCampImages(campNo); // 이렇게 안할거임
 			
@@ -576,6 +581,7 @@ public class BookServlet extends MyServlet{
 			String keywordSrtDate = bookInfo.getSrtDate();
 			String keywordEndDate = bookInfo.getEndDate();
 			String keywordPeople = bookInfo.getPeople();
+			String campNameReal = bookInfo.getCampNameReal();
 			
 			String [] keyword = 
 				{keywordSrtDate,keywordEndDate,keywordPeople}; // [0,1,2]
@@ -607,6 +613,7 @@ public class BookServlet extends MyServlet{
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("query", query);
+			req.setAttribute("campNameReal", campNameReal);
 			
 			// 이전글,다음글 없음
 			
@@ -1034,6 +1041,8 @@ public class BookServlet extends MyServlet{
 		
 		try {
 			String bookNo = req.getParameter("bookNo");
+			System.out.println("delete_bookNo : " + bookNo);
+			System.out.println("memberId : "+ memberInfo.getMemberId());
 			
 			dao.deleteBook(bookNo, memberInfo.getMemberId());
 		} catch (Exception e) {

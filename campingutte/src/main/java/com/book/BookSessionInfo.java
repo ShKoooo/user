@@ -22,6 +22,8 @@ public class BookSessionInfo {
 	private String campName; // 검색	캠핑장이름
 	private String roomNo;
 	private String bookNo;
+	// 넘기는 캠핑장 이름
+	private String campNameReal;
 	
 	// 이하 검색관련 getter/setter
 	public String getSrtDate() {
@@ -65,5 +67,11 @@ public class BookSessionInfo {
 	}
 	public void setBookNo(String bookNo) {
 		this.bookNo = bookNo;
+	}
+	public String getCampNameReal() {
+		return campNameReal;
+	}
+	public void setCampNameReal(String campNameReal) {
+		this.campNameReal = campNameReal;
 	}
 }

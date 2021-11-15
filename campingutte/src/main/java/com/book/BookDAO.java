@@ -1052,10 +1052,14 @@ public class BookDAO {
 				
 				result2 = pstmt.executeUpdate();
 				
-				if (result1 != 0 && result2 != 0) {
-					conn.commit();					
+				System.out.println("[del] result1 : " + result1 + ", result2: "+result2);
+				
+				if (result2 != 0 || result1 != 0) {
+					conn.commit();		
+					System.out.println("commit됨");
 				} else {
 					conn.rollback();
+					System.out.println("rollback됨");
 				}
 			}
 		} catch (SQLException e) {
