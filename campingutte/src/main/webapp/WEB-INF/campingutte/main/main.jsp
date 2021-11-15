@@ -151,15 +151,18 @@
                                 <div class="card-body p-4">
                                     <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
                                     <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">가족과 함께 떠나기 좋은 캠핑장</h5></a>
-                                    <p class="card-text mb-0">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <p class="card-text mb-0">
+                                    바쁘고 지친 일상에서 벗어나 가족들과 오붓한 시간 어떠신가요??<br>
+                                    잠시 현실은 제쳐두고 가족들과 둘러앉아 바베큐도 하고, 캠프파이어도 하는 힐링여행을 떠나보세요!
+                                    <br>캠핑어때가 당장 떠날 수 있는 곳을 소개해드립니다!
+                                    </p>
                                 </div>
                                 <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                     <div class="d-flex align-items-end justify-content-between">
                                         <div class="d-flex align-items-center">
-                                            <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                                            <img class="rounded-circle me-3" src="resource/css/campfire.jpg" style="width: 50px; height: 50px;" alt="..." />
                                             <div class="small">
-                                                <div class="fw-bold">Kelly Rowan</div>
-                                                <div class="text-muted">March 12, 2021 &middot; 6 min read</div>
+                                                <div class="fw-bold">캠핑장 보러가기!</div>
                                             </div>
                                         </div>
                                     </div>
@@ -172,15 +175,20 @@
                                 <div class="card-body p-4">
                                     <div class="badge bg-primary bg-gradient rounded-pill mb-2">Media</div>
                                     <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">반려동물과 함께 하는 캠핑장</h5></a>
-                                    <p class="card-text mb-0">This text is a bit longer to illustrate the adaptive height of each card. Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <p class="card-text mb-0">
+                                    반려동물과 함께하는 사람들이 천만에 가깝다는 얘기도 들리는 요즘, 함께 갈 수 있는 곳은 한정되어 있어 아쉬우셨죠?? <br>
+                                    캠핑어때에서는 반려동물과 함께 소중한 하루를 보낼 수 있는 캠핑장을 찾아드립니다!!
+                                    지금 당장 소중한 동물친구와 여행을 떠나 보세요!
+                        
+                                    </p>
                                 </div>
                                 <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                     <div class="d-flex align-items-end justify-content-between">
                                         <div class="d-flex align-items-center">
-                                            <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                                            <img class="rounded-circle me-3" src="resource/css/dog.jpg" alt="..." style="width: 50px; height: 50px;"/>
                                             <div class="small">
-                                                <div class="fw-bold">Josiah Barclay</div>
-                                                <div class="text-muted">March 23, 2021 &middot; 4 min read</div>
+                                                <div class="fw-bold">캠핑장 보러가기!</div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -193,15 +201,20 @@
                                 <div class="card-body p-4">
                                     <div class="badge bg-primary bg-gradient rounded-pill mb-2">News</div>
                                     <a class="text-decoration-none link-dark stretched-link" href="#!"><h5 class="card-title mb-3">액티브한 즐길거리가 가득한 캠핑장</h5></a>
-                                    <p class="card-text mb-0">Some more quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <p class="card-text mb-0">
+                                    뻔한 캠핑은 그만! <br>
+                                    액티브함을 느낄 수 있는 캠핑장은 어떠신가요??
+                                    지금 바로 친구 또는 가족, 연인과 함께 떠나보세요!
+                                    
+                                    </p>
                                 </div>
                                 <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
                                     <div class="d-flex align-items-end justify-content-between">
                                         <div class="d-flex align-items-center">
-                                            <img class="rounded-circle me-3" src="https://dummyimage.com/40x40/ced4da/6c757d" alt="..." />
+                                            <img class="rounded-circle me-3" src="resource/css/acamp.jpg" alt="..." style="width: 50px; height: 50px;" />
                                             <div class="small">
-                                                <div class="fw-bold">Evelyn Martinez</div>
-                                                <div class="text-muted">April 2, 2021 &middot; 10 min read</div>
+                                                <div class="fw-bold">캠핑장 보러가기!</div>
+                                            	
                                             </div>
                                         </div>
                                     </div>
