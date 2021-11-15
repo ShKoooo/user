@@ -775,7 +775,7 @@ public class BookServlet extends MyServlet{
 			dto.setBookRequest(util.htmlSymbols(dto.getBookRequest()));
 			
 			// JSP로 전달할 속성
-			req.setAttribute("dto", dto);
+			req.setAttribute("bDto", dto);
 			// req.setAttribute("query", query);
 			
 			// 예약확인서.jsp 로 포워딩

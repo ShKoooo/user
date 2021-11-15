@@ -74,6 +74,8 @@ public class ReviewServlet extends MyServlet {
 				dto.setReviewComment(dto.getReviewComment().replaceAll("\n", "<br>"));
 			}
 			
+			System.out.println("");
+			
 			req.setAttribute("listReview", listReview);
 			
 			forward(req, resp, "/WEB-INF/campingutte/review/listMyBookReview.jsp");
