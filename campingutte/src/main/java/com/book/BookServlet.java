@@ -681,7 +681,12 @@ public class BookServlet extends MyServlet{
 			dto.setBookSrtdate(bookInfo.getSrtDate());
 			dto.setBookEnddate(bookInfo.getEndDate());
 			dto.setMemberId(memberInfo.getMemberId());
-			dto.setPeople(Integer.parseInt(bookInfo.getPeople()));
+			if (bookInfo.getPeople()==null || bookInfo.getPeople().equals("")) {
+				dto.setPeople(0);
+			} else {
+				dto.setPeople(Integer.parseInt(bookInfo.getPeople()));
+			}
+			
 			dto.setRoomNo(bookInfo.getRoomNo());
 			
 			// 세션에 저장되지 않은 정보 불러오기

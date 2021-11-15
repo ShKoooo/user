@@ -192,8 +192,8 @@ $(function()) {
 }
 
 function listPage(page) {
-	var url = "${pageContext.request.contextPath}/bbs/listReply.do";
-	var query = "num=${dto.num}&pageNo="+page;
+	var url = "${pageContext.request.contextPath}/review/listReview.do";
+	var query = "bookNo=${dto.bookNo}&pageNo="+page;
 	var selector = "#listReply";
 	
 	var fn = function(data) {
