@@ -22,30 +22,11 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         <link href="css/styles.css" rel="stylesheet" />
      <style type="text/css">
-	  .room-list {
-		  	display: flex;
-			width: 800px;
-	  		margin: 10px 0;
-			border: 1px solid black;
-			border-radius: 10px;
+	  .campimg {
+	  	width: 
 	  }
-	  
-	  .room-list > img {
-			width: 300px;
-			height:250px;
-		}
-		
-		.room-list1 {
-			display: flex;
-			flex-direction: column;
-			justify-content: center;
-			margin-left: 20px;
-		}
-		
-		.room-list1 > .bookbtn {
-			width: 200px;
-			margin-left: 250px;
-			background: #fff25a4a;
+		.btn-warning {
+			width: 100%;
 			
 		}
 		
@@ -159,13 +140,13 @@
                                 <!-- Preview image figure-->
                                 <c:forEach var="vo" items="${dto.images}" varStatus="status">
                                 	<c:if test="${status.index == 0}">
-                                		<figure class="mb-4"><img class="img-fluid rounded" src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"/></figure>
+                                		<figure class="mb-4"><img class="img-fluid rounded campImg" src="${pageContext.request.contextPath}/uploads/admin/${vo.imgName}"/></figure>
                                 	</c:if>
                                 </c:forEach>
                                 <!-- Post content-->
                                 <section class="mb-5">
                                     <p class="fs-5 mb-4">캠핑장 소개 ${dto.campDetail}</p>
-                                    <p class="fs-5 mb-4">부대시설 : ${dto.campAdd}</p>
+                                    <p class="fs-5 mb-4">부대시설 : ${dto.campAdd} 샤워실, 바베큐장, 매점</p>
                                     <p class="fs-5 mb-4">캠핑장 전화번호 : ${dto.campTel}</p>
                                     <!-- 
                                     <h2 class="fw-bolder mb-4 mt-5">I have odd cosmic thoughts every day</h2>

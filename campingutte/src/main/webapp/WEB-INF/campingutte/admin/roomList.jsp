@@ -18,7 +18,7 @@
 <style type="text/css">
 .body-container {
     margin: 0 auto 15px;
-    width: 800px;
+    width: 1000px;
 }
 .body-container:before, .body-container:after{
 	content: "";
@@ -130,7 +130,7 @@ function deleteBoard(roomNo) {
 		<table class="table">
 			<tr>
 				<th width="150">캠핑장번호</th>
-				<th width="150">캠핑장명</th>
+				<th width="200">캠핑장명</th>
 				<th width="150">객실번호</th>
 				<th width="150">객실이름</th>
 				<th width="150">기준인원</th>
