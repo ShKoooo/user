@@ -200,7 +200,7 @@
                     <div class="bg-light rounded-3 py-5 px-4 px-md-5 mb-5">
                         <div class="text-center mb-5">
                             <div class="feature bg-primary bg-gradient text-white rounded-3 mb-3"><i class="fas fa-calendar-check"></i></div>
-                            <h3 class="fw-bolder">${sessionScope.book.campName}</h3>
+                            <h3 class="fw-bolder">${sessionScope.book.campNameReal}</h3>
                             <p class="lead fw-normal text-muted mb-0" style="text-align: center; display: inline;">
                             <img class="logoicon" src="/campingutte/resource/images/tent_icon_color.png" style="text-align: right; display: inline; width: 30px; height: 30px;">
                             ${sessionScope.book.srtDate} ~ ${sessionScope.book.endDate}</p>
@@ -555,7 +555,7 @@
                                     
                                 </form>
                                 <form name="submitCheck" action="${pageContext.request.contextPath}/book/confirm.do" method="post">
-                                <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="submit">예약 완료</button></div>
+                                <div class="d-grid"><button class="btn btn-primary btn-lg" id="submitButton" type="button" onclick="submitCheck();">예약 완료</button></div>
                                 </form>
                             </div>
                         </div>
