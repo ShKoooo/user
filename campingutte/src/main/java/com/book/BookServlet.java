@@ -708,7 +708,9 @@ public class BookServlet extends MyServlet{
 			
 			session.setAttribute("book", bookInfo);
 			
-			resp.sendRedirect(cp+"/book/confirm.do"); // DB 입력이 성공했을 때
+			// resp.sendRedirect(cp+"/book/confirm.do"); // DB 입력이 성공했을 때
+			forward(req, resp, "/WEB-INF/campingutte/book/confirm.jsp");
+			return;
 				// 제출한 형태이므로 예약확인서로 바로 리다이렉트
 		} catch (Exception e) {
 			e.printStackTrace();
