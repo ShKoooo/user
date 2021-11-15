@@ -115,7 +115,7 @@ function sendOk() {
 						<button type="reset" class="btn">다시입력</button>
 						<button type="button" class="btn" onclick="location.href='${pageContext.request.contextPath}/community/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 						<c:if test="${mode=='update'}">
-							<input type="hidden" name="boardNum" value="${dto.commNo}">
+							<input type="hidden" name="commNo" value="${dto.commNo}">
 							<input type="hidden" name="page" value="${page}">
 						</c:if>
 					</td>
