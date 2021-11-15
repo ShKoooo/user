@@ -144,6 +144,72 @@
 
 </style>
 
+<script type="text/javascript">
+<c:if test="${sessionScope.member.memberId==dto.memberId || sessionScope.member.memberId=='admin'}">
+	function deleteBoard() {
+	    if(confirm("예약을 취소 하시겠습니까 ? ")) {
+		    var query = "bookNoNo=${dto.bookNo}&${query}";
+		    var url = "${pageContext.request.contextPath}/book/bookDelete.do?" + query;
+	    	location.href = url;
+	    }
+	}
+</c:if>
+</script>
+
+
+<script type="text/javascript">
+// AJAX
+
+function ajaxFun(url, method, query, dataType, fn) {
+	$.ajax({
+		type:method,
+		url:url,
+		data:query,
+		dataType:dataType,
+		success:function(data) {
+			fn(data);
+		},
+		beforeSend:function(jqXHR) {
+			jqXHR.setRequestHeader("AJAX", true);
+		},
+		error:function(jqXHR) {
+			if(jqXHR.status === 403) {
+				login();
+				return false;
+			} else if(jqXHR.status === 405) {
+				alert("접근을 허용하지 않습니다.");
+				return false;
+			}
+	    	
+			console.log(jqXHR.responseText);
+		}
+	});
+}
+
+//리뷰 삭제
+$(function() {
+	$("body").on("click",".deleteReply", function() {
+		if (!confirm("게시글을 삭제하시겠습니까?")) {
+			return false;
+		}
+		
+		var replyNum = $(this).attr("data-replyNum");
+		var pageNo = $(this).attr("data-pageNo");
+		
+		var url = "${pageContext.request.contextPath}/review/deleteReview.do"
+		var query = "reviewNo="+reviewNo;
+		
+		var fn = function(data) {
+			listPage(pageNo);
+		};
+		
+		ajaxFun(url,"post",query,"json",fn);
+	});
+});
+
+</script>
+
+
 <jsp:include page="/WEB-INF/campingutte/layout/staticHeader.jsp"/>
 <link rel="icon" href="data:;base64,iVBORw0KGgo=">
 
