@@ -19,7 +19,7 @@
   javascript,   AJAX,   JSON,   XML,   jQuery,  bootstrap,   CSS3,   HTML5 
   
 # 담당
-DB 구축
-캠핑장 검색, 객실 검색 및 예약, 예약 확인 Back-End 파트
-예약 수정 및 취소 (내역 삭제) Back-End 파트
-리뷰 등록 및 불러오기 Back-End 파트
+1) DB 구축
+2) 캠핑장 검색, 객실 검색 및 예약, 예약 확인 Back-End 파트
+3) 예약 수정 및 취소 (내역 삭제) Back-End 파트
+4) 리뷰 등록 및 불러오기 Back-End 파트
